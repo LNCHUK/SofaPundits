@@ -17,6 +17,22 @@ Route::get('/', function () {
     return view('welcome');
 });
 
+Route::get('test', function () {
+
+    $client = app(\App\Services\ApiFootball\Client::class);
+    $response = $client->fixtures();
+
+    $collection = collect();
+    foreach ($response->collect('response') as $item) {
+        $collection->add(
+            $item,
+        );
+    }
+
+    dd($response, $collection);
+
+});
+
 Route::get('/dashboard', function () {
     return view('dashboard');
 })->middleware(['auth'])->name('dashboard');
