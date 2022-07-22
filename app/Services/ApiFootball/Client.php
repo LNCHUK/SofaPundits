@@ -41,7 +41,7 @@ class Client
         return $request;
     }
 
-    public function leagues()
+    public function getLeagues()
     {
         $request = $this->createRequest();
 
