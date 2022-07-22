@@ -12,8 +12,23 @@ class Client
     public function __construct(
         protected string $baseUrl,
         protected string $apiKey
-    ) {
-        // ...
+    ) {}
+
+    public function leagues()
+    {
+        $request = Http::withHeaders([
+            'x-apisports-key' => $this->apiKey
+        ]);
+
+        $response = $request->get(
+            url: $this->baseUrl . '/leagues',
+        );
+
+        if (! $response->successful()) {
+            return $response->toException();
+        }
+
+        return $response;
     }
 
     public function fixtures($date = null)

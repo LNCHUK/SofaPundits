@@ -20,7 +20,7 @@ Route::get('/', function () {
 Route::get('test', function () {
 
     $client = app(\App\Services\ApiFootball\Client::class);
-    $response = $client->fixtures();
+    $response = $client->leagues();
 
     $collection = collect();
     foreach ($response->collect('response') as $item) {
