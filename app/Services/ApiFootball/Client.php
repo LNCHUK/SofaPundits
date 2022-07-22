@@ -3,6 +3,7 @@
 namespace App\Services\ApiFootball;
 
 use App\Services\Concerns\HasFake;
+use Illuminate\Http\Client\PendingRequest;
 use Illuminate\Support\Facades\Http;
 
 class Client
@@ -11,14 +12,38 @@ class Client
 
     public function __construct(
         protected string $baseUrl,
-        protected string $apiKey
+        protected string $apiKey,
+        protected int $timeout = 10,
+        protected null|int $retryTimes = null,
+        protected null|int $retryMilliseconds = null,
     ) {}
 
-    public function leagues()
+    /**
+     * Creates a PendingRequest object with the configured settings.
+     *
+     * @return PendingRequest
+     */
+    public function createRequest(): PendingRequest
     {
         $request = Http::withHeaders([
             'x-apisports-key' => $this->apiKey
-        ]);
+        ])->timeout(
+            seconds: $this->timeout
+        );
+
+        if (! is_null($this->retryTimes) && ! is_null($this->retryMilliseconds)) {
+            $request->retry(
+                times: $this->retryTimes,
+                sleepMilliseconds: $this->retryMilliseconds
+            );
+        }
+
+        return $request;
+    }
+
+    public function leagues()
+    {
+        $request = $this->createRequest();
 
         $response = $request->get(
             url: $this->baseUrl . '/leagues',
@@ -36,9 +61,7 @@ class Client
         // If date is null, set to today
         $date = $date ?? now()->format('Y-m-d');
 
-        $request = Http::withHeaders([
-            'x-apisports-key' => $this->apiKey
-        ]);
+        $request = $this->createRequest();
 
         $response = $request->get(
             url: $this->baseUrl . '/fixtures',

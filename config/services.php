@@ -33,7 +33,10 @@ return [
 
     'api_football' => [
         'base_url' => env('API_FOOTBALL_BASE_URL', 'https://v3.football.api-sports.io/'),
-        'api_key' => env('API_FOOTBALL_API_KEY')
+        'api_key' => env('API_FOOTBALL_API_KEY'),
+        'timeout' => env('API_FOOTBALL_TIMEOUT', 10),
+        'retry_times' => env('API_FOOTBALL_RETRY_TIMES', null),
+        'retry_milliseconds' => env('API_FOOTBALL_RETRY_MILLISECONDS', null),
     ],
 
 ];
