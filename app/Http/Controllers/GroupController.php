@@ -4,6 +4,8 @@ namespace App\Http\Controllers;
 
 use App\Http\Requests\CreateGroupRequest;
 use App\Models\Group;
+use Illuminate\Contracts\Support\Renderable;
+use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 
 class GroupController extends Controller
@@ -11,9 +13,9 @@ class GroupController extends Controller
     /**
      * Show the form for creating a new resource.
      *
-     * @return \Illuminate\Http\Response
+     * @return Renderable
      */
-    public function create()
+    public function create(): Renderable
     {
         return view('groups.create');
     }
@@ -21,10 +23,10 @@ class GroupController extends Controller
     /**
      * Store a newly created resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
+     * @param CreateGroupRequest $request
+     * @return RedirectResponse
      */
-    public function store(CreateGroupRequest $request)
+    public function store(CreateGroupRequest $request): RedirectResponse
     {
         $group = Group::create($request->all());
 
@@ -34,18 +36,18 @@ class GroupController extends Controller
     /**
      * Display the specified resource.
      *
-     * @param  \App\Models\Group  $group
-     * @return \Illuminate\Http\Response
+     * @param Group $group
+     * @return Renderable
      */
-    public function show(Group $group)
+    public function show(Group $group): Renderable
     {
-        //
+        return view('groups.show', compact('group'));
     }
 
     /**
      * Show the form for editing the specified resource.
      *
-     * @param  \App\Models\Group  $group
+     * @param Group $group
      * @return \Illuminate\Http\Response
      */
     public function edit(Group $group)
@@ -57,7 +59,7 @@ class GroupController extends Controller
      * Update the specified resource in storage.
      *
      * @param  \Illuminate\Http\Request  $request
-     * @param  \App\Models\Group  $group
+     * @param Group $group
      * @return \Illuminate\Http\Response
      */
     public function update(Request $request, Group $group)
@@ -68,7 +70,7 @@ class GroupController extends Controller
     /**
      * Remove the specified resource from storage.
      *
-     * @param  \App\Models\Group  $group
+     * @param Group $group
      * @return \Illuminate\Http\Response
      */
     public function destroy(Group $group)

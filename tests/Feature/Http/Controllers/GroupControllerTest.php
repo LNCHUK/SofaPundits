@@ -142,4 +142,18 @@ class GroupControllerTest extends TestCase
         // Confirm an error was raised for the missing name
         $response->assertSessionHasErrors('name');
     }
+
+    /** @test */
+    public function the_show_page_returns_the_correct_view()
+    {
+        $this->actingAs(User::factory()->create());
+
+        $group = Group::factory()->create();
+
+        $response = $this->get(route('groups.show', $group));
+
+        $response->assertViewIs('groups.show')
+            ->assertViewHas(['group' => $group])
+            ->assertStatus(200);
+    }
 }

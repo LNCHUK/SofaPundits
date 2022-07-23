@@ -46,7 +46,7 @@ class Group extends Model
         $key = null;
 
         while (is_null($key) || self::query()->where('key', $key)->exists()) {
-            $key = Str::random(10);
+            $key = Str::upper(Str::random(10));
         }
 
         return $key;
