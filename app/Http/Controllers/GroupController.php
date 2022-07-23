@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\CreateGroupRequest;
 use App\Models\Group;
 use Illuminate\Http\Request;
 
@@ -23,7 +24,7 @@ class GroupController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function store(CreateGroupRequest $request)
     {
         $group = Group::create($request->all());
 

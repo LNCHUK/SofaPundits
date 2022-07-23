@@ -5,6 +5,7 @@ namespace Tests\Feature\Http\Controllers;
 use App\Models\Group;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Foundation\Testing\WithFaker;
+use Illuminate\Support\Str;
 use Tests\TestCase;
 
 class GroupControllerTest extends TestCase
@@ -57,12 +58,53 @@ class GroupControllerTest extends TestCase
         $group = Group::factory()->withNoKey()->make();
 
         // POST the data to persist the group in the DB
-        $response = $this->post(route('groups.store'), $group->attributesToArray());
+        $this->post(route('groups.store'), $group->attributesToArray());
 
         // Extract the new group
         $group = Group::query()->where('name', $group->name)->first();
 
         // Confirm key is not null
         $this->assertNotNull($group->key);
+    }
+
+    /** @test */
+    public function a_name_is_required_when_creating_a_group()
+    {
+        // Get a Group with no name
+        $group = Group::factory()->make([
+            'name' => null
+        ]);
+
+        // POST the data to persist the group in the DB
+        $response = $this->post(route('groups.store'), $group->attributesToArray());
+
+        // Confirm an error was raised for the missing name
+        $response->assertSessionHasErrors('name');
+    }
+
+    /** @test */
+    public function a_name_must_not_be_more_than_150_characters_when_creating_a_group()
+    {
+        // Get a Group with a name of 150 characters
+        $group = Group::factory()->make([
+            'name' => Str::random(150),
+        ]);
+
+        // POST the data to persist the group in the DB
+        $response = $this->post(route('groups.store'), $group->attributesToArray());
+
+        // Confirm no errors were present with a correct length string
+        $response->assertSessionHasNoErrors();
+
+        // Get a Group with no name
+        $group = Group::factory()->make([
+            'name' => Str::random(151)
+        ]);
+
+        // POST the data to persist the group in the DB
+        $response = $this->post(route('groups.store'), $group->attributesToArray());
+
+        // Confirm an error was raised for the missing name
+        $response->assertSessionHasErrors('name');
     }
 }
