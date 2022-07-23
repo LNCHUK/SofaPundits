@@ -25,4 +25,32 @@ class GroupFactory extends Factory
             'created_by' => User::factory()
         ];
     }
+
+    /**
+     * Creates a group with no 'uuid' set (primarily to test the auto-generation).
+     *
+     * @return \Illuminate\Database\Eloquent\Factories\Factory
+     */
+    public function withNoUuid()
+    {
+        return $this->state(function (array $attributes) {
+            return [
+                'uuid' => null,
+            ];
+        });
+    }
+
+    /**
+     * Creates a group with no 'key' set (primarily to test the auto-generation).
+     *
+     * @return \Illuminate\Database\Eloquent\Factories\Factory
+     */
+    public function withNoKey()
+    {
+        return $this->state(function (array $attributes) {
+            return [
+                'key' => null,
+            ];
+        });
+    }
 }
