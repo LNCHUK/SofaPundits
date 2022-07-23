@@ -5,6 +5,7 @@ namespace App\Models;
 use App\Concerns\GeneratesUuidOnCreation;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Support\Str;
 
 class Group extends Model
@@ -22,17 +23,25 @@ class Group extends Model
      *
      * @return void
      */
-    protected static function booted()
+    protected static function booted(): void
     {
         static::creating(function ($group) {
             // Ensure new models have a valid key when created
             if (empty($group->key)) {
                 $group->key = self::generateValidKey();
             }
+
+            // Set the created by value to the authenticated user
+            $group->created_by = auth()->id();
         });
     }
 
-    public static function generateValidKey()
+    /**
+     * Generates a valid, unique, key to for a Group.
+     *
+     * @return string
+     */
+    public static function generateValidKey(): string
     {
         $key = null;
 
@@ -41,5 +50,13 @@ class Group extends Model
         }
 
         return $key;
+    }
+
+    /**
+     * @return BelongsTo
+     */
+    public function creator(): BelongsTo
+    {
+        return $this->belongsTo(User::class, 'created_by');
     }
 }

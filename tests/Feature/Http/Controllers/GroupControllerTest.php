@@ -3,6 +3,7 @@
 namespace Tests\Feature\Http\Controllers;
 
 use App\Models\Group;
+use App\Models\User;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Foundation\Testing\WithFaker;
 use Illuminate\Support\Str;
@@ -11,6 +12,15 @@ use Tests\TestCase;
 class GroupControllerTest extends TestCase
 {
     use RefreshDatabase;
+
+    /** @test */
+    public function the_create_screen_returns_a_view()
+    {
+        $response = $this->get(route('groups.create'));
+
+        $response->assertViewIs('groups.create')
+            ->assertStatus(200);
+    }
 
     /** @test */
     public function a_user_can_create_a_new_group()
@@ -65,6 +75,31 @@ class GroupControllerTest extends TestCase
 
         // Confirm key is not null
         $this->assertNotNull($group->key);
+    }
+
+    /** @test */
+    public function the_user_creating_a_group_is_set_on_creation()
+    {
+        // Login as a new user so we can confirm the data is set correctly
+        $user = User::factory()->create();
+        $this->actingAs($user);
+
+        // Get a Group with no created_by value
+        $group = Group::factory()->make([
+            'created_by' => null
+        ]);
+
+        // POST the data to persist the group in the DB
+        $this->post(route('groups.store'), $group->attributesToArray());
+
+        // Extract the new group
+        $group = Group::query()->where('name', $group->name)->first();
+
+        // Confirm created_by matches the authenticated user
+        $this->assertEquals($group->created_by, $user->id);
+
+        // Confirm the 'creator'' relation matches the expected user
+        $this->assertTrue($group->creator->is($user));
     }
 
     /** @test */
