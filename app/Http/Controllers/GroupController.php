@@ -30,6 +30,8 @@ class GroupController extends Controller
     {
         $group = Group::create($request->all());
 
+        $group->users()->attach(auth()->id(), ['is_creator' => true]);
+
         return redirect()->route('groups.show', $group);
     }
 

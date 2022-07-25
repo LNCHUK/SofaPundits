@@ -6,6 +6,7 @@ use App\Concerns\GeneratesUuidOnCreation;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Support\Str;
 
 class Group extends Model
@@ -30,10 +31,16 @@ class Group extends Model
             if (empty($group->key)) {
                 $group->key = self::generateValidKey();
             }
-
-            // Set the created by value to the authenticated user
-            $group->created_by = auth()->id();
         });
+    }
+
+    /**
+     * @return BelongsToMany
+     */
+    public function users(): BelongsToMany
+    {
+        return $this->belongsToMany(User::class, 'group_users')
+            ->withPivot(['is_creator']);
     }
 
     /**
@@ -52,11 +59,8 @@ class Group extends Model
         return $key;
     }
 
-    /**
-     * @return BelongsTo
-     */
-    public function creator(): BelongsTo
+    public function numberOfPlayers(): int
     {
-        return $this->belongsTo(User::class, 'created_by');
+        return count($this->users);
     }
 }

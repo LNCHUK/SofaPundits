@@ -22,7 +22,6 @@ class GroupFactory extends Factory
             'uuid' => $this->faker->uuid(),
             'key' => Str::random(8),
             'name' => $this->faker->company(),
-            'created_by' => User::factory()
         ];
     }
 
