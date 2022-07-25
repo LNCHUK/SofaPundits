@@ -5,7 +5,6 @@ namespace App\Models;
 use App\Concerns\GeneratesUuidOnCreation;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
-use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Support\Str;
 
@@ -53,7 +52,7 @@ class Group extends Model
         $key = null;
 
         while (is_null($key) || self::query()->where('key', $key)->exists()) {
-            $key = Str::upper(Str::random(10));
+            $key = Str::upper(Str::random(config('parameters.group_key_length')));
         }
 
         return $key;

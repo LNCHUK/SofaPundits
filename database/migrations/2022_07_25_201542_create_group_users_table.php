@@ -17,7 +17,7 @@ return new class extends Migration
             $table->id();
             $table->unsignedBigInteger('group_id');
             $table->unsignedBigInteger('user_id');
-            $table->boolean('is_creator');
+            $table->boolean('is_creator')->default(false);
 
             $table->foreign('group_id')->references('id')->on('groups')
                 ->onUpdate('cascade')->onDelete('cascade');

@@ -19,6 +19,7 @@ Route::get('/', function () {
 });
 
 Route::resource('groups', GroupController::class)->except(['index']);
+Route::post('groups/{group}/join', [GroupController::class, 'join'])->name('groups.join');
 
 Route::get('test', function () {
 

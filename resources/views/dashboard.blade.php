@@ -36,8 +36,14 @@
                                     <tbody class="divide-y divide-gray-200 bg-white">
                                         @foreach (auth()->user()->groups as $group)
                                             <tr>
-                                                <td class="whitespace-nowrap text-left px-3 py-4 text-sm text-gray-500">{{ $group->name }}</td>
-                                                <td class="whitespace-nowrap text-left px-3 py-4 text-sm text-gray-500">{{ $group->numberOfPlayers() }}</td>
+                                                <td class="whitespace-nowrap text-left px-3 py-4 text-sm text-gray-500">
+                                                    <a href="{{ route('groups.show', $group) }}" class="text-blue-800 underline">
+                                                        {{ $group->name }}
+                                                    </a>
+                                                </td>
+                                                <td class="whitespace-nowrap text-left px-3 py-4 text-sm text-gray-500">
+                                                    {{ $group->numberOfPlayers() }}
+                                                </td>
                                             </tr>
                                         @endforeach
                                     </tbody>
@@ -51,7 +57,10 @@
                 <div class="w-1/3 text-center">
                     <x-panel>
                         <h2 class="text-2xl font-bold mb-4">Join an Existing Group</h2>
-                        <a href="{{ route('groups.create') }}">Create a new Group</a>
+
+                        <x-button onclick="Livewire.emit('openModal', 'find-group-modal')">
+                            Find a Group
+                        </x-button>
                     </x-panel>
                 </div>
             </div>

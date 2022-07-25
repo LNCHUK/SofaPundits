@@ -79,4 +79,23 @@ class GroupController extends Controller
     {
         //
     }
+
+    /**
+     * Joins the selected Group.
+     *
+     * @param Group $group
+     * @return \Illuminate\Http\Response
+     */
+    public function join(Group $group)
+    {
+        $authedUser = auth()->user();
+
+        if ($authedUser->groups->contains($group)) {
+            return redirect()->back();
+        }
+
+        $group->users()->attach($authedUser->id);
+
+        return redirect()->route('groups.show', $group);
+    }
 }
