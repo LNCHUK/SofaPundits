@@ -2,6 +2,7 @@
 
 namespace App\Services\ApiFootball;
 
+use App\Models\ApiFootball\LeagueSeason;
 use App\Services\Concerns\HasFake;
 use Illuminate\Http\Client\PendingRequest;
 use Illuminate\Support\Facades\Http;
@@ -56,16 +57,16 @@ class Client
         return $response;
     }
 
-    public function fixtures($date = null)
+    public function getFixtures(LeagueSeason $leagueSeason = null)
     {
-        // If date is null, set to today
-        $date = $date ?? now()->format('Y-m-d');
-
         $request = $this->createRequest();
 
         $response = $request->get(
             url: $this->baseUrl . '/fixtures',
-            query: ['date' => $date]
+            query: [
+                'league' => $leagueSeason->league->id,
+                'season' => $leagueSeason->year,
+            ]
         );
 
         if (! $response->successful()) {

@@ -2,9 +2,9 @@
 
 namespace App\Console\Commands;
 
-use App\Models\Country;
-use App\Models\League;
-use App\Models\LeagueSeason;
+use App\Models\ApiFootball\Country;
+use App\Models\ApiFootball\League;
+use App\Models\ApiFootball\LeagueSeason;
 use App\Services\ApiFootball\Client;
 use Illuminate\Console\Command;
 

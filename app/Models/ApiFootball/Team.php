@@ -1,17 +1,17 @@
 <?php
 
-namespace App\Models;
+namespace App\Models\ApiFootball;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class Country extends Model
+class Team extends Model
 {
     use HasFactory;
 
     protected $fillable = [
+        'id',
         'name',
-        'code',
-        'flag',
+        'logo',
     ];
 }

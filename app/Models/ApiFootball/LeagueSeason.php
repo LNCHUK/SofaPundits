@@ -1,9 +1,10 @@
 <?php
 
-namespace App\Models;
+namespace App\Models\ApiFootball;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
 class LeagueSeason extends Model
 {
@@ -28,4 +29,12 @@ class LeagueSeason extends Model
         'created_at',
         'updated_at',
     ];
+
+    /**
+     * @return BelongsTo
+     */
+    public function league(): BelongsTo
+    {
+        return $this->belongsTo(League::class);
+    }
 }
