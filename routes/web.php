@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\GameweekController;
 use App\Http\Controllers\GroupController;
 use Illuminate\Support\Facades\Route;
 
@@ -18,27 +19,17 @@ Route::get('/', function () {
     return view('welcome');
 });
 
-Route::resource('groups', GroupController::class)->except(['index']);
-Route::post('groups/{group}/join', [GroupController::class, 'join'])->name('groups.join');
+Route::middleware(['auth'])->group(function () {
 
-Route::get('test', function () {
+    Route::get('/dashboard', function () {
+        return view('dashboard');
+    })->middleware(['auth'])->name('dashboard');
 
-    $client = app(\App\Services\ApiFootball\Client::class);
-    $response = $client->leagues();
+    Route::resource('groups', GroupController::class)->except(['index']);
+    Route::post('groups/{group}/join', [GroupController::class, 'join'])->name('groups.join');
 
-    $collection = collect();
-    foreach ($response->collect('response') as $item) {
-        $collection->add(
-            $item,
-        );
-    }
-
-    dd($response, $collection);
+    Route::resource('groups/{group}/gameweeks', GameweekController::class);
 
 });
-
-Route::get('/dashboard', function () {
-    return view('dashboard');
-})->middleware(['auth'])->name('dashboard');
 
 require __DIR__.'/auth.php';

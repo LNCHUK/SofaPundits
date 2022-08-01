@@ -6,6 +6,7 @@ use App\Concerns\GeneratesUuidOnCreation;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Support\Str;
 
 class Group extends Model
@@ -40,6 +41,14 @@ class Group extends Model
     {
         return $this->belongsToMany(User::class, 'group_users')
             ->withPivot(['is_creator']);
+    }
+
+    /**
+     * @return HasMany
+     */
+    public function gameweeks(): HasMany
+    {
+        return $this->hasMany(Gameweek::class);
     }
 
     /**
