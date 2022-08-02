@@ -62,6 +62,6 @@
     @endif
 
     <x-button>
-        {{ __('Create Gameweek') }}
+        {{ $gameweek ? __('Update Gameweek') : __('Create Gameweek') }}
     </x-button>
 </form>

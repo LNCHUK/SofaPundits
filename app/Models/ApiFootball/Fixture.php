@@ -79,7 +79,10 @@ class Fixture extends Model
         );
     }
 
-    public function __toString()
+    /**
+     * @return string
+     */
+    public function __toString(): string
     {
         return $this->homeTeam->name
             . ' vs '

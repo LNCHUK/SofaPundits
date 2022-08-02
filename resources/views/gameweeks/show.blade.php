@@ -18,8 +18,6 @@
     <div class="py-12">
         <x-container>
             <x-panel>
-                Gameweek details here
-
                 <p><strong>Fixtures:</strong></p>
 
                 <ul>

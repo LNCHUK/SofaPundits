@@ -39,22 +39,28 @@
         <div class="w-1/2">
             <h2 class="text-lg font-bold mb-4">Chosen Fixtures</h2>
 
-            <ul>
-                @forelse ($chosenFixtures as $chosenFixture)
-                    <li>
-                        <x-fixtures.card
-                            :fixture="$chosenFixture"
-                            wire:key="gameweek_{{ $gameweekId }}-chosenFixture_{{ $chosenFixture->id }}"
-                            wire:click="removeSelectedFixture({{ $chosenFixture->id }})"
-                        />
-                        <input type="hidden" name="selected_fixtures[]" value="{{ $chosenFixture->id }}" />
-                    </li>
-                @empty
-                    <p class="text-sm font-semibold text-center mb-4">
-                        Select some fixtures on the left to add them to this gameweek
-                    </p>
-                @endforelse
-            </ul>
+            <p class="text-sm font-semibold text-center mb-4">
+                Click on a fixture to <strong>remove</strong> it from this gameweek.
+            </p>
+
+            <div class="overflow-y-auto max-h-[29rem] border border-gray-200 p-4">
+                <ul>
+                    @forelse ($chosenFixtures as $chosenFixture)
+                        <li>
+                            <x-fixtures.card
+                                :fixture="$chosenFixture"
+                                wire:key="gameweek_{{ $gameweekId }}-chosenFixture_{{ $chosenFixture->id }}"
+                                wire:click="removeSelectedFixture({{ $chosenFixture->id }})"
+                            />
+                            <input type="hidden" name="selected_fixtures[]" value="{{ $chosenFixture->id }}" />
+                        </li>
+                    @empty
+                        <p class="text-sm font-semibold text-center mb-4">
+                            Select some fixtures on the left to add them to this gameweek
+                        </p>
+                    @endforelse
+                </ul>
+            </div>
         </div>
     </div>
 </div>

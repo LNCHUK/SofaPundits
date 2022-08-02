@@ -16,6 +16,13 @@ class GameweekFixturesManager extends Component
 
     public array $selectedFixtureIds = [];
 
+    public function mount()
+    {
+        $gameweek = $this->getGameweek();
+
+        $this->selectedFixtureIds = $gameweek->fixtures()->pluck('fixtures.id')->toArray();
+    }
+
     public function render()
     {
         $this->possibleFixtures = $this->getAvailableFixtures();
