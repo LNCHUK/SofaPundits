@@ -53,7 +53,7 @@ class GameweeksPolicy
      */
     public function update(User $user, Gameweek $gameweek)
     {
-        //
+        return $user->isCreatorOf($gameweek->group);
     }
 
     /**

@@ -60,4 +60,21 @@ class User extends Authenticatable
     {
         return count($this->groups) > 0;
     }
+
+    /**
+     * @param Group $group
+     * @return bool
+     */
+    public function isCreatorOf(Group $group): bool
+    {
+        return $this->is($group->creator());
+    }
+
+    /**
+     * @return string
+     */
+    public function getNameAttribute(): string
+    {
+        return $this->first_name . ' ' . $this->last_name;
+    }
 }

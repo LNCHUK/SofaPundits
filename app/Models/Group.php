@@ -49,6 +49,16 @@ class Group extends Model
     }
 
     /**
+     * @return User
+     */
+    public function creator(): User
+    {
+        return $this->users()
+            ->wherePivot('is_creator', true)
+            ->first();
+    }
+
+    /**
      * @return HasMany
      */
     public function gameweeks(): HasMany
@@ -75,5 +85,12 @@ class Group extends Model
     public function numberOfPlayers(): int
     {
         return count($this->users);
+    }
+
+    public function getActiveGameweeks()
+    {
+        return $this->gameweeks()
+            ->where('start_date', '>=', now()->format('Y-m-d 00:00:00'))
+            ->get();
     }
 }
