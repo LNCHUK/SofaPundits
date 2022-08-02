@@ -8,8 +8,6 @@
     <div class="py-12">
         <x-container>
             <x-panel>
-                Gameweek details
-
                 <livewire:gameweek-fixtures-manager :gameweekId="$gameweek->id" />
             </x-panel>
         </x-container>

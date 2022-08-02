@@ -1,51 +1,53 @@
 <div>
-    Fixtures for {{ $gameweek->name }}
-
     <div class="flex w-full gap-x-6">
         <div class="w-1/2">
-            <div class="max-w-lg mb-4">
+            <h2 class="text-lg font-bold mb-4">Find Fixtures</h2>
+
+            <div class="mb-4">
                 <x-label for="name" :value="__('Search for a team...')" />
                 <x-input
                     class="block mt-1 w-full"
-                    type="text"
+                    type="search"
                     wire:model="search"
                     autofocus
                 />
-                Searching for: {{ $search }}
             </div>
+
+            <p class="text-sm font-semibold text-center mb-4">
+                Click on a result to select the fixture for this gameweek
+            </p>
 
             <ul>
                 @foreach ($possibleFixtures as $possibleFixture)
                     <li>
-                        <div class="text-center rounded-md shadow-sm border border-gray-300 p-6 mb-4">
-                            <p>
-                                {{ $possibleFixture->league->name }}<br />
-                                <span>{{ $possibleFixture->round }}</span>
-                            </p>
-
-                            <div class="flex gap-x-2">
-                                <p class="text-right w-1/2">
-                                    {{ $possibleFixture->homeTeam->name }}
-                                </p>
-                                <p class="text-center w-4">
-                                    vs
-                                </p>
-                                <p class="text-left w-1/2">
-                                    {{ $possibleFixture->awayTeam->name }}
-                                </p>
-                            </div>
-
-                            <p>
-                                {{ $possibleFixture->date->format('jS F Y - g:ia') }}
-                            </p>
-                        </div>
+                        <x-fixtures.card
+                            :fixture="$possibleFixture"
+                            wire:key="gameweek_{{ $gameweekId }}-possibleFixture_{{ $possibleFixture->id }}"
+                            wire:click="selectFixture({{ $possibleFixture->id }})"
+                        />
                     </li>
                 @endforeach
             </ul>
         </div>
 
         <div class="w-1/2">
-            Right
+            <h2 class="text-lg font-bold mb-4">Chosen Fixtures</h2>
+
+            <ul>
+                @forelse ($chosenFixtures as $chosenFixture)
+                    <li>
+                        <x-fixtures.card
+                            :fixture="$chosenFixture"
+                            wire:key="gameweek_{{ $gameweekId }}-chosenFixture_{{ $chosenFixture->id }}"
+                            wire:click="removeSelectedFixture({{ $chosenFixture->id }})"
+                        />
+                    </li>
+                @empty
+                    <p class="text-sm font-semibold text-center mb-4">
+                        Select some fixtures on the left to add them to this gameweek
+                    </p>
+                @endforelse
+            </ul>
         </div>
     </div>
 </div>

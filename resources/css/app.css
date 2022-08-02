@@ -1,3 +1,24 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+.fixture-card {
+    @apply text-center rounded-md shadow-sm border border-gray-300 p-6 py-3 mb-4 cursor-pointer
+        transition duration-300 hover:bg-gradient-to-r from-cyan-100 to-blue-200;
+}
+
+.fixture-card .teams {
+    @apply flex gap-x-2 items-center my-2;
+}
+
+.fixture-card img {
+    @apply w-8 inline-block;
+}
+
+.fixture-card span.team-name {
+    @apply font-semibold;
+}
+
+.fixture-card .meta {
+    @apply text-sm text-gray-600;
+}

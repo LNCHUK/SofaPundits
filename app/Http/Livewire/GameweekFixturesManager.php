@@ -21,7 +21,8 @@ class GameweekFixturesManager extends Component
         $this->possibleFixtures = $this->getAvailableFixtures();
 
         return view('livewire.gameweek-fixtures-manager', [
-            'gameweek' => $this->getGameweek()
+            'gameweek' => $this->getGameweek(),
+            'chosenFixtures' => $this->getChosenFixtures(),
         ]);
     }
 
@@ -30,11 +31,19 @@ class GameweekFixturesManager extends Component
         return Gameweek::query()->find($this->gameweekId);
     }
 
+    private function getChosenFixtures()
+    {
+        return Fixture::query()
+            ->whereIn('id', $this->selectedFixtureIds)
+            ->get();
+    }
+
     private function getAvailableFixtures()
     {
         $gameweek = $this->getGameweek();
 
         $query = Fixture::query()
+            ->whereNotIn('id', $this->selectedFixtureIds)
             ->whereBetween('date', [
                 $gameweek->start_date,
                 $gameweek->end_date
@@ -52,5 +61,31 @@ class GameweekFixturesManager extends Component
         }
 
         return $query->limit(20)->get();
+    }
+
+    public function selectFixture(int $fixtureId)
+    {
+        $this->selectedFixtureIds = [
+            ...$this->selectedFixtureIds,
+            $fixtureId
+        ];
+    }
+
+    public function removeSelectedFixture(int $fixtureId)
+    {
+        $chosenIds = $this->selectedFixtureIds;
+        $idToRemove = null;
+
+        array_walk($chosenIds, function ($value, $key) use ($fixtureId, &$idToRemove) {
+            if  ($value == $fixtureId) {
+                $idToRemove = $key;
+            }
+        });
+
+        if ($idToRemove !== null) {
+            unset($chosenIds[$idToRemove]);
+        }
+
+        $this->selectedFixtureIds = $chosenIds;
     }
 }
