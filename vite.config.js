@@ -15,4 +15,10 @@ export default defineConfig({
             ],
         }),
     ],
+    server: {
+        host: '192.168.56.56',
+        watch: {
+            usePolling: true,
+        },
+    }
 });
