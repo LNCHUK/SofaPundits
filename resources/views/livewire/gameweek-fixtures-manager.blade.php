@@ -1,4 +1,4 @@
-<div>
+<div class="mb-6">
     <div class="flex w-full gap-x-6">
         <div class="w-1/2">
             <h2 class="text-lg font-bold mb-4">Find Fixtures</h2>
@@ -17,17 +17,23 @@
                 Click on a result to select the fixture for this gameweek
             </p>
 
-            <ul>
-                @foreach ($possibleFixtures as $possibleFixture)
-                    <li>
-                        <x-fixtures.card
-                            :fixture="$possibleFixture"
-                            wire:key="gameweek_{{ $gameweekId }}-possibleFixture_{{ $possibleFixture->id }}"
-                            wire:click="selectFixture({{ $possibleFixture->id }})"
-                        />
-                    </li>
-                @endforeach
-            </ul>
+            <div class="overflow-y-auto max-h-96 border border-gray-200 p-4">
+                <ul>
+                    @forelse ($possibleFixtures as $possibleFixture)
+                        <li>
+                            <x-fixtures.card
+                                :fixture="$possibleFixture"
+                                wire:key="gameweek_{{ $gameweekId }}-possibleFixture_{{ $possibleFixture->id }}"
+                                wire:click="selectFixture({{ $possibleFixture->id }})"
+                            />
+                        </li>
+                    @empty
+                        <p class="text-sm font-semibold text-center">
+                            No fixtures available
+                        </p>
+                    @endforelse
+                </ul>
+            </div>
         </div>
 
         <div class="w-1/2">
@@ -41,6 +47,7 @@
                             wire:key="gameweek_{{ $gameweekId }}-chosenFixture_{{ $chosenFixture->id }}"
                             wire:click="removeSelectedFixture({{ $chosenFixture->id }})"
                         />
+                        <input type="hidden" name="selected_fixtures[]" value="{{ $chosenFixture->id }}" />
                     </li>
                 @empty
                     <p class="text-sm font-semibold text-center mb-4">

@@ -2,12 +2,16 @@
 
 namespace App\Models;
 
+use App\Concerns\GeneratesUuidOnCreation;
+use App\Models\ApiFootball\Fixture;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 
 class Gameweek extends Model
 {
+    use GeneratesUuidOnCreation;
     use HasFactory;
 
     protected $fillable = [
@@ -29,5 +33,13 @@ class Gameweek extends Model
     public function group(): BelongsTo
     {
         return $this->belongsTo(Group::class);
+    }
+
+    /**
+     * @return BelongsToMany
+     */
+    public function fixtures(): BelongsToMany
+    {
+        return $this->belongsToMany(Fixture::class, 'gameweek_fixtures');
     }
 }

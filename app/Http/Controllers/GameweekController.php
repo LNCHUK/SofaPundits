@@ -2,6 +2,8 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\Gameweeks\StoreRequest;
+use App\Http\Requests\Gameweeks\UpdateRequest;
 use App\Models\Gameweek;
 use App\Models\Group;
 use Illuminate\Contracts\Support\Renderable;
@@ -36,28 +38,12 @@ class GameweekController extends Controller
     /**
      * Store a newly created resource in storage.
      *
-     * @param Request $request
+     * @param StoreRequest $request
      * @param Group $group
      * @return RedirectResponse
      */
-    public function store(Request $request, Group $group): RedirectResponse
+    public function store(StoreRequest $request, Group $group): RedirectResponse
     {
-        // Validate
-        $this->validate($request, [
-            'name' => [
-                'nullable', 'string',
-            ],
-            'start_date' => [
-                'required', 'date',
-            ],
-            'end_date' => [
-                'required', 'date',
-            ],
-            'description' => [
-                'nullable', 'string',
-            ],
-        ]);
-
         // Store
         $gameweek = $group->gameweeks()->create($request->all());
 
@@ -80,24 +66,30 @@ class GameweekController extends Controller
     /**
      * Show the form for editing the specified resource.
      *
+     * @param Group $group
      * @param Gameweek $gameweek
      * @return Response
      */
-    public function edit(Gameweek $gameweek)
+    public function edit(Group $group, Gameweek $gameweek): Renderable
     {
-        //
+        return view('gameweeks.edit', compact('group', 'gameweek'));
     }
 
     /**
      * Update the specified resource in storage.
      *
-     * @param Request $request
+     * @param UpdateRequest $request
+     * @param Group $group
      * @param Gameweek $gameweek
-     * @return Response
+     * @return RedirectResponse
      */
-    public function update(Request $request, Gameweek $gameweek)
+    public function update(UpdateRequest $request, Group $group, Gameweek $gameweek): RedirectResponse
     {
-        //
+        $gameweek->update($request->all());
+
+        $gameweek->fixtures()->sync($request->selected_fixtures);
+
+        return redirect()->route('gameweeks.show', ['group' => $group, 'gameweek' => $gameweek]);
     }
 
     /**

@@ -18,7 +18,15 @@
     <div class="py-12">
         <x-container>
             <x-panel>
-                <livewire:gameweek-fixtures-manager :gameweekId="$gameweek->id" />
+                Gameweek details here
+
+                <p><strong>Fixtures:</strong></p>
+
+                <ul>
+                    @foreach ($gameweek->fixtures as $fixture)
+                        <li>{{ $fixture }}</li>
+                    @endforeach
+                </ul>
             </x-panel>
         </x-container>
     </div>

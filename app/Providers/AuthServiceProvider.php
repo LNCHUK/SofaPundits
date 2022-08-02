@@ -3,7 +3,9 @@
 namespace App\Providers;
 
 use App\Models\Gameweek;
+use App\Models\Group;
 use App\Policies\GameweeksPolicy;
+use App\Policies\GroupsPolicy;
 use Illuminate\Foundation\Support\Providers\AuthServiceProvider as ServiceProvider;
 use Illuminate\Support\Facades\Gate;
 
@@ -15,7 +17,8 @@ class AuthServiceProvider extends ServiceProvider
      * @var array<class-string, class-string>
      */
     protected $policies = [
-         Gameweek::class => GameweeksPolicy::class,
+        Gameweek::class => GameweeksPolicy::class,
+        Group::class => GroupsPolicy::class,
     ];
 
     /**

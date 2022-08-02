@@ -2,7 +2,7 @@
 
 namespace App\Http\Controllers;
 
-use App\Http\Requests\CreateGroupRequest;
+use App\Http\Requests\Groups\CreateRequest;
 use App\Models\Group;
 use Illuminate\Contracts\Support\Renderable;
 use Illuminate\Http\RedirectResponse;
@@ -23,10 +23,10 @@ class GroupController extends Controller
     /**
      * Store a newly created resource in storage.
      *
-     * @param CreateGroupRequest $request
+     * @param CreateRequest $request
      * @return RedirectResponse
      */
-    public function store(CreateGroupRequest $request): RedirectResponse
+    public function store(CreateRequest $request): RedirectResponse
     {
         $group = Group::create($request->all());
 

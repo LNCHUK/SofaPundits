@@ -2,12 +2,11 @@
 
 namespace App\Policies;
 
-use App\Models\Gameweek;
 use App\Models\Group;
 use App\Models\User;
 use Illuminate\Auth\Access\HandlesAuthorization;
 
-class GameweeksPolicy
+class GroupsPolicy
 {
     use HandlesAuthorization;
 
@@ -26,10 +25,10 @@ class GameweeksPolicy
      * Determine whether the user can view the model.
      *
      * @param  \App\Models\User  $user
-     * @param  \App\Models\Gameweek  $gameweek
+     * @param  \App\Models\Group  $group
      * @return \Illuminate\Auth\Access\Response|bool
      */
-    public function view(User $user, Gameweek $gameweek)
+    public function view(User $user, Group $group)
     {
         //
     }
@@ -49,22 +48,22 @@ class GameweeksPolicy
      * Determine whether the user can update the model.
      *
      * @param  \App\Models\User  $user
-     * @param  \App\Models\Gameweek  $gameweek
+     * @param  \App\Models\Group  $group
      * @return \Illuminate\Auth\Access\Response|bool
      */
-    public function update(User $user, Gameweek $gameweek)
+    public function update(User $user, Group $group)
     {
-        return $user->isCreatorOf($gameweek->group);
+        //
     }
 
     /**
      * Determine whether the user can delete the model.
      *
      * @param  \App\Models\User  $user
-     * @param  \App\Models\Gameweek  $gameweek
+     * @param  \App\Models\Group  $group
      * @return \Illuminate\Auth\Access\Response|bool
      */
-    public function delete(User $user, Gameweek $gameweek)
+    public function delete(User $user, Group $group)
     {
         //
     }
@@ -73,10 +72,10 @@ class GameweeksPolicy
      * Determine whether the user can restore the model.
      *
      * @param  \App\Models\User  $user
-     * @param  \App\Models\Gameweek  $gameweek
+     * @param  \App\Models\Group  $group
      * @return \Illuminate\Auth\Access\Response|bool
      */
-    public function restore(User $user, Gameweek $gameweek)
+    public function restore(User $user, Group $group)
     {
         //
     }
@@ -85,11 +84,23 @@ class GameweeksPolicy
      * Determine whether the user can permanently delete the model.
      *
      * @param  \App\Models\User  $user
-     * @param  \App\Models\Gameweek  $gameweek
+     * @param  \App\Models\Group  $group
      * @return \Illuminate\Auth\Access\Response|bool
      */
-    public function forceDelete(User $user, Gameweek $gameweek)
+    public function forceDelete(User $user, Group $group)
     {
         //
+    }
+
+    /**
+     * Determine whether the user can permanently delete the model.
+     *
+     * @param  \App\Models\User  $user
+     * @param  \App\Models\Group  $group
+     * @return \Illuminate\Auth\Access\Response|bool
+     */
+    public function createGameweekForGroup(User $user, Group $group)
+    {
+        return $user->isCreatorOf($group);
     }
 }

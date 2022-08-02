@@ -38,6 +38,7 @@ class Fixture extends Model
         'periods' => 'array',
         'goals' => 'array',
         'score' => 'array',
+        'kick_off' => 'datetime',
     ];
 
     /**
@@ -76,5 +77,13 @@ class Fixture extends Model
             'league_season_id', // Local key on the fixtures table...
             'league_id' // Local key on the league_seasons table...
         );
+    }
+
+    public function __toString()
+    {
+        return $this->homeTeam->name
+            . ' vs '
+            . $this->awayTeam->name
+            . ' (' . $this->kick_off->format('jS F Y, g:ia') . ')';
     }
 }

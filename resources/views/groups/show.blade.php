@@ -10,7 +10,17 @@
             <div class="flex gap-x-6 gap-y-6">
                 <div class="w-2/3">
                     <x-panel>
-                        <h2 class="text-lg font-bold mb-4">Active Gameweeks</h2>
+                        <div class="flex justify-between items-center mb-4">
+                            <h2 class="text-lg font-bold">Active Gameweeks</h2>
+
+                            <div>
+                                @can('createGameweekForGroup', $group)
+                                    <x-link-button :route="route('gameweeks.create', ['group' => $group])">
+                                        Create Gameweek
+                                    </x-link-button>
+                                @endcan
+                            </div>
+                        </div>
 
                         <div class="overflow-hidden shadow ring-1 ring-black ring-opacity-5">
                             <table class="min-w-full divide-y divide-gray-300">
