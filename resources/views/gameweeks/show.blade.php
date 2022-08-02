@@ -9,6 +9,8 @@
         <x-container>
             <x-panel>
                 Gameweek details
+
+                <livewire:gameweek-fixtures-manager :gameweekId="$gameweek->id" />
             </x-panel>
         </x-container>
     </div>

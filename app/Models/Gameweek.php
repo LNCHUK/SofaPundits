@@ -16,4 +16,9 @@ class Gameweek extends Model
         'end_date',
         'description',
     ];
+
+    protected $casts = [
+        'start_date' => 'datetime',
+        'end_date' => 'datetime',
+    ];
 }

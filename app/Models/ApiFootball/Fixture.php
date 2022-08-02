@@ -4,6 +4,9 @@ namespace App\Models\ApiFootball;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\Relations\HasOne;
+use Illuminate\Database\Eloquent\Relations\HasOneThrough;
 
 class Fixture extends Model
 {
@@ -31,8 +34,47 @@ class Fixture extends Model
     ];
 
     protected $casts = [
+        'date' => 'datetime',
         'periods' => 'array',
         'goals' => 'array',
         'score' => 'array',
     ];
+
+    /**
+     * @return HasOne
+     */
+    public function homeTeam(): HasOne
+    {
+        return $this->hasOne(Team::class, 'id', 'home_team_id');
+    }
+    /**
+     * @return HasOne
+     */
+    public function awayTeam(): HasOne
+    {
+        return $this->hasOne(Team::class, 'id', 'away_team_id');
+    }
+
+    /**
+     * @return BelongsTo
+     */
+    public function leagueSeason(): BelongsTo
+    {
+        return $this->belongsTo(LeagueSeason::class);
+    }
+
+    /**
+     * @return HasOneThrough
+     */
+    public function league(): HasOneThrough
+    {
+        return $this->hasOneThrough(
+            League::class,
+            LeagueSeason::class,
+            'id', // Foreign key on the league_seasons table...
+            'id', // Foreign key on the leagues table...
+            'league_season_id', // Local key on the fixtures table...
+            'league_id' // Local key on the league_seasons table...
+        );
+    }
 }
