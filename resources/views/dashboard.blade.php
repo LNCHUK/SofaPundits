@@ -11,6 +11,12 @@
                 <div class="w-1/3 text-center">
                     <x-panel>
                         <h2 class="text-2xl font-bold mb-4">Create a new Group</h2>
+
+                        <p class="text-sm font-semibold text-center mb-4">
+                            Click here to create a new Group. Once created, you'll be able to invite
+                            players to your Group and start making predictions!
+                        </p>
+
                         <a
                             href="{{ route('groups.create') }}"
                             class="inline-flex items-center px-4 py-2 bg-gray-800 border border-transparent rounded-md font-semibold text-xs text-white uppercase tracking-widest hover:bg-gray-700 active:bg-gray-900 focus:outline-none focus:border-gray-900 focus:ring ring-gray-300 disabled:opacity-25 transition ease-in-out duration-150"
@@ -57,6 +63,11 @@
                 <div class="w-1/3 text-center">
                     <x-panel>
                         <h2 class="text-2xl font-bold mb-4">Join an Existing Group</h2>
+
+                        <p class="text-sm font-semibold text-center mb-4">
+                            Got a code from someone to join their Group? Click here to find the Group
+                            and get started!
+                        </p>
 
                         <x-button onclick="Livewire.emit('openModal', 'find-group-modal')">
                             Find a Group
