@@ -15,6 +15,14 @@
                     <x-nav-link :href="route('dashboard')" :active="request()->routeIs('dashboard')">
                         {{ __('Dashboard') }}
                     </x-nav-link>
+
+                    @if (auth()->user()->isInAtLeastOneGroup())
+                        @foreach (auth()->user()->groups as $group)
+                            <x-nav-link :href="route('groups.show', $group)" :active="request()->routeIs('groups.show', $group)">
+                                {{ $group->name }}
+                            </x-nav-link>
+                        @endforeach
+                    @endif
                 </div>
             </div>
 

@@ -19,6 +19,11 @@ class Group extends Model
         'created_by',
     ];
 
+    public function getRouteKeyName()
+    {
+        return 'uuid';
+    }
+
     /**
      * The "booted" method of the model.
      *
