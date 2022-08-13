@@ -42,4 +42,14 @@ class Gameweek extends Model
     {
         return $this->belongsToMany(Fixture::class, 'gameweek_fixtures');
     }
+
+    public function getFixturesGroupedByDate()
+    {
+        return $this->fixtures()
+            ->with(['homeTeam', 'awayTeam'])
+            ->get()
+            ->groupBy(function (Fixture $fixture) {
+                return $fixture->kick_off->format('l jS F Y');
+            });
+    }
 }

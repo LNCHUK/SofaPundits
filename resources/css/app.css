@@ -2,6 +2,11 @@
 @tailwind components;
 @tailwind utilities;
 
+@font-face {
+    font-family: PremierLeague;
+    src: url('/fonts/PremierLeague.ttf');
+}
+
 .fixture-card {
     @apply text-center rounded-md shadow-sm border border-gray-300 p-6 py-3 mb-4 cursor-pointer
         transition duration-300 hover:bg-gradient-to-r from-cyan-100 to-blue-200;
@@ -21,4 +26,82 @@
 
 .fixture-card .meta {
     @apply text-sm text-gray-600;
+}
+
+/** Gameweek Fixtures List View **/
+.gameweek-fixtures {
+    @apply text-center;
+}
+
+.gameweek-fixtures .date {
+    @apply text-xs text-gray-600 font-bold bg-gradient-to-r from-cyan-100 to-blue-200
+            inline-block px-2 py-1 rounded-lg mb-4;
+}
+
+.gameweek-fixtures .fixtures {
+    @apply mb-4;
+}
+
+.gameweek-fixtures .fixture {
+    @apply border border-gray-100 border-b-0 px-4 py-3;
+
+    &:last-child {
+        @apply border-b;
+    }
+
+    .score {
+        @apply flex items-center justify-center w-16 h-8 border border-gray-300 rounded text-xs text-gray-600;
+
+        &.has-scores {
+            @apply bg-blue-900 border-blue-900 text-white text-lg font-bold;
+        }
+
+        .home, .away {
+            @apply w-1/2 text-center;
+        }
+
+        .home {
+            @apply border-r border-blue-700;
+        }
+    }
+
+    .actual {
+        @apply flex gap-x-4 items-center justify-center;
+
+        .team {
+            @apply w-1/2;
+
+            &.home {
+                @apply text-right;
+
+                img {
+                    @apply ml-2;
+                }
+            }
+
+            &.away {
+                @apply text-left;
+
+                img {
+                    @apply mr-2;
+                }
+            }
+
+            img {
+                @apply w-8 inline-block;
+            }
+        }
+    }
+
+    .prediction {
+        @apply mt-4 text-center flex flex-col items-center;
+
+        span {
+            @apply text-xs uppercase text-gray-600 mb-1;
+        }
+
+        .score .home {
+            @apply border-gray-200;
+        }
+    }
 }

@@ -1,5 +1,6 @@
 import { defineConfig } from 'vite';
 import laravel from 'laravel-vite-plugin';
+import postcssNesting from "postcss-nesting";
 
 export default defineConfig({
     plugins: [
@@ -14,6 +15,7 @@ export default defineConfig({
                 'resources/views/**',
             ],
         }),
+        postcssNesting()
     ],
     server: {
         host: '192.168.56.56',
