@@ -66,6 +66,8 @@
                                                             {{ $gameweek->activeUserPredictions->firstWhere('fixture_id', $fixture->id)->away_score }}
                                                         </div>
                                                     </div>
+
+                                                    {{ $gameweek->activeUserPredictions->firstWhere('fixture_id', $fixture->id)->result }}
                                                 </div>
                                             </li>
                                         @endforeach
