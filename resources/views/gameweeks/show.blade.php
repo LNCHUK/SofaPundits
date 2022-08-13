@@ -59,8 +59,12 @@
                                                     <span>You predicted</span>
 
                                                     <div class="score">
-                                                        <div class="home">1</div>
-                                                        <div class="away">2</div>
+                                                        <div class="home">
+                                                            {{ $gameweek->activeUserPredictions->firstWhere('fixture_id', $fixture->id)->home_score }}
+                                                        </div>
+                                                        <div class="away">
+                                                            {{ $gameweek->activeUserPredictions->firstWhere('fixture_id', $fixture->id)->away_score }}
+                                                        </div>
                                                     </div>
                                                 </div>
                                             </li>

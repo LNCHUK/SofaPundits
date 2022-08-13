@@ -60,6 +60,8 @@ class GameweekController extends Controller
      */
     public function show(Group $group, Gameweek $gameweek): Renderable
     {
+        $gameweek->load('activeUserPredictions');
+
         return view('gameweeks.show', compact('group', 'gameweek'));
     }
 
@@ -113,9 +115,19 @@ class GameweekController extends Controller
      */
     public function editPredictions(Group $group, Gameweek $gameweek): Renderable
     {
+        $gameweek->load('activeUserPredictions');
+
         return view('gameweeks.predictions', compact('group', 'gameweek'));
     }
 
+    /**
+     * Store the User's predictions in the database.
+     *
+     * @param UpdatePredictionsRequest $request
+     * @param Group $group
+     * @param Gameweek $gameweek
+     * @return RedirectResponse
+     */
     public function updatePredictions(UpdatePredictionsRequest $request, Group $group, Gameweek $gameweek)
     {
         foreach ($request->fixtures as $fixtureId => $scores) {

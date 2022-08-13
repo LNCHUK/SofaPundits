@@ -74,6 +74,15 @@ class Gameweek extends Model
     }
 
     /**
+     * @return HasMany
+     */
+    public function activeUserPredictions(): HasMany
+    {
+        return $this->predictions()
+            ->where('user_id', auth()->id());
+    }
+
+    /**
      * @param Builder $query
      * @return void
      */
