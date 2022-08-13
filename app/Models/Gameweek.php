@@ -92,12 +92,28 @@ class Gameweek extends Model
     }
 
     /**
+     * @return bool
+     */
+    public function isUpcoming(): bool
+    {
+        return $this->start_date->isAfter(now());
+    }
+
+    /**
      * @param Builder $query
      * @return void
      */
     public function scopePast(Builder $query): void
     {
         $query->where('end_date', '<', now());
+    }
+
+    /**
+     * @return bool
+     */
+    public function isPast(): bool
+    {
+        return $this->end_date->isBefore(now());
     }
 
     /**
@@ -114,7 +130,36 @@ class Gameweek extends Model
         });
     }
 
-    public function getUserPredictions($user = null)
+    /**
+     * @return bool
+     */
+    public function isActive(): bool
+    {
+        return $this->start_date->isBefore(now())
+            && $this->end_date->isAfter(now());
+    }
+
+    /**
+     * @return string
+     */
+    public function getStatusAttribute(): string
+    {
+        if ($this->isActive()) {
+            return 'Active';
+        } else if ($this->isPast()) {
+            return 'Completed';
+        } else if ($this->isUpcoming()) {
+            return 'Not started';
+        }
+
+        return '';
+    }
+
+    /**
+     * @param $user
+     * @return Collection
+     */
+    public function getUserPredictions($user = null): Collection
     {
         $user = $user ?? auth()->user();
 
@@ -123,7 +168,16 @@ class Gameweek extends Model
             ->get();
     }
 
-    public function getCssClassForFixturePrediction(Fixture $fixture, $user = null)
+    /**
+     * Returns the appropriate CSS class for a prediction for a given Fixture and User.
+     *
+     * If no user is provided, the currently authenticated user is used.
+     *
+     * @param Fixture $fixture
+     * @param $user
+     * @return string
+     */
+    public function getCssClassForFixturePrediction(Fixture $fixture, $user = null): ?string
     {
         if (is_null($user)) {
             $user = auth()->user();
@@ -138,7 +192,16 @@ class Gameweek extends Model
         return '';
     }
 
-    public function getHomeScoreForFixturePrediction(Fixture $fixture, $user = null)
+    /**
+     * Returns the home score for a prediction for a given Fixture and User.
+     *
+     * If no user is provided, the currently authenticated user is used.
+     *
+     * @param Fixture $fixture
+     * @param null $user
+     * @return int|null
+     */
+    public function getHomeScoreForFixturePrediction(Fixture $fixture, $user = null): ?int
     {
         if (is_null($user)) {
             $user = auth()->user();
@@ -149,7 +212,16 @@ class Gameweek extends Model
         return $prediction ? $prediction->home_score : null;
     }
 
-    public function getAwayScoreForFixturePrediction(Fixture $fixture, $user = null)
+    /**
+     * Returns the away score for a prediction for a given Fixture and User.
+     *
+     * If no user is provided, the currently authenticated user is used.
+     *
+     * @param Fixture $fixture
+     * @param $user
+     * @return int|null
+     */
+    public function getAwayScoreForFixturePrediction(Fixture $fixture, $user = null): ?int
     {
         if (is_null($user)) {
             $user = auth()->user();
@@ -158,5 +230,16 @@ class Gameweek extends Model
         $prediction = $this->getUserPredictions($user)->firstWhere('fixture_id', $fixture->id);
 
         return $prediction ? $prediction->away_score : null;
+    }
+
+    public function getPointsForActiveUser()
+    {
+        $points = 0;
+
+        foreach ($this->getUserPredictions() as $prediction) {
+            $points += $prediction->result->points();
+        }
+
+        return $points;
     }
 }

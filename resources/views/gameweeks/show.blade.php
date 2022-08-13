@@ -20,9 +20,54 @@
             <div class="flex gap-x-4">
                 <div class="w-1/4">
                     <x-panel>
-                        <x-link-button :route="route('gameweeks.edit-predictions', ['group' => $group, 'gameweek' => $gameweek])">
-                            Update Predictions
-                        </x-link-button>
+
+                        <div class="flex">
+                            <div class="w-1/2 text-center">
+                                <div class="uppercase font-bold text-xs text-gray-500 mb-4">
+                                    Matches
+                                </div>
+
+                                <span class="text-5xl font-bold text-gray-800">
+                                    {{ count($gameweek->fixtures) }}
+                                </span>
+                            </div>
+                            <div class="w-1/2 text-center">
+                                <div class="uppercase font-bold text-xs text-gray-500 mb-4">
+                                    Points
+                                </div>
+
+                                <span class="text-5xl font-bold text-gray-800">
+                                    {{ $gameweek->getPointsForActiveUser() }}
+                                </span>
+                            </div>
+                        </div>  
+
+                        <hr class="mt-8 mb-6">
+
+                        <h3 class="font-bold mb-4">Key:</h3>
+
+                        <ul class="mb-4">
+                            <li class="flex gap-x-2 items-center mb-4">
+                                <div class="w-6 h-6 rounded incorrect-result-gradient"></div>
+                                <span class="text-sm text-gray-600">Incorrect Result (0 points)</span>
+                            </li>
+                            <li class="flex gap-x-2 items-center mb-4">
+                                <div class="w-6 h-6 rounded correct-result-gradient"></div>
+                                <span class="text-sm text-gray-600">Correct Result (1 point)</span>
+                            </li>
+                            <li class="flex gap-x-2 items-center mb-4">
+                                <div class="w-6 h-6 rounded correct-score-gradient"></div>
+                                <span class="text-sm text-gray-600">Correct Score (3 points)</span>
+                            </li>
+                        </ul>
+
+                        <hr class="mt-8 mb-6">
+
+                        <div class="text-center">
+                            <x-link-button :route="route('gameweeks.edit-predictions', ['group' => $group, 'gameweek' => $gameweek])">
+                                Update Predictions
+                            </x-link-button>
+                        </div>
                     </x-panel>
                 </div>
 
