@@ -67,7 +67,10 @@ class GameweekFixturesManager extends Component
             });
         }
 
-        return $query->limit(20)->get();
+        return $query
+            ->orderBy('kick_off', 'ASC')
+            ->limit(20)
+            ->get();
     }
 
     public function selectFixture(int $fixtureId)
