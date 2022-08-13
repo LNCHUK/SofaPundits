@@ -8,6 +8,7 @@ use App\Models\ApiFootball\Fixture;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\Relations\HasOne;
 
 class UserPrediction extends Model
 {
@@ -49,6 +50,14 @@ class UserPrediction extends Model
     public function fixture(): BelongsTo
     {
         return $this->belongsTo(Fixture::class);
+    }
+
+    /**
+     * @return HasOne
+     */
+    public function calculatedPoints(): HasOne
+    {
+        return $this->hasOne(UserPredictionPoints::class, 'id', 'id');
     }
 
     /**

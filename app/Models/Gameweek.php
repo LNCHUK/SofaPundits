@@ -237,7 +237,7 @@ class Gameweek extends Model
         $points = 0;
 
         foreach ($this->getUserPredictions() as $prediction) {
-            $points += $prediction->result->points();
+            $points += $prediction->calculatedPoints->points;
         }
 
         return $points;

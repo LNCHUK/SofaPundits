@@ -30,6 +30,8 @@ class Fixture extends Model
         'time_elapsed',
         'round',
         'goals',
+        'home_goals',
+        'away_goals',
         'score',
     ];
 

@@ -96,6 +96,8 @@ class ImportFixtures extends Command
                     'time_elapsed' => $fixture['fixture']['status']['elapsed'],
                     'round' => $fixture['league']['round'],
                     'goals' => $fixture['goals'],
+                    'home_goals' => $fixture['goals']['home'],
+                    'away_goals' => $fixture['goals']['away'],
                     'score' => $fixture['score'],
                 ]);
             }
