@@ -98,6 +98,6 @@ class Fixture extends Model
             $date->addHour();
         }
 
-        return $date->format('h:i');
+        return $date->format('H:i');
     }
 }

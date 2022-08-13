@@ -8,6 +8,7 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
+use Illuminate\Support\Collection;
 
 class Gameweek extends Model
 {
@@ -43,7 +44,10 @@ class Gameweek extends Model
         return $this->belongsToMany(Fixture::class, 'gameweek_fixtures');
     }
 
-    public function getFixturesGroupedByDate()
+    /**
+     * @return Collection
+     */
+    public function getFixturesGroupedByDate(): Collection
     {
         return $this->fixtures()
             ->with(['homeTeam', 'awayTeam'])
