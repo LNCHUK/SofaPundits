@@ -4,6 +4,7 @@ namespace App\Models;
 
 use App\Concerns\GeneratesUuidOnCreation;
 use App\Models\ApiFootball\Fixture;
+use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
@@ -56,5 +57,37 @@ class Gameweek extends Model
             ->groupBy(function (Fixture $fixture) {
                 return $fixture->kick_off->format('l jS F Y');
             });
+    }
+
+    /**
+     * @param Builder $query
+     * @return void
+     */
+    public function scopeUpcoming(Builder $query): void
+    {
+        $query->where('start_date', '>', now());
+    }
+
+    /**
+     * @param Builder $query
+     * @return void
+     */
+    public function scopePast(Builder $query): void
+    {
+        $query->where('end_date', '<', now());
+    }
+
+    /**
+     * @param Builder $query
+     * @return void
+     */
+    public function scopeActive(Builder $query): void
+    {
+        $query->where(function ($query) {
+            $now = now();
+
+            $query->where('start_date', '<=', $now)
+                ->where('end_date', '>', $now);
+        });
     }
 }

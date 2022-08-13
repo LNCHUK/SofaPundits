@@ -68,6 +68,30 @@ class Group extends Model
     }
 
     /**
+     * @return HasMany
+     */
+    public function upcomingGameweeks(): HasMany
+    {
+        return $this->gameweeks()->upcoming();
+    }
+
+    /**
+     * @return HasMany
+     */
+    public function activeGameweeks(): HasMany
+    {
+        return $this->gameweeks()->active();
+    }
+
+    /**
+     * @return HasMany
+     */
+    public function pastGameweeks(): HasMany
+    {
+        return $this->gameweeks()->past();
+    }
+
+    /**
      * Generates a valid, unique, key to for a Group.
      *
      * @return string
@@ -89,21 +113,5 @@ class Group extends Model
     public function numberOfPlayers(): int
     {
         return count($this->users);
-    }
-
-    /**
-     * @return Collection
-     */
-    public function getActiveGameweeks(): Collection
-    {
-        return $this->gameweeks()
-            ->where('start_date', '>=', now()->format('Y-m-d 00:00:00'))
-            ->get();
-    }
-
-    public function pastGameweeks(): HasMany
-    {
-        return $this->gameweeks()
-            ->where('start_date', '<', now()->format('Y-m-d 00:00:00'));
     }
 }
