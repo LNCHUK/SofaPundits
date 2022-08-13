@@ -15,6 +15,9 @@
                 Fixtures
             </th>
             <th scope="col" class="px-3 py-3 text-left text-xs font-medium uppercase tracking-wide text-gray-500">
+                Points
+            </th>
+            <th scope="col" class="px-3 py-3 text-left text-xs font-medium uppercase tracking-wide text-gray-500">
                 Actions
             </th>
         </tr>
@@ -33,6 +36,9 @@
                 </td>
                 <td class="whitespace-nowrap text-left px-3 py-4 text-sm text-gray-500">
                     {{ $gameweek->fixtures->count() }}
+                </td>
+                <td class="whitespace-nowrap text-left px-3 py-4 text-sm text-gray-500">
+                    {{ $gameweek->getPointsForActiveUser() }}
                 </td>
                 <td class="whitespace-nowrap text-left px-3 py-4 text-sm text-gray-500">
                     <a href="{{ route('gameweeks.show', ['group' => $gameweek->group, 'gameweek' => $gameweek]) }}" class="text-blue-800 underline">

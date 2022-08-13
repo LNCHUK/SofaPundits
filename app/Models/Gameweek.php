@@ -232,14 +232,16 @@ class Gameweek extends Model
         return $prediction ? $prediction->away_score : null;
     }
 
-    public function getPointsForActiveUser()
+    /**
+     * Returns the total points for the active user for this gameweek.
+     *
+     * @return int
+     */
+    public function getPointsForActiveUser(): int
     {
-        $points = 0;
-
-        foreach ($this->getUserPredictions() as $prediction) {
-            $points += $prediction->calculatedPoints->points;
-        }
-
-        return $points;
+        return UserPredictionPoints::query()
+            ->where('gameweek_id', $this->id)
+            ->where('user_id', auth()->id())
+            ->sum('points');
     }
 }
