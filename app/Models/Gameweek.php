@@ -9,6 +9,7 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Support\Collection;
 
 class Gameweek extends Model
@@ -29,6 +30,11 @@ class Gameweek extends Model
         'end_date' => 'datetime',
     ];
 
+    public function getRouteKeyName()
+    {
+        return 'uuid';
+    }
+
     /**
      * @return BelongsTo
      */
@@ -43,6 +49,14 @@ class Gameweek extends Model
     public function fixtures(): BelongsToMany
     {
         return $this->belongsToMany(Fixture::class, 'gameweek_fixtures');
+    }
+
+    /**
+     * @return HasMany
+     */
+    public function predictions(): HasMany
+    {
+        return $this->hasMany(UserPrediction::class);
     }
 
     /**

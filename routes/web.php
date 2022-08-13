@@ -30,6 +30,14 @@ Route::middleware(['auth'])->group(function () {
 
     Route::resource('groups/{group}/gameweeks', GameweekController::class);
 
+    Route::get('groups/{group}/gameweeks/{gameweek}/predictions', [
+        GameweekController::class, 'editPredictions'
+    ])->name('gameweeks.edit-predictions');
+
+    Route::post('groups/{group}/gameweeks/{gameweek}/predictions', [
+        GameweekController::class, 'updatePredictions'
+    ])->name('gameweeks.update-predictions');
+
 });
 
 require __DIR__.'/auth.php';

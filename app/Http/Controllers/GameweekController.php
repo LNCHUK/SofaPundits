@@ -4,11 +4,11 @@ namespace App\Http\Controllers;
 
 use App\Http\Requests\Gameweeks\StoreRequest;
 use App\Http\Requests\Gameweeks\UpdateRequest;
+use App\Http\Requests\UserPredictions\UpdateRequest as UpdatePredictionsRequest;
 use App\Models\Gameweek;
 use App\Models\Group;
 use Illuminate\Contracts\Support\Renderable;
 use Illuminate\Http\RedirectResponse;
-use Illuminate\Http\Request;
 use Illuminate\Http\Response;
 
 class GameweekController extends Controller
@@ -101,5 +101,34 @@ class GameweekController extends Controller
     public function destroy(Gameweek $gameweek)
     {
         //
+    }
+
+    /**
+     * Show a page allowing the user to set or edit their predictions for the chosen
+     * Gameweek's fixtures.
+     *
+     * @param Group $group
+     * @param Gameweek $gameweek
+     * @return Renderable
+     */
+    public function editPredictions(Group $group, Gameweek $gameweek): Renderable
+    {
+        return view('gameweeks.predictions', compact('group', 'gameweek'));
+    }
+
+    public function updatePredictions(UpdatePredictionsRequest $request, Group $group, Gameweek $gameweek)
+    {
+        foreach ($request->fixtures as $fixtureId => $scores) {
+            if (is_null($scores['home_score']) || is_null($scores['away_score'])) {
+                continue;
+            }
+
+            $gameweek->predictions()->updateOrCreate([
+                'fixture_id' => $fixtureId,
+                'user_id' => auth()->id(),
+            ], $scores);
+        }
+
+        return redirect()->route('gameweeks.show', compact('gameweek', 'group'));
     }
 }

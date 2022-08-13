@@ -20,7 +20,7 @@ return new class extends Migration
             $table->unsignedBigInteger('fixture_id');
             $table->integer('home_score');
             $table->integer('away_score');
-            $table->integer('points');
+            $table->integer('points')->nullable();
             $table->timestamps();
 
             $table->foreign('user_id')->references('id')->on('users')

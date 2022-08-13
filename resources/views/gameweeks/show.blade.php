@@ -20,7 +20,9 @@
             <div class="flex gap-x-4">
                 <div class="w-1/4">
                     <x-panel>
-                        Details
+                        <x-link-button :route="route('gameweeks.edit-predictions', ['group' => $group, 'gameweek' => $gameweek])">
+                            Update Predictions
+                        </x-link-button>
                     </x-panel>
                 </div>
 
