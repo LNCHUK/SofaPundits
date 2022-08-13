@@ -3,6 +3,7 @@
 namespace App\Models;
 
 use App\Enums\FixtureStatusCode;
+use App\Enums\UserPredictionResult;
 use App\Models\ApiFootball\Fixture;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
@@ -50,35 +51,50 @@ class UserPrediction extends Model
         return $this->belongsTo(Fixture::class);
     }
 
-    public function getResultAttribute(): string
+    /**
+     * Returns the status of the prediction, based on the score and result
+     * of the parent fixture.
+     *
+     * @return UserPredictionResult
+     */
+    public function getResultAttribute(): UserPredictionResult
     {
         $fixture = $this->fixture;
 
         // TODO: This will need updating to use any valid status...
         if ($fixture->status_code == FixtureStatusCode::MATCH_FINISHED) {
-            // If the score is exact, correct score
-            // TODO: Replace with an enum...
             if ($this->isCorrectScore()) {
-                return 'Correct Score';
+                return UserPredictionResult::CORRECT_SCORE();
             }
 
             if ($this->isCorrectResult()) {
-                return 'Correct Result';
+                return UserPredictionResult::CORRECT_RESULT();
             }
 
-            return 'Incorrect Result';
-        } else {
-            // Match is not finished
-            return 'Pending';
+            return UserPredictionResult::INCORRECT_RESULT();
         }
+
+        return UserPredictionResult::PENDING();
     }
 
+    /**
+     * Returns true if the home and away goals matches that of the parent
+     * Fixture record.
+     *
+     * @return bool
+     */
     public function isCorrectScore(): bool
     {
         return $this->home_score == $this->fixture->goals['home']
             && $this->away_score == $this->fixture->goals['away'];
     }
 
+    /**
+     * Returns true if the result is correct. Results can be a home win, an
+     * away win or a draw, and the parent Fixture must have the same result.
+     *
+     * @return bool
+     */
     public function isCorrectResult(): bool
     {
         $fixture = $this->fixture;
@@ -93,5 +109,10 @@ class UserPrediction extends Model
             && (int) $fixture->goals['home'] == (int) $fixture->goals['away'];
 
         return $correctHomeWin || $correctAwayWin || $correctDraw;
+    }
+
+    public function getPointsAttribute(): ?int
+    {
+        return optional($this->result)->points();
     }
 }

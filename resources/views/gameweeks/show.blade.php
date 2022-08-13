@@ -58,16 +58,14 @@
                                                 <div class="prediction">
                                                     <span>You predicted</span>
 
-                                                    <div class="score">
+                                                    <div class="score {{ $gameweek->getCssClassForFixturePrediction($fixture) }}">
                                                         <div class="home">
-                                                            {{ $gameweek->activeUserPredictions->firstWhere('fixture_id', $fixture->id)->home_score }}
+                                                            {{ $gameweek->getHomeScoreForFixturePrediction($fixture) }}
                                                         </div>
                                                         <div class="away">
-                                                            {{ $gameweek->activeUserPredictions->firstWhere('fixture_id', $fixture->id)->away_score }}
+                                                            {{ $gameweek->getAwayScoreForFixturePrediction($fixture) }}
                                                         </div>
                                                     </div>
-
-                                                    {{ $gameweek->activeUserPredictions->firstWhere('fixture_id', $fixture->id)->result }}
                                                 </div>
                                             </li>
                                         @endforeach

@@ -7,6 +7,18 @@
     src: url('/fonts/PremierLeague.ttf');
 }
 
+.correct-score-gradient {
+    @apply bg-gradient-to-br from-[#DF9F28] via-[#FDE08D] to-[#DF9F28] border-[#FDE08D];
+}
+
+.correct-result-gradient {
+    @apply bg-gradient-to-br from-emerald-300 to-emerald-500 text-white border-emerald-400 !important;
+}
+
+.incorrect-result-gradient {
+    @apply bg-gradient-to-br from-red-300 to-red-500 text-gray-800 text-white border-red-400 !important;
+}
+
 .fixture-card {
     @apply text-center rounded-md shadow-sm border border-gray-300 p-6 py-3 mb-4 cursor-pointer
         transition duration-300 hover:bg-gradient-to-r from-cyan-100 to-blue-200;
@@ -102,7 +114,7 @@
             }
 
             .score {
-                @apply w-16;
+                @apply w-16 font-bold text-sm;
             }
 
             .score .home {

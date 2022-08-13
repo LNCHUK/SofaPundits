@@ -113,4 +113,50 @@ class Gameweek extends Model
                 ->where('end_date', '>', $now);
         });
     }
+
+    public function getUserPredictions($user = null)
+    {
+        $user = $user ?? auth()->user();
+
+        return $this->predictions()
+            ->where('user_id', $user->id)
+            ->get();
+    }
+
+    public function getCssClassForFixturePrediction(Fixture $fixture, $user = null)
+    {
+        if (is_null($user)) {
+            $user = auth()->user();
+        }
+
+        $prediction = $this->getUserPredictions($user)->firstWhere('fixture_id', $fixture->id);
+
+        if ($prediction) {
+            return optional($prediction->result)->cssClass();
+        }
+
+        return '';
+    }
+
+    public function getHomeScoreForFixturePrediction(Fixture $fixture, $user = null)
+    {
+        if (is_null($user)) {
+            $user = auth()->user();
+        }
+
+        $prediction = $this->getUserPredictions($user)->firstWhere('fixture_id', $fixture->id);
+
+        return $prediction ? $prediction->home_score : null;
+    }
+
+    public function getAwayScoreForFixturePrediction(Fixture $fixture, $user = null)
+    {
+        if (is_null($user)) {
+            $user = auth()->user();
+        }
+
+        $prediction = $this->getUserPredictions($user)->firstWhere('fixture_id', $fixture->id);
+
+        return $prediction ? $prediction->away_score : null;
+    }
 }

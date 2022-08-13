@@ -46,7 +46,7 @@
                                                         @if (is_array(old('fixtures')))
                                                             value="{{ isset(old('fixtures')[$fixture->id]) ? old('fixtures')[$fixture->id]['home_score'] : '' }}"
                                                         @else
-                                                            value="{{ $gameweek->activeUserPredictions->firstWhere('fixture_id', $fixture->id)->home_score }}"
+                                                            value="{{ $gameweek->getHomeScoreForFixturePrediction($fixture) }}"
                                                         @endif
                                                     />
 
@@ -57,7 +57,7 @@
                                                         @if (is_array(old('fixtures')))
                                                             value="{{ isset(old('fixtures')[$fixture->id]) ? old('fixtures')[$fixture->id]['away_score'] : '' }}"
                                                         @else
-                                                            value="{{ $gameweek->activeUserPredictions->firstWhere('fixture_id', $fixture->id)->away_score }}"
+                                                            value="{{ $gameweek->getAwayScoreForFixturePrediction($fixture) }}"
                                                         @endif
                                                     />
                                                 </div>
