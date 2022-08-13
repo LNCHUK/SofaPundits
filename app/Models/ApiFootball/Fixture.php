@@ -89,4 +89,15 @@ class Fixture extends Model
             . $this->awayTeam->name
             . ' (' . $this->kick_off->format('jS F Y, g:ia') . ')';
     }
+
+    public function getKickOffTimeAttribute(): string
+    {
+        $date = $this->kick_off;
+
+        if (now()->format('I') === "0") {
+            $date->addHour();
+        }
+
+        return $date->format('h:i');
+    }
 }

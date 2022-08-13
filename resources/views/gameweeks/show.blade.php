@@ -44,7 +44,7 @@
                                                             <span class="home">{{ $fixture->goals['home'] ?? '-' }}</span>
                                                             <span class="away">{{ $fixture->goals['away'] ?? '-' }}</span>
                                                         @else
-                                                            {{ $fixture->kick_off->format('h:i') }}
+                                                            {{ $fixture->kickOffTime }}
                                                         @endif
                                                     </div>
                                                     <div class="away team">

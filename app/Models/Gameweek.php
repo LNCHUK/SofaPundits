@@ -47,6 +47,7 @@ class Gameweek extends Model
     {
         return $this->fixtures()
             ->with(['homeTeam', 'awayTeam'])
+            ->orderBy('kick_off', 'ASC')
             ->get()
             ->groupBy(function (Fixture $fixture) {
                 return $fixture->kick_off->format('l jS F Y');
