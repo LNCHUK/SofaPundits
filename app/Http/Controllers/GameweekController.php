@@ -115,6 +115,8 @@ class GameweekController extends Controller
      */
     public function editPredictions(Group $group, Gameweek $gameweek): Renderable
     {
+        $this->authorize('updatePredictions', $gameweek);
+
         $gameweek->load('activeUserPredictions');
 
         return view('gameweeks.predictions', compact('group', 'gameweek'));
@@ -130,6 +132,8 @@ class GameweekController extends Controller
      */
     public function updatePredictions(UpdatePredictionsRequest $request, Group $group, Gameweek $gameweek)
     {
+        $this->authorize('updatePredictions', $gameweek);
+
         foreach ($request->fixtures as $fixtureId => $scores) {
             if (is_null($scores['home_score']) || is_null($scores['away_score'])) {
                 continue;

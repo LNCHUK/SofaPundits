@@ -40,7 +40,7 @@
                                     {{ $gameweek->getPointsForActiveUser() }}
                                 </span>
                             </div>
-                        </div>  
+                        </div>
 
                         <hr class="mt-8 mb-6">
 
@@ -61,13 +61,15 @@
                             </li>
                         </ul>
 
-                        <hr class="mt-8 mb-6">
+                        @can('updatePredictions', $gameweek)
+                            <hr class="mt-8 mb-6">
 
-                        <div class="text-center">
-                            <x-link-button :route="route('gameweeks.edit-predictions', ['group' => $group, 'gameweek' => $gameweek])">
-                                Update Predictions
-                            </x-link-button>
-                        </div>
+                            <div class="text-center">
+                                <x-link-button :route="route('gameweeks.edit-predictions', ['group' => $group, 'gameweek' => $gameweek])">
+                                    Update Predictions
+                                </x-link-button>
+                            </div>
+                        @endcan
                     </x-panel>
                 </div>
 
