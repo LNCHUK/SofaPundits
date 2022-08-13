@@ -1,9 +1,9 @@
 <form
-    action="{{ $gameweek ? route('gameweeks.update', ['group' => $group, 'gameweek' => $gameweek]) : route('gameweeks.store', $group) }}"
+    action="{{ isset($gameweek) ? route('gameweeks.update', ['group' => $group, 'gameweek' => $gameweek]) : route('gameweeks.store', $group) }}"
     method="POST"
 >
     @csrf
-    @method($gameweek ? 'PATCH' : 'POST')
+    @method(isset($gameweek) ? 'PATCH' : 'POST')
 
     <!-- Name -->
     <div class="max-w-lg mb-4">
@@ -28,7 +28,7 @@
                 class="block mt-1 w-full"
                 type="date"
                 name="start_date"
-                :value="old('start_date', $gameweek ? $gameweek->start_date->format('Y-m-d') : '')"
+                :value="old('start_date', isset($gameweek) ? $gameweek->start_date->format('Y-m-d') : '')"
                 required
             />
         </div>
@@ -41,7 +41,7 @@
                 class="block mt-1 w-full"
                 type="date"
                 name="end_date"
-                :value="old('end_date', $gameweek ? $gameweek->end_date->format('Y-m-d') : '')"
+                :value="old('end_date', isset($gameweek) ? $gameweek->end_date->format('Y-m-d') : '')"
                 required
             />
         </div>
@@ -62,6 +62,6 @@
     @endif
 
     <x-button>
-        {{ $gameweek ? __('Update Gameweek') : __('Create Gameweek') }}
+        {{ isset($gameweek) ? __('Update Gameweek') : __('Create Gameweek') }}
     </x-button>
 </form>

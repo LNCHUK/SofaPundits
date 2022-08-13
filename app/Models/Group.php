@@ -3,6 +3,7 @@
 namespace App\Models;
 
 use App\Concerns\GeneratesUuidOnCreation;
+use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
@@ -82,15 +83,27 @@ class Group extends Model
         return $key;
     }
 
+    /**
+     * @return int
+     */
     public function numberOfPlayers(): int
     {
         return count($this->users);
     }
 
-    public function getActiveGameweeks()
+    /**
+     * @return Collection
+     */
+    public function getActiveGameweeks(): Collection
     {
         return $this->gameweeks()
             ->where('start_date', '>=', now()->format('Y-m-d 00:00:00'))
             ->get();
+    }
+
+    public function pastGameweeks(): HasMany
+    {
+        return $this->gameweeks()
+            ->where('start_date', '<', now()->format('Y-m-d 00:00:00'));
     }
 }
