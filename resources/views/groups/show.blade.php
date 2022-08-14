@@ -36,15 +36,34 @@
 
                 <div class="w-1/3">
                     <x-panel>
-                        <h2 class="text-lg font-bold mb-4">Players</h2>
+                        <h2 class="text-lg font-bold mb-4">League Table</h2>
 
                         <div class="overflow-hidden shadow ring-1 ring-black ring-opacity-5">
                             <table class="min-w-full divide-y divide-gray-300">
+                                <thead class="bg-gray-50">
+                                    <tr>
+                                        <th scope="col" class="px-3 py-3 text-left text-xs font-medium uppercase tracking-wide text-gray-500">
+                                            Pos
+                                        </th>
+                                        <th scope="col" class="px-3 py-3 text-left text-xs font-medium uppercase tracking-wide text-gray-500">
+                                            Player
+                                        </th>
+                                        <th scope="col" class="px-3 py-3 text-left text-xs font-medium uppercase tracking-wide text-gray-500">
+                                            Points
+                                        </th>
+                                    </tr>
+                                </thead>
                                 <tbody class="divide-y divide-gray-200 bg-white">
-                                @foreach ($group->users as $player)
+                                @foreach ($group->getLeagueTableData() as $data)
                                     <tr>
                                         <td class="whitespace-nowrap text-left px-3 py-4 text-sm text-gray-500">
-                                            {{ $player->name }}
+                                            {{ $data->position }}
+                                        </td>
+                                        <td class="whitespace-nowrap text-left px-3 py-4 text-sm text-gray-500">
+                                            {{ $data->user->name }}
+                                        </td>
+                                        <td class="whitespace-nowrap text-left px-3 py-4 text-sm text-gray-500">
+                                            {{ $data->total_points }}
                                         </td>
                                     </tr>
                                 @endforeach

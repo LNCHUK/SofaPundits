@@ -3,11 +3,11 @@
 namespace App\Models;
 
 use App\Concerns\GeneratesUuidOnCreation;
-use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Database\Eloquent\Relations\HasMany;
+use Illuminate\Support\Collection;
 use Illuminate\Support\Str;
 
 class Group extends Model
@@ -113,5 +113,38 @@ class Group extends Model
     public function numberOfPlayers(): int
     {
         return count($this->users);
+    }
+
+    public function getLeagueTableData(): Collection
+    {
+        $position = 0;
+        $previousPoints = null;
+        $skipped = 0;
+
+        return UserPredictionPoints::query()
+            ->selectRaw("SUM(points) AS total_points, user_id")
+            ->with('user')
+            ->whereHas('gameweek', function ($query) {
+                $query->where('group_id', $this->id);
+            })
+            ->groupBy('user_id')
+            ->orderBy('total_points', 'DESC')
+            ->get()
+            ->map(function (UserPredictionPoints $userPredictionPoints) use (&$position, &$previousPoints, &$skipped) {
+                if ($previousPoints === (int) $userPredictionPoints->total_points) {
+                    // We have a tie, leave the position but increment the skip
+                    $skipped++;
+                } else {
+                    $position += $skipped + 1;
+                    $skipped = 0;
+                }
+
+                // Assign the points to use in the next iteration, to confirm a tie
+                $previousPoints = (int) $userPredictionPoints->total_points;
+
+                $userPredictionPoints->position = $position;
+
+                return $userPredictionPoints;
+            });
     }
 }

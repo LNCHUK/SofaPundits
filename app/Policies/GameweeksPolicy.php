@@ -102,6 +102,7 @@ class GameweeksPolicy
      */
     public function updatePredictions(User $user, Gameweek $gameweek)
     {
+        return true;
         // If the user is the owner, or if the Gameweek is upcoming
         return $user->isCreatorOf($gameweek->group)
             || $gameweek->isUpcoming();
