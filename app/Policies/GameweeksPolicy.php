@@ -3,7 +3,6 @@
 namespace App\Policies;
 
 use App\Models\Gameweek;
-use App\Models\Group;
 use App\Models\User;
 use Illuminate\Auth\Access\HandlesAuthorization;
 
@@ -66,31 +65,7 @@ class GameweeksPolicy
      */
     public function delete(User $user, Gameweek $gameweek)
     {
-        //
-    }
-
-    /**
-     * Determine whether the user can restore the model.
-     *
-     * @param  \App\Models\User  $user
-     * @param  \App\Models\Gameweek  $gameweek
-     * @return \Illuminate\Auth\Access\Response|bool
-     */
-    public function restore(User $user, Gameweek $gameweek)
-    {
-        //
-    }
-
-    /**
-     * Determine whether the user can permanently delete the model.
-     *
-     * @param  \App\Models\User  $user
-     * @param  \App\Models\Gameweek  $gameweek
-     * @return \Illuminate\Auth\Access\Response|bool
-     */
-    public function forceDelete(User $user, Gameweek $gameweek)
-    {
-        //
+        return $user->isCreatorOf($gameweek->group);
     }
 
     /**
@@ -102,9 +77,22 @@ class GameweeksPolicy
      */
     public function updatePredictions(User $user, Gameweek $gameweek)
     {
-        return true;
         // If the user is the owner, or if the Gameweek is upcoming
         return $user->isCreatorOf($gameweek->group)
             || $gameweek->isUpcoming();
+    }
+
+    /**
+     * Determine whether the user can publish the Gameweek.
+     *
+     * @param User $user
+     * @param Gameweek $gameweek
+     * @return bool
+     */
+    public function publish(User $user, Gameweek $gameweek)
+    {
+        // If a user can update, they can publish, as long as the Gameweek is not pending.
+        return $this->update($user, $gameweek)
+            && $gameweek->isPending() === false;
     }
 }

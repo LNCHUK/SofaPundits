@@ -9,6 +9,7 @@ use App\Models\Gameweek;
 use App\Models\Group;
 use Illuminate\Contracts\Support\Renderable;
 use Illuminate\Http\RedirectResponse;
+use Illuminate\Http\Request;
 use Illuminate\Http\Response;
 
 class GameweekController extends Controller
@@ -44,11 +45,10 @@ class GameweekController extends Controller
      */
     public function store(StoreRequest $request, Group $group): RedirectResponse
     {
-        // Store
-        $gameweek = $group->gameweeks()->create($request->validated());
-
-        // Redirect
-        return redirect()->route('gameweeks.show', ['group' => $group, 'gameweek' => $gameweek]);
+        return redirect()->route('gameweeks.show', [
+            'group' => $group,
+            'gameweek' => $group->gameweeks()->create($request->validated())
+        ]);
     }
 
     /**
@@ -89,19 +89,38 @@ class GameweekController extends Controller
     {
         $gameweek->update($request->validated());
 
-        $gameweek->fixtures()->sync($request->selected_fixtures);
+        return redirect()->route('gameweeks.show', compact('group', 'gameweek'));
+    }
 
-        return redirect()->route('gameweeks.show', ['group' => $group, 'gameweek' => $gameweek]);
+    /**
+     * Update the specified resource in storage.
+     *
+     * @param UpdateRequest $request
+     * @param Group $group
+     * @param Gameweek $gameweek
+     * @return RedirectResponse
+     */
+    public function publish(Request $request, Group $group, Gameweek $gameweek): RedirectResponse
+    {
+        $gameweek->update(['published_at' => now()]);
+
+        // TODO: Trigger an event here so we can hook notifications into it
+
+        return redirect()->route('gameweeks.show', compact('group', 'gameweek'));
     }
 
     /**
      * Remove the specified resource from storage.
      *
+     * @param Request $request
+     * @param Group $group
      * @param Gameweek $gameweek
-     * @return Response
+     * @return RedirectResponse
      */
-    public function destroy(Gameweek $gameweek)
+    public function destroy(Request $request, Group $group, Gameweek $gameweek): RedirectResponse
     {
-        //
+        $gameweek->delete();
+
+        return redirect()->route('groups.show', $group);
     }
 }

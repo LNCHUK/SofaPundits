@@ -13,11 +13,39 @@
                     <x-link-button :route="route('gameweeks.edit-fixtures', ['group' => $group, 'gameweek' => $gameweek])">
                         Edit Fixtures
                     </x-link-button>
-
-                    <x-buttons.success :route="route('gameweeks.edit', ['group' => $group, 'gameweek' => $gameweek])">
-                        Publish Gameweek
-                    </x-buttons.success>
                 @endcan
+
+                @can ('publish', $gameweek)
+                    <form
+                        action="{{ route('gameweeks.publish', ['group' => $group, 'gameweek' => $gameweek]) }}"
+                        method="POST"
+                        class="inline"
+                        onsubmit="return confirm('Are you sure you want to publish the Gameweek? Doing this will ' +
+                         'send out an email to all active users and open it up for predictions')"
+                    >
+                        @csrf
+                        <x-buttons.success :route="route('gameweeks.publish', ['group' => $group, 'gameweek' => $gameweek])">
+                            Publish Gameweek
+                        </x-buttons.success>
+                    </form>
+                @endif
+
+                @can ('delete', $gameweek)
+                    <form
+                        action="{{ route('gameweeks.destroy', ['group' => $group, 'gameweek' => $gameweek]) }}"
+                        method="POST"
+                        class="inline"
+                        onsubmit="return confirm('Are you sure you want to delete the Gameweek? Doing this will ' +
+                         'remove the Gameweek and any predictions that have been added, and cannot be reversed.')"
+                    >
+                        @csrf
+                        @method('DELETE')
+
+                        <x-buttons.danger>
+                            Delete
+                        </x-buttons.danger>
+                    </form>
+                @endif
             </div>
         </div>
     </x-slot>

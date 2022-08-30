@@ -29,6 +29,11 @@ Route::middleware(['auth'])->group(function () {
     // Gameweeks CRUD
     Route::resource('groups/{group}/gameweeks', GameweekController::class);
 
+    // Publish Gameweek
+    Route::post('groups/{group}/gameweeks/{gameweek}/publish', [
+        GameweekController::class, 'publish'
+    ])->name('gameweeks.publish');
+
     // Edit Gameweek Fixtures
     Route::get('groups/{group}/gameweeks/{gameweek}/fixtures', [
         FixturesController::class, 'edit'

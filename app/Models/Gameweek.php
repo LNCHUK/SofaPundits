@@ -24,16 +24,14 @@ class Gameweek extends Model
         'start_date',
         'end_date',
         'description',
+        'status',
+        'published_at',
     ];
 
     protected $casts = [
         'start_date' => 'datetime',
         'end_date' => 'datetime',
-        'status' => GameweekStatus::class
-    ];
-
-    protected $attributes = [
-        'status' => GameweekStatus::PENDING,
+        'published_at' => 'datetime',
     ];
 
     public function getRouteKeyName()
@@ -251,8 +249,13 @@ class Gameweek extends Model
             ->sum('points');
     }
 
+    /**
+     * Returns true or false to state if the Gameweek is pending or not.
+     *
+     * @return bool
+     */
     public function isPending(): bool
     {
-        return $this->status == GameweekStatus::PENDING();
+        return !empty($this->published_at);
     }
 }
