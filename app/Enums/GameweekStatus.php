@@ -1,17 +1,15 @@
-<?php declare(strict_types=1);
+<?php
 
 namespace App\Enums;
 
 use BenSampo\Enum\Enum;
 
 /**
- * @method static static OptionOne()
- * @method static static OptionTwo()
- * @method static static OptionThree()
+ * @method static static PENDING()
+ * @method static static ACTIVE()
  */
 final class GameweekStatus extends Enum
 {
-    const OptionOne = 0;
-    const OptionTwo = 1;
-    const OptionThree = 2;
+    const PENDING = 'pending';
+    const ACTIVE = 'active';
 }
