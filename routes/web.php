@@ -1,6 +1,8 @@
 <?php
 
-use App\Http\Controllers\GameweekController;
+use App\Http\Controllers\Gameweeks\FixturesController;
+use App\Http\Controllers\Gameweeks\GameweekController;
+use App\Http\Controllers\Gameweeks\PredictionsController;
 use App\Http\Controllers\GroupController;
 use Illuminate\Support\Facades\Route;
 
@@ -24,14 +26,27 @@ Route::middleware(['auth'])->group(function () {
     Route::resource('groups', GroupController::class)->except(['index']);
     Route::post('groups/{group}/join', [GroupController::class, 'join'])->name('groups.join');
 
+    // Gameweeks CRUD
     Route::resource('groups/{group}/gameweeks', GameweekController::class);
 
+    // Edit Gameweek Fixtures
+    Route::get('groups/{group}/gameweeks/{gameweek}/fixtures', [
+        FixturesController::class, 'edit'
+    ])->name('gameweeks.edit-fixtures');
+
+    // Update Gameweek Fixtures
+    Route::patch('groups/{group}/gameweeks/{gameweek}/fixtures', [
+        FixturesController::class, 'update'
+    ])->name('gameweeks.update-fixtures');
+
+    // Edit Gameweek Predictions
     Route::get('groups/{group}/gameweeks/{gameweek}/predictions', [
-        GameweekController::class, 'editPredictions'
+        PredictionsController::class, 'edit'
     ])->name('gameweeks.edit-predictions');
 
+    // Update Gameweek Fixtures
     Route::post('groups/{group}/gameweeks/{gameweek}/predictions', [
-        GameweekController::class, 'updatePredictions'
+        PredictionsController::class, 'update'
     ])->name('gameweeks.update-predictions');
 
 });

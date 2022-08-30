@@ -10,6 +10,13 @@
                     <x-link-button :route="route('gameweeks.edit', ['group' => $group, 'gameweek' => $gameweek])">
                         Edit Gameweek
                     </x-link-button>
+                    <x-link-button :route="route('gameweeks.edit-fixtures', ['group' => $group, 'gameweek' => $gameweek])">
+                        Edit Fixtures
+                    </x-link-button>
+
+                    <x-buttons.success :route="route('gameweeks.edit', ['group' => $group, 'gameweek' => $gameweek])">
+                        Publish Gameweek
+                    </x-buttons.success>
                 @endcan
             </div>
         </div>

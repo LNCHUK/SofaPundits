@@ -3,6 +3,7 @@
 namespace App\Models;
 
 use App\Concerns\GeneratesUuidOnCreation;
+use App\Enums\GameweekStatus;
 use App\Models\ApiFootball\Fixture;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
@@ -28,6 +29,11 @@ class Gameweek extends Model
     protected $casts = [
         'start_date' => 'datetime',
         'end_date' => 'datetime',
+        'status' => GameweekStatus::class
+    ];
+
+    protected $attributes = [
+        'status' => GameweekStatus::PENDING,
     ];
 
     public function getRouteKeyName()
@@ -243,5 +249,10 @@ class Gameweek extends Model
             ->where('gameweek_id', $this->id)
             ->where('user_id', auth()->id())
             ->sum('points');
+    }
+
+    public function isPending(): bool
+    {
+        return $this->status == GameweekStatus::PENDING();
     }
 }

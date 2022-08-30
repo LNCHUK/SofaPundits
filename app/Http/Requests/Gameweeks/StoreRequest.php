@@ -15,7 +15,7 @@ class StoreRequest extends FormRequest
     {
         return [
             'name' => [
-                'nullable', 'string',
+                'required', 'string',
             ],
             'start_date' => [
                 'required', 'date',

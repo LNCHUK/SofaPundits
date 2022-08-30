@@ -47,17 +47,6 @@
         </div>
     </div>
 
-    <div class="max-w-sm mb-4">
-        <x-label for="status" :value="__('Status')" />
-        <x-select
-            id="status"
-            class="block mt-1 w-full"
-            name="status"
-            :value="old('status', isset($gameweek) ? $gameweek->status : '')"
-            :options="\App\Enums\GameweekStatus::asSelectArray()"
-        />
-    </div>
-
     <!-- Name -->
     <div class="max-w-lg mb-4">
         <x-label for="description" :value="__('Description')" />
@@ -66,13 +55,7 @@
         </x-textarea>
     </div>
 
-    @if (isset($gameweek))
-        <hr class="my-12" />
-
-        <livewire:gameweek-fixtures-manager :gameweekId="$gameweek->id" />
-    @endif
-
-    <x-button>
+    <x-buttons.success>
         {{ isset($gameweek) ? __('Update Gameweek') : __('Create Gameweek') }}
-    </x-button>
+    </x-buttons.success>
 </form>

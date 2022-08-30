@@ -1,10 +1,10 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace App\Http\Controllers\Gameweeks;
 
+use App\Http\Controllers\Controller;
 use App\Http\Requests\Gameweeks\StoreRequest;
 use App\Http\Requests\Gameweeks\UpdateRequest;
-use App\Http\Requests\UserPredictions\UpdateRequest as UpdatePredictionsRequest;
 use App\Models\Gameweek;
 use App\Models\Group;
 use Illuminate\Contracts\Support\Renderable;
@@ -45,7 +45,7 @@ class GameweekController extends Controller
     public function store(StoreRequest $request, Group $group): RedirectResponse
     {
         // Store
-        $gameweek = $group->gameweeks()->create($request->all());
+        $gameweek = $group->gameweeks()->create($request->validated());
 
         // Redirect
         return redirect()->route('gameweeks.show', ['group' => $group, 'gameweek' => $gameweek]);
@@ -87,7 +87,7 @@ class GameweekController extends Controller
      */
     public function update(UpdateRequest $request, Group $group, Gameweek $gameweek): RedirectResponse
     {
-        $gameweek->update($request->all());
+        $gameweek->update($request->validated());
 
         $gameweek->fixtures()->sync($request->selected_fixtures);
 
@@ -103,48 +103,5 @@ class GameweekController extends Controller
     public function destroy(Gameweek $gameweek)
     {
         //
-    }
-
-    /**
-     * Show a page allowing the user to set or edit their predictions for the chosen
-     * Gameweek's fixtures.
-     *
-     * @param Group $group
-     * @param Gameweek $gameweek
-     * @return Renderable
-     */
-    public function editPredictions(Group $group, Gameweek $gameweek): Renderable
-    {
-        $this->authorize('updatePredictions', $gameweek);
-
-        $gameweek->load('activeUserPredictions');
-
-        return view('gameweeks.predictions', compact('group', 'gameweek'));
-    }
-
-    /**
-     * Store the User's predictions in the database.
-     *
-     * @param UpdatePredictionsRequest $request
-     * @param Group $group
-     * @param Gameweek $gameweek
-     * @return RedirectResponse
-     */
-    public function updatePredictions(UpdatePredictionsRequest $request, Group $group, Gameweek $gameweek)
-    {
-        $this->authorize('updatePredictions', $gameweek);
-
-        foreach ($request->fixtures as $fixtureId => $scores) {
-            if (is_null($scores['home_score']) || is_null($scores['away_score'])) {
-                continue;
-            }
-
-            $gameweek->predictions()->updateOrCreate([
-                'fixture_id' => $fixtureId,
-                'user_id' => auth()->id(),
-            ], $scores);
-        }
-
-        return redirect()->route('gameweeks.show', compact('gameweek', 'group'));
     }
 }
