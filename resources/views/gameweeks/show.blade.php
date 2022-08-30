@@ -111,7 +111,7 @@
                 <div class="w-3/4">
                     <x-panel>
                         <ul class="gameweek-fixtures">
-                            @foreach ($gameweek->getFixturesGroupedByDate() as $date => $fixtures)
+                            @forelse ($gameweek->getFixturesGroupedByDate() as $date => $fixtures)
                                 <li>
                                     <span class="date">{{ $date }}</span>
 
@@ -153,7 +153,12 @@
                                         @endforeach
                                     </ul>
                                 </li>
-                            @endforeach
+                            @empty
+                                <p class="bg-blue-400 font-bold p-6 text-white rounded">
+                                    Looks like no fixtures have been added, click 'Edit Fixtures' above to
+                                    add some fixtures to the Gameweek.
+                                </p>
+                            @endforelse
                         </ul>
                     </x-panel>
                 </div>
