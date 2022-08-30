@@ -42,6 +42,7 @@ class GameweekFixturesManager extends Component
     {
         return Fixture::query()
             ->whereIn('id', $this->selectedFixtureIds)
+            ->orderBy('kick_off', 'ASC')
             ->get();
     }
 
