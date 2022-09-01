@@ -79,7 +79,7 @@ class GameweeksPolicy
     {
         // If the user is the owner, or if the Gameweek is upcoming
         return $user->isCreatorOf($gameweek->group)
-            || $gameweek->isUpcoming();
+            || ($gameweek->isUpcoming() && $gameweek->isPublished());
     }
 
     /**
@@ -93,6 +93,6 @@ class GameweeksPolicy
     {
         // If a user can update, they can publish, as long as the Gameweek is not pending.
         return $this->update($user, $gameweek)
-            && $gameweek->isPending() === false;
+            && $gameweek->isPending();
     }
 }

@@ -256,6 +256,16 @@ class Gameweek extends Model
      */
     public function isPending(): bool
     {
-        return !empty($this->published_at);
+        return empty($this->published_at);
+    }
+
+    /**
+     * Returns true or false to state if the Gameweek is published or not.
+     *
+     * @return bool
+     */
+    public function isPublished(): bool
+    {
+        return $this->published_at !== null;
     }
 }
