@@ -7,6 +7,7 @@ use App\Http\Requests\Gameweeks\StoreRequest;
 use App\Http\Requests\Gameweeks\UpdateRequest;
 use App\Models\Gameweek;
 use App\Models\Group;
+use App\Notifications\GameweekPublished;
 use Illuminate\Contracts\Support\Renderable;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
@@ -103,6 +104,8 @@ class GameweekController extends Controller
     public function publish(Request $request, Group $group, Gameweek $gameweek): RedirectResponse
     {
         $gameweek->update(['published_at' => now()]);
+
+        auth()->user()->notify(new GameweekPublished($gameweek));
 
         // TODO: Trigger an event here so we can hook notifications into it
 
