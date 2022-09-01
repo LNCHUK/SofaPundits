@@ -63,6 +63,6 @@ class League extends Model
             return [$league->id => $league->name];
         })->toArray();
 
-        return ['' => 'All Leagues'] + $leagues;
+        return [0 => 'All Leagues'] + $leagues;
     }
 }
