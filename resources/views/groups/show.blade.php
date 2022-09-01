@@ -36,6 +36,19 @@
 
                 <div class="w-1/3">
                     <x-panel>
+                        <h2 class="text-lg font-bold mb-4">Invite Others</h2>
+
+                        <p class="text-sm mb-4">
+                            Want to invite some new players? Just give them the code below and they'll
+                            be able to find the group!
+                        </p>
+
+                        <p class="font-bold text-2xl text-center">{{ $group->key }}</p>
+                    </x-panel>
+
+                    <div class="h-4"></div>
+
+                    <x-panel>
                         <h2 class="text-lg font-bold mb-4">League Table</h2>
 
                         <div class="overflow-hidden shadow ring-1 ring-black ring-opacity-5">
