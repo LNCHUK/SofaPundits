@@ -57,7 +57,7 @@
 
         <p class="text-center text-sm">
             Don't have an account yet?
-            <a href="{{ route('register') }}" class="text-blue-800">Sign up here</a>
+            <a href="{{ route('register') }}" class="underline text-sm text-gray-600 hover:text-gray-900">Sign up here</a>
         </p>
     </x-auth-card>
 </x-guest-layout>
