@@ -2,6 +2,7 @@
 
 namespace App\Http\Requests\Gameweeks;
 
+use Carbon\Carbon;
 use Illuminate\Foundation\Http\FormRequest;
 
 class StoreRequest extends FormRequest
@@ -27,5 +28,10 @@ class StoreRequest extends FormRequest
                 'nullable', 'string',
             ],
         ];
+    }
+
+    public function validated($key = null, $default = null)
+    {
+        return array_merge(parent::validated($key, $default), ['end_date' => Carbon::parse($this->end_date)->endOfDay()]);
     }
 }
