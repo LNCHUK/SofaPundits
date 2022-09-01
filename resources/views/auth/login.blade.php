@@ -52,5 +52,12 @@
                 </x-button>
             </div>
         </form>
+
+        <hr class="my-4">
+
+        <p class="text-center text-sm">
+            Don't have an account yet?
+            <a href="{{ route('register') }}" class="text-blue-800">Sign up here</a>
+        </p>
     </x-auth-card>
 </x-guest-layout>
