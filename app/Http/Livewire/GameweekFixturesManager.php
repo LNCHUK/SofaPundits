@@ -3,12 +3,15 @@
 namespace App\Http\Livewire;
 
 use App\Models\ApiFootball\Fixture;
+use App\Models\ApiFootball\League;
 use App\Models\Gameweek;
 use Livewire\Component;
 
 class GameweekFixturesManager extends Component
 {
     public ?int $gameweekId = null;
+
+    public ?int $leagueId = null;
 
     public ?string $search = '';
 
@@ -30,6 +33,7 @@ class GameweekFixturesManager extends Component
         return view('livewire.gameweek-fixtures-manager', [
             'gameweek' => $this->getGameweek(),
             'chosenFixtures' => $this->getChosenFixtures(),
+            'leagues' => $this->getLeagues(),
         ]);
     }
 
@@ -46,6 +50,11 @@ class GameweekFixturesManager extends Component
             ->get();
     }
 
+    private function getLeagues()
+    {
+        return League::getLeaguesInUseAsSelectArray();
+    }
+
     private function getAvailableFixtures()
     {
         $gameweek = $this->getGameweek();
@@ -56,6 +65,15 @@ class GameweekFixturesManager extends Component
                 $gameweek->start_date,
                 $gameweek->end_date
             ]);
+
+        if ($this->leagueId) {
+            // Filter by League
+            $query->whereHas('leagueSeason', function ($query) {
+                $query->whereHas('league', function ($query) {
+                    $query->where('id', $this->leagueId);
+                });
+            });
+        }
 
         if ($this->search) {
             // Search for home team

@@ -19,6 +19,11 @@ use Illuminate\Support\Facades\Route;
 
 Route::middleware(['auth'])->group(function () {
 
+    Route::get('test', function () {
+        $notification = new \App\Notifications\GameweekPublished(\App\Models\Gameweek::first());
+        auth()->user()->notify($notification);
+    });
+
     Route::get('/', function () {
         return view('dashboard');
     })->middleware(['auth'])->name('dashboard');

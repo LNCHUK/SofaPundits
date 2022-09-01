@@ -15,18 +15,16 @@
 
     <div class="py-12">
         <x-container>
-            <x-panel>
-                <form
-                    id="edit-gameweek-fixtures"
-                    action="{{ route('gameweeks.update-fixtures', ['group' => $group, 'gameweek' => $gameweek]) }}"
-                    method="POST"
-                >
-                    @csrf
-                    @method('PATCH')
+            <form
+                id="edit-gameweek-fixtures"
+                action="{{ route('gameweeks.update-fixtures', ['group' => $group, 'gameweek' => $gameweek]) }}"
+                method="POST"
+            >
+                @csrf
+                @method('PATCH')
 
-                    <livewire:gameweek-fixtures-manager :gameweekId="$gameweek->id" />
-                </form>
-            </x-panel>
+                <livewire:gameweek-fixtures-manager :gameweekId="$gameweek->id" />
+            </form>
         </x-container>
     </div>
 
