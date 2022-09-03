@@ -92,7 +92,7 @@ class Gameweek extends Model
      */
     public function scopeUpcoming(Builder $query): void
     {
-        $query->where('start_date', '>', now());
+        $query->where('kick_off', '>', now());
     }
 
     /**
@@ -100,7 +100,7 @@ class Gameweek extends Model
      */
     public function isUpcoming(): bool
     {
-        return $this->start_date->isAfter(now());
+        return $this->kick_off->isAfter(now());
     }
 
     /**
