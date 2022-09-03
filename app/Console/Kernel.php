@@ -17,13 +17,17 @@ class Kernel extends ConsoleKernel
     {
         // $schedule->command('inspire')->hourly();
 
-        $now = now();
-        $day = (clone $now)->format('N');
-        $hour = (clone $now)->format('G');
-
-        if (in_array($day, [5, 6, 7, 1]) && $hour >= 12 && $hour <=20) {
-            // We are on a Friday, Saturday, Sunday or Monday between 12 and 8pm
-            $schedule->command('import:fixtures')->everyTenMinutes();
+        for ($hour = 12; $hour <= 20; $hour++) {
+            for ($minutes = 0; $minutes < 60; $minutes += 10) {
+                $schedule->command('import:fixtures')
+                    ->fridays()->at($hour.':'.$minutes);
+                $schedule->command('import:fixtures')
+                    ->saturdays()->at($hour.':'.$minutes);
+                $schedule->command('import:fixtures')
+                    ->sundays()->at($hour.':'.$minutes);
+                $schedule->command('import:fixtures')
+                    ->mondays()->at($hour.':'.$minutes);
+            }
         }
 
         // OPTION 1
