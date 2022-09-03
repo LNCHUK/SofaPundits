@@ -17,6 +17,15 @@ class Kernel extends ConsoleKernel
     {
         // $schedule->command('inspire')->hourly();
 
+        $now = now();
+        $day = (clone $now)->format('N');
+        $hour = (clone $now)->format('G');
+
+        if (in_array($day, [5, 6, 7, 1]) && $hour >= 12 && $hour <=20) {
+            // We are on a Friday, Saturday, Sunday or Monday between 12 and 8pm
+            $schedule->command('import:fixtures')->everyTenMinutes();
+        }
+
         // OPTION 1
         // Get all leagues
         // Filter by country and then for chosen leagues
