@@ -105,7 +105,8 @@ class GameweekController extends Controller
     {
         $gameweek->update(['published_at' => now()]);
 
-        auth()->user()->notify(new GameweekPublished($gameweek));
+        
+//        auth()->user()->notify(new GameweekPublished($gameweek));
 
         // TODO: Trigger an event here so we can hook notifications into it
 
