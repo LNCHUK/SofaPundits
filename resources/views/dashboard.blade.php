@@ -7,8 +7,8 @@
 
     <div class="py-12">
         <x-container>
-            <div class="flex gap-x-4 items-start justify-center">
-                <div class="w-1/3 text-center">
+            <div class="md:flex gap-x-4 items-start justify-center">
+                <div class="md:w-1/3 mb-4 text-center">
                     <x-panel>
                         <h2 class="text-2xl font-bold mb-4">Create a new Group</h2>
 
@@ -27,7 +27,7 @@
                 </div>
 
                 @if (auth()->user()->isInAtLeastOneGroup())
-                    <div class="w-1/3 text-center">
+                    <div class="md:w-1/3 mb-4 text-center">
                         <x-panel>
                             <h2 class="text-2xl font-bold mb-6">Your Current Groups</h2>
 
@@ -60,7 +60,7 @@
                     </div>
                 @endif
 
-                <div class="w-1/3 text-center">
+                <div class="md:w-1/3 mb-4 text-center">
                     <x-panel>
                         <h2 class="text-2xl font-bold mb-4">Join an Existing Group</h2>
 

@@ -1,6 +1,6 @@
 <x-app-layout>
     <x-slot name="header">
-        <div class="flex justify-between">
+        <div class="md:flex justify-between">
             <h2 class="font-semibold text-xl text-gray-800 leading-tight">
                 {{ $group->name }}: {{ $gameweek->name }}
             </h2>
@@ -52,8 +52,8 @@
 
     <div class="py-12">
         <x-container>
-            <div class="flex gap-x-4">
-                <div class="w-1/4">
+            <div class="md:flex gap-x-4">
+                <div class="md:w-1/4 mb-4">
                     <x-panel>
 
                         <div class="flex">
@@ -108,7 +108,7 @@
                     </x-panel>
                 </div>
 
-                <div class="w-3/4">
+                <div class="md:w-3/4">
                     <x-panel>
                         <ul class="gameweek-fixtures">
                             @forelse ($gameweek->getFixturesGroupedByDate() as $date => $fixtures)

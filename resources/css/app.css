@@ -56,7 +56,7 @@
 
 .gameweek-fixtures {
     .fixture {
-        @apply border border-gray-100 border-b-0 px-4 py-3 flex items-center;
+        @apply border border-gray-100 border-b-0 px-4 py-3 md:flex items-center;
 
         &:last-child {
             @apply border-b;
@@ -79,10 +79,10 @@
         }
 
         .actual {
-            @apply w-2/3 flex gap-x-4 items-center justify-center;
+            @apply md:w-2/3 flex gap-x-4 items-center justify-center mb-4 md:mb-0;
 
             .team {
-                @apply w-1/2;
+                @apply w-1/2 text-sm md:text-base;
 
                 &.home {
                     @apply text-right;
@@ -107,14 +107,14 @@
         }
 
         .prediction {
-            @apply w-1/3 text-center flex items-center;
+            @apply md:w-1/3 text-center md:flex items-center justify-center md:justify-start;
 
             span {
-                @apply text-xs uppercase text-gray-600 mr-4;
+                @apply text-xs uppercase text-gray-600 md:mr-4;
             }
 
             .score {
-                @apply w-16 font-bold text-sm;
+                @apply w-16 font-bold text-sm mx-auto md:mx-0;
             }
 
             .score .home {

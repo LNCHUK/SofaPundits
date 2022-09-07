@@ -1,4 +1,4 @@
-<div class="overflow-hidden shadow ring-1 ring-black ring-opacity-5">
+<div class="overflow-x-scroll md:overflow-hidden shadow ring-1 ring-black ring-opacity-5 ">
     <table class="min-w-full divide-y divide-gray-300">
         <thead class="bg-gray-50">
         <tr>

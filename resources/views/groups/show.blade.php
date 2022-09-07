@@ -7,8 +7,8 @@
 
     <div class="py-12">
         <x-container>
-            <div class="flex gap-x-6 gap-y-6">
-                <div class="w-2/3">
+            <div class="md:flex gap-x-6 gap-y-6">
+                <div class="md:w-2/3 mb-4">
                     <x-panel>
                         <div class="flex justify-between items-center mb-4">
                             <h2 class="text-lg font-bold">Active Gameweeks</h2>
@@ -34,7 +34,7 @@
                     </x-panel>
                 </div>
 
-                <div class="w-1/3">
+                <div class="md:w-1/3">
                     <x-panel>
                         <h2 class="text-lg font-bold mb-4">Invite Others</h2>
 
