@@ -17,19 +17,6 @@ class Kernel extends ConsoleKernel
     {
         // $schedule->command('inspire')->hourly();
 
-        for ($hour = 12; $hour <= 20; $hour++) {
-            for ($minutes = 0; $minutes < 60; $minutes += 10) {
-                $schedule->command('import:fixtures')
-                    ->fridays()->at($hour.':'.$minutes);
-                $schedule->command('import:fixtures')
-                    ->saturdays()->at($hour.':'.$minutes);
-                $schedule->command('import:fixtures')
-                    ->sundays()->at($hour.':'.$minutes);
-                $schedule->command('import:fixtures')
-                    ->mondays()->at($hour.':'.$minutes);
-            }
-        }
-
         // OPTION 1
         // Get all leagues
         // Filter by country and then for chosen leagues

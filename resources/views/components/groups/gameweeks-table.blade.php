@@ -44,6 +44,12 @@
                     <a href="{{ route('gameweeks.show', ['group' => $gameweek->group, 'gameweek' => $gameweek]) }}" class="text-blue-800 underline">
                         View
                     </a>
+
+                    @if (!$gameweek->isUpcoming())
+                        | <a href="{{ route('gameweeks.view-leaderboard', ['group' => $gameweek->group, 'gameweek' => $gameweek]) }}" class="text-blue-800 underline">
+                            Leaderboard
+                        </a>
+                    @endif
                 </td>
             </tr>
         @endforeach

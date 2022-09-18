@@ -20,7 +20,10 @@ use Illuminate\Support\Facades\Route;
 Route::middleware(['auth'])->group(function () {
 
     Route::get('test', function () {
-        $notification = new \App\Notifications\GameweekPublished(\App\Models\Gameweek::first());
+        $notification = new \App\Notifications\GameweekPublished(
+            gameweek: \App\Models\Gameweek::first(),
+            recipientName: auth()->user()->first_name,
+        );
         auth()->user()->notify($notification);
     });
 
@@ -58,6 +61,11 @@ Route::middleware(['auth'])->group(function () {
     Route::post('groups/{group}/gameweeks/{gameweek}/predictions', [
         PredictionsController::class, 'update'
     ])->name('gameweeks.update-predictions');
+
+    // View Gameweek Leaderboard
+    Route::get('groups/{group}/gameweeks/{gameweek}/leaderboard', [
+        GameweekController::class, 'viewLeaderboard'
+    ])->name('gameweeks.view-leaderboard');
 
 });
 

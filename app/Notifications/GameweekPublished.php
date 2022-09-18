@@ -17,10 +17,10 @@ class GameweekPublished extends Notification
      *
      * @return void
      */
-    public function __construct(Gameweek $gameweek)
-    {
-
-    }
+    public function __construct(
+        private Gameweek $gameweek,
+        private string $recipientName
+    ) {}
 
     /**
      * Get the notification's delivery channels.
@@ -41,10 +41,16 @@ class GameweekPublished extends Notification
      */
     public function toMail($notifiable)
     {
+        $group = $this->gameweek->group;
+
+        $url = route('gameweeks.show', ['group' => $group, 'gameweek' => $this->gameweek]);
+
         return (new MailMessage)
-                    ->line('The introduction to the notification.')
-                    ->action('Notification Action', url('/'))
-                    ->line('Thank you for using our application!');
+                ->greeting("Hi {$this->recipientName},")
+                ->line("A new Gameweek for the '{$group->name}' group has been published on "
+                    ."SofaPundits and is ready for your predictions")
+                ->action('View Gameweek', $url)
+                ->line('Good luck!');
     }
 
     /**

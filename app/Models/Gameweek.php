@@ -52,7 +52,8 @@ class Gameweek extends Model
      */
     public function fixtures(): BelongsToMany
     {
-        return $this->belongsToMany(Fixture::class, 'gameweek_fixtures');
+        return $this->belongsToMany(Fixture::class, 'gameweek_fixtures')
+            ->orderBy('kick_off', 'ASC');
     }
 
     /**
@@ -172,6 +173,14 @@ class Gameweek extends Model
             ->get();
     }
 
+    public function getUserPredictionForFixture(User $user, Fixture $fixture): ?UserPrediction
+    {
+        return $this->predictions()
+            ->where('user_id', $user->id)
+            ->where('fixture_id', $fixture->id)
+            ->first();
+    }
+
     /**
      * Returns the appropriate CSS class for a prediction for a given Fixture and User.
      *
@@ -243,9 +252,19 @@ class Gameweek extends Model
      */
     public function getPointsForActiveUser(): int
     {
+        return $this->getPointsForUser(auth()->user());
+    }
+
+    /**
+     * Returns the total points for the given user for this gameweek.
+     *
+     * @return int
+     */
+    public function getPointsForUser(User $user): int
+    {
         return UserPredictionPoints::query()
             ->where('gameweek_id', $this->id)
-            ->where('user_id', auth()->id())
+            ->where('user_id', $user->id)
             ->sum('points');
     }
 
@@ -267,5 +286,14 @@ class Gameweek extends Model
     public function isPublished(): bool
     {
         return $this->published_at !== null;
+    }
+
+    public function getPlayersOrderedByPoints()
+    {
+        return $this->group
+            ->users
+            ->sortByDesc(function ($item) {
+                return $this->getPointsForUser($item);
+            });
     }
 }

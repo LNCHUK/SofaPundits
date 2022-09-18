@@ -127,4 +127,19 @@ class GameweekController extends Controller
 
         return redirect()->route('groups.show', $group);
     }
+
+    /**
+     * Remove the specified resource from storage.
+     *
+     * @param Request $request
+     * @param Group $group
+     * @param Gameweek $gameweek
+     * @return RedirectResponse
+     */
+    public function viewLeaderboard(Group $group, Gameweek $gameweek): Renderable
+    {
+        $fixtures = $gameweek->fixtures;
+
+        return view('gameweeks.leaderboard', compact('group', 'gameweek', 'fixtures'));
+    }
 }

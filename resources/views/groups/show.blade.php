@@ -69,13 +69,13 @@
                                 <tbody class="divide-y divide-gray-200 bg-white">
                                 @foreach ($group->getLeagueTableData() as $data)
                                     <tr>
-                                        <td class="whitespace-nowrap text-left px-3 py-4 text-sm text-gray-500">
+                                        <td class="whitespace-nowrap text-left px-3 py-3 text-sm text-gray-500">
                                             {{ $data->position }}
                                         </td>
-                                        <td class="whitespace-nowrap text-left px-3 py-4 text-sm text-gray-500">
+                                        <td class="whitespace-nowrap text-left px-3 py-3 text-sm text-gray-500">
                                             {{ $data->user->name }}
                                         </td>
-                                        <td class="whitespace-nowrap text-left px-3 py-4 text-sm text-gray-500">
+                                        <td class="whitespace-nowrap text-left px-3 py-3 text-sm text-gray-500">
                                             {{ $data->total_points }}
                                         </td>
                                     </tr>
