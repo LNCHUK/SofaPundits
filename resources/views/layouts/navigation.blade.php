@@ -23,6 +23,12 @@
                             </x-nav-link>
                         @endforeach
                     @endif
+
+                    @if (auth()->user()->email === 'tom@lnch.co.uk')
+                        <x-nav-link :href="route('fixtures.load')">
+                            {{ __('Load Fixtures') }}
+                        </x-nav-link>
+                    @endif
                 </div>
             </div>
 
@@ -74,6 +80,20 @@
             <x-responsive-nav-link :href="route('dashboard')" :active="request()->routeIs('dashboard')">
                 {{ __('Dashboard') }}
             </x-responsive-nav-link>
+
+            @if (auth()->user()->isInAtLeastOneGroup())
+                @foreach (auth()->user()->groups as $group)
+                    <x-responsive-nav-link :href="route('groups.show', $group)" :active="request()->routeIs('groups.show', $group)">
+                        {{ $group->name }}
+                    </x-responsive-nav-link>
+                @endforeach
+            @endif
+
+            @if (auth()->user()->email === 'tom@lnch.co.uk')
+                <x-responsive-nav-link :href="route('fixtures.load')">
+                    {{ __('Load Fixtures') }}
+                </x-responsive-nav-link>
+            @endif
         </div>
 
         <!-- Responsive Settings Options -->

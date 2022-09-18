@@ -31,6 +31,11 @@ Route::middleware(['auth'])->group(function () {
         return view('dashboard');
     })->middleware(['auth'])->name('dashboard');
 
+    Route::get('load-fixtures', function () {
+        \Illuminate\Support\Facades\Artisan::call('import:fixtures');
+        return redirect()->back();
+    })->name('fixtures.load');
+
     Route::resource('groups', GroupController::class)->except(['index']);
     Route::post('groups/{group}/join', [GroupController::class, 'join'])->name('groups.join');
 
