@@ -11,6 +11,11 @@ return [
             'country' => 'World',
         ],
         [
+            'name' => 'UEFA Nations League',
+            'country' => 'World',
+        ],
+        
+        [
             'name' => 'Premier League',
             'country' => 'England',
         ],
