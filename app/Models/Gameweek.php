@@ -140,7 +140,9 @@ class Gameweek extends Model
      */
     public function isActive(): bool
     {
-        return $this->start_date->isBefore(now())
+        $firstFixture = $this->fixtures()->orderBy('kick_off')->first();
+
+        return $firstFixture->kick_off->isBefore(now())
             && $this->end_date->isAfter(now());
     }
 
