@@ -65,6 +65,7 @@ class Group extends Model
     public function gameweeks(): HasMany
     {
         return $this->hasMany(Gameweek::class)
+            ->orderBy('start_date')
             ->when(
                 auth()->user()->isCreatorOf($this) === false,
                 fn ($query) => $query->whereNotNull('published_at')
