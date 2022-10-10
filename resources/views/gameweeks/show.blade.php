@@ -127,6 +127,9 @@
                                                         @if ($fixture->time_elapsed)
                                                             <span class="home">{{ $fixture->goals['home'] ?? '-' }}</span>
                                                             <span class="away">{{ $fixture->goals['away'] ?? '-' }}</span>
+                                                        @elseif ($fixture->status === 'Match Postponed')
+                                                            <span class="home">P</span>
+                                                            <span class="away">P</span>
                                                         @else
                                                             {{ $fixture->kickOffTime }}
                                                         @endif
