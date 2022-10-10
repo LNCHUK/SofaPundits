@@ -26,7 +26,7 @@
         @foreach ($gameweeks as $gameweek)
             <tr>
                 <td class="whitespace-nowrap text-left px-3 py-4 text-sm text-gray-500">
-                    {{ $gameweek->id }}
+                    {{ $gameweek->name }}
                 </td>
                 <td class="whitespace-nowrap text-left px-3 py-4 text-sm text-gray-500">
                     {{ $gameweek->start_date->format('jS F Y') }}
