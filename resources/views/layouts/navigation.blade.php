@@ -24,7 +24,7 @@
                         @endforeach
                     @endif
 
-                    @if (auth()->user()->email === 'tom@lnch.co.uk')
+                    @if (in_array(auth()->user()->email, ['tom@lnch.co.uk', 'm.lynch96@googlemail.com', 'tom1804@hotmail.co.uk']))
                         <x-nav-link :href="route('fixtures.load')">
                             {{ __('Load Fixtures') }}
                         </x-nav-link>
@@ -89,7 +89,7 @@
                 @endforeach
             @endif
 
-            @if (auth()->user()->email === 'tom@lnch.co.uk')
+            @if (in_array(auth()->user()->email, ['tom@lnch.co.uk', 'm.lynch96@googlemail.com', 'tom1804@hotmail.co.uk']))
                 <x-responsive-nav-link :href="route('fixtures.load')">
                     {{ __('Load Fixtures') }}
                 </x-responsive-nav-link>
