@@ -12,6 +12,7 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Support\Collection;
+use Illuminate\Support\Facades\DB;
 
 class Gameweek extends Model
 {
@@ -54,6 +55,11 @@ class Gameweek extends Model
     {
         return $this->belongsToMany(Fixture::class, 'gameweek_fixtures')
             ->orderBy('kick_off', 'ASC');
+    }
+
+    public function firstFixture()
+    {
+        return $this->belongsTo(Fixture::class);
     }
 
     /**
@@ -290,12 +296,28 @@ class Gameweek extends Model
         return $this->published_at !== null;
     }
 
-    public function getPlayersOrderedByPoints()
+    /**
+     * @return mixed
+     */
+    public function getPlayersOrderedByPoints(): Collection
     {
         return $this->group
             ->users
             ->sortByDesc(function ($item) {
                 return $this->getPointsForUser($item);
             });
+    }
+
+    public function scopeWithFirstFixture(Builder $query): void
+    {
+        $query->addSelect('gameweeks.*')
+            ->addSelect(DB::raw('gameweeks.id AS gameweek_join_id'))
+            ->addSelect([
+            'first_fixture_id' => Fixture::select('fixtures.id')
+                ->join('gameweek_fixtures', 'gameweek_fixtures.fixture_id', '=', 'fixtures.id')
+                ->whereColumn('gameweek_fixtures.gameweek_id', 'gameweek_join_id')
+                ->orderBy('kick_off', 'asc')
+                ->take(1)
+        ])->with('firstFixture');
     }
 }
