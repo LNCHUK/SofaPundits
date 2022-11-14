@@ -30,6 +30,11 @@
                 </td>
                 <td class="whitespace-nowrap text-left px-3 py-4 text-sm text-gray-500">
                     {{ $gameweek->start_date->format('jS F Y') }}
+                    @if ($gameweek->isUpcoming())
+                        <p class="text-xs font-bold">
+                            Deadline: {{ optional($gameweek->firstFixtureDate())->diffForHumans() }}
+                        </p>
+                    @endif
                 </td>
                 <td class="whitespace-nowrap text-left px-3 py-4 text-sm text-gray-500">
                     {{ $gameweek->end_date->format('jS F Y') }}
