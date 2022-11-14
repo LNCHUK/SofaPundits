@@ -158,3 +158,13 @@
         @apply w-full;
     }
 }
+
+.leaderboard-sticky::before {
+    content: '';
+    position: absolute;
+    right: -1px;
+    top: -1px;
+    height: calc(100% + 2px);
+    width: 1px;
+    background: #e5e7eb;
+}

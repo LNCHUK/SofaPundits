@@ -96,10 +96,6 @@ class Fixture extends Model
     {
         $date = $this->kick_off;
 
-        if (now()->format('I') === "0") {
-            $date->addHour();
-        }
-
         return $date->format('H:i');
     }
 }
