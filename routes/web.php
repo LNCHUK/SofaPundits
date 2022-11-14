@@ -62,10 +62,20 @@ Route::middleware(['auth'])->group(function () {
         PredictionsController::class, 'edit'
     ])->name('gameweeks.edit-predictions');
 
+    // Edit Gameweek Predictions
+    Route::get('groups/{group}/user/{user}/gameweeks/{gameweek}/predictions', [
+        PredictionsController::class, 'editGroupUserPredictions'
+    ])->name('gameweeks.edit-user-predictions');
+
     // Update Gameweek Fixtures
     Route::post('groups/{group}/gameweeks/{gameweek}/predictions', [
         PredictionsController::class, 'update'
     ])->name('gameweeks.update-predictions');
+
+    // Update Gameweek Fixtures
+    Route::post('groups/{group}/user/{user}/gameweeks/{gameweek}/predictions', [
+        PredictionsController::class, 'updateUserPredictions'
+    ])->name('gameweeks.update-user-predictions');
 
     // View Gameweek Leaderboard
     Route::get('groups/{group}/gameweeks/{gameweek}/leaderboard', [

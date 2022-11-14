@@ -17,7 +17,12 @@
 
     <div class="py-12">
 
-        <form action="{{ route('gameweeks.update-predictions', ['group' => $gameweek->group, 'gameweek' => $gameweek]) }}" method="POST">
+        <form
+            action="{{ isset($user)
+                ? route('gameweeks.update-user-predictions', ['group' => $gameweek->group, 'gameweek' => $gameweek, 'user' => $user])
+                : route('gameweeks.update-predictions', ['group' => $gameweek->group, 'gameweek' => $gameweek]) }}"
+            method="POST"
+        >
             @csrf
             @method('POST')
 
@@ -46,7 +51,7 @@
                                                         @if (is_array(old('fixtures')))
                                                             value="{{ isset(old('fixtures')[$fixture->id]) ? old('fixtures')[$fixture->id]['home_score'] : '' }}"
                                                         @else
-                                                            value="{{ $gameweek->getHomeScoreForFixturePrediction($fixture) }}"
+                                                            value="{{ $gameweek->getHomeScoreForFixturePrediction($fixture, $user ?? auth()->user()) }}"
                                                         @endif
                                                     />
 
@@ -57,7 +62,7 @@
                                                         @if (is_array(old('fixtures')))
                                                             value="{{ isset(old('fixtures')[$fixture->id]) ? old('fixtures')[$fixture->id]['away_score'] : '' }}"
                                                         @else
-                                                            value="{{ $gameweek->getAwayScoreForFixturePrediction($fixture) }}"
+                                                            value="{{ $gameweek->getAwayScoreForFixturePrediction($fixture, $user ?? auth()->user()) }}"
                                                         @endif
                                                     />
                                                 </div>

@@ -77,7 +77,9 @@ class Group extends Model
      */
     public function upcomingGameweeks(): HasMany
     {
-        return $this->gameweeks()->upcoming();
+        return $this->gameweeks()
+            ->withFirstFixture()
+            ->upcoming();
     }
 
     /**
@@ -85,7 +87,9 @@ class Group extends Model
      */
     public function activeGameweeks(): HasMany
     {
-        return $this->gameweeks()->active();
+        return $this->gameweeks()
+            ->withFirstFixture()
+            ->active();
     }
 
     /**
@@ -93,7 +97,9 @@ class Group extends Model
      */
     public function pastGameweeks(): HasMany
     {
-        return $this->gameweeks()->past();
+        return $this->gameweeks()
+            ->withFirstFixture()
+            ->past();
     }
 
     /**

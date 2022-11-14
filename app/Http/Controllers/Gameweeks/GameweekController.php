@@ -7,7 +7,6 @@ use App\Http\Requests\Gameweeks\StoreRequest;
 use App\Http\Requests\Gameweeks\UpdateRequest;
 use App\Models\Gameweek;
 use App\Models\Group;
-use App\Notifications\GameweekPublished;
 use Illuminate\Contracts\Support\Renderable;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;

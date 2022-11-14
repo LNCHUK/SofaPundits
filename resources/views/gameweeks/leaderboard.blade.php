@@ -50,6 +50,11 @@
                                 <tr @if ($player->is(auth()->user())) class="bg-blue-50" @endif>
                                     <td class="leaderboard-sticky sm:whitespace-nowrap text-left px-3 py-4 sm:text-sm text-gray-500 border-r sticky left-0 bg-white shadow-xl text-xs">
                                         {{ $player->name }}
+                                        <p class="text-xs">
+                                            <a class="underline text-blue-800" href="{{ route('gameweeks.edit-user-predictions', ['group' => $group, 'gameweek' => $gameweek, 'user' => $player]) }}">
+                                                Edit Predictions
+                                            </a>
+                                        </p>
                                     </td>
                                     <td class="whitespace-nowrap text-left px-3 py-4 text-sm text-gray-500 border-r text-center">
                                         {{ $gameweek->getPointsForUser($player) }}
