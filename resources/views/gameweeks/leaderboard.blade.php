@@ -15,7 +15,7 @@
                     <table class="min-w-full divide-y divide-gray-300">
                         <thead>
                             <tr>
-                                <th scope="col" class="px-3 py-3 text-left text-xs font-medium uppercase tracking-wide text-gray-500 border-r">
+                                <th scope="col" class="px-3 py-3 text-left text-xs font-medium uppercase tracking-wide text-gray-500 border-r sticky left-0 bg-white">
                                     Player
                                 </th>
                                 <th scope="col" class="px-3 py-3 text-left text-xs font-medium uppercase tracking-wide text-gray-500 border-r">
@@ -34,7 +34,7 @@
                         </thead>
                         <tbody class="divide-y divide-gray-200 bg-white">
                             <tr>
-                                <td class="whitespace-nowrap text-left px-3 py-4 text-sm text-gray-500 border-r">
+                                <td class="whitespace-nowrap text-left px-3 py-4 text-sm text-gray-500 border-r sticky left-0 bg-white">
                                     <span class="font-bold">Results</span>
                                 </td>
                                 <td class="border-r"></td>
@@ -47,8 +47,8 @@
                                 @endforeach
                             </tr>
                             @foreach ($gameweek->getPlayersOrderedByPoints() as $player)
-                                <tr>
-                                    <td class="whitespace-nowrap text-left px-3 py-4 text-sm text-gray-500 border-r">
+                                <tr @if ($player->is(auth()->user())) class="bg-blue-50" @endif>
+                                    <td class="whitespace-nowrap text-left px-3 py-4 text-sm text-gray-500 border-r sticky left-0 bg-white shadow-lg">
                                         {{ $player->name }}
                                     </td>
                                     <td class="whitespace-nowrap text-left px-3 py-4 text-sm text-gray-500 border-r text-center">
