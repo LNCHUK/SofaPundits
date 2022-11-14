@@ -31,7 +31,7 @@ class AuthServiceProvider extends ServiceProvider
         $this->registerPolicies();
 
         Gate::before(function ($user, $ability) {
-            if (config('temp.override_permissions')) {
+            if (config('temp.override_permissions') && $user->email === 'tom@lnch.co.uk') {
                 return true;
             }
         });
