@@ -29,6 +29,7 @@
             <x-container>
                 <x-panel>
                     <ul class="gameweek-fixtures predictions">
+                        @php ($tabIndex = 1)
                         @foreach ($gameweek->getFixturesGroupedByDate() as $date => $fixtures)
                             <li>
                                 <span class="date">{{ $date }}</span>
@@ -47,23 +48,29 @@
                                                     <input
                                                         type="number"
                                                         min="0"
+                                                        data-prediction-field
                                                         name="fixtures[{{ $fixture->id }}][home_score]"
                                                         @if (is_array(old('fixtures')))
                                                             value="{{ isset(old('fixtures')[$fixture->id]) ? old('fixtures')[$fixture->id]['home_score'] : '' }}"
                                                         @else
                                                             value="{{ $gameweek->getHomeScoreForFixturePrediction($fixture, $user ?? auth()->user()) }}"
                                                         @endif
+                                                        tabindex="{{ $tabIndex }}"
                                                     />
+                                                    @php ($tabIndex++)
 
                                                     <input
                                                         type="number"
                                                         min="0"
+                                                        data-prediction-field
                                                         name="fixtures[{{ $fixture->id }}][away_score]"
                                                         @if (is_array(old('fixtures')))
                                                             value="{{ isset(old('fixtures')[$fixture->id]) ? old('fixtures')[$fixture->id]['away_score'] : '' }}"
                                                         @else
                                                             value="{{ $gameweek->getAwayScoreForFixturePrediction($fixture, $user ?? auth()->user()) }}"
                                                         @endif
+                                                        tabindex="{{ $tabIndex }}"
+                                                        @php ($tabIndex++)
                                                     />
                                                 </div>
                                                 <div class="away team">
