@@ -83,6 +83,20 @@ class GameweeksPolicy
     }
 
     /**
+     * Determine whether the user can update predictions for this gameweek.
+     *
+     * @param User $user
+     * @param Gameweek $gameweek
+     * @return bool
+     */
+    public function updatePredictionsForUser(User $user, Gameweek $gameweek, User $otherUser)
+    {
+        // If the user is the owner, or if the Gameweek is upcoming
+        return $user->isCreatorOf($gameweek->group)
+            && $gameweek->group->users->contains($otherUser);
+    }
+
+    /**
      * Determine whether the user can publish the Gameweek.
      *
      * @param User $user
