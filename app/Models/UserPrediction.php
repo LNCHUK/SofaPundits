@@ -70,8 +70,13 @@ class UserPrediction extends Model
     {
         $fixture = $this->fixture;
 
-        // TODO: This will need updating to use any valid status...
-        if ($fixture->status_code == FixtureStatusCode::MATCH_FINISHED) {
+        $finishedStatuses = collect([
+            FixtureStatusCode::MATCH_FINISHED,
+            FixtureStatusCode::FINISHED_AFTER_EXTRA_TIME,
+            FixtureStatusCode::FINISHED_AFTER_PENALTIES,
+        ]);
+
+        if ($finishedStatuses->contains($fixture->status_code)) {
             if ($this->isCorrectScore()) {
                 return UserPredictionResult::CORRECT_SCORE();
             }
