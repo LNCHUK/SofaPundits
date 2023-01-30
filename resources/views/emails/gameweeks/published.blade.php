@@ -1,6 +1,6 @@
 <x-mail::message>
 <x-slot:preheader>
-
+Time to put your predictions in, good luck!
 </x-slot:preheader>
 
 # New Gameweek Published
