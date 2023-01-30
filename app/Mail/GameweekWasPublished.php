@@ -30,7 +30,7 @@ class GameweekWasPublished extends Mailable
     public function envelope()
     {
         return new Envelope(
-            from: new Address('no-reply@sofpundits.uk', 'Sofa Pundits'),
+            from: new Address('no-reply@sofapundits.uk', 'Sofa Pundits'),
             subject: 'New Gameweek Fixtures Published',
         );
     }
