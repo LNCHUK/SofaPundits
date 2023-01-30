@@ -1,8 +1,8 @@
 <x-mail::layout>
 @isset($preheader)
-<span class="preheader" style="display: none !important; visibility: hidden; opacity: 0; color: transparent; height: 0; width: 0;">
+<x-slot:preheader>
 {{ $preheader }}
-</span>
+</x-slot:preheader>
 @endisset
 
 {{-- Header --}}

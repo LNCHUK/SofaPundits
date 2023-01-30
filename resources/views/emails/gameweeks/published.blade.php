@@ -1,6 +1,6 @@
 <x-mail::message>
 <x-slot:preheader>
-Time to get those scores in boys!
+
 </x-slot:preheader>
 
 # New Gameweek Published

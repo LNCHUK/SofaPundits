@@ -38,6 +38,13 @@ width: 100% !important;
 <table class="inner-body" align="center" width="570" cellpadding="0" cellspacing="0" role="presentation">
 <!-- Body content -->
 <tr>
+@isset($preheader)
+<td>
+<span class="preheader" style="display: none !important; visibility: hidden; opacity: 0; color: transparent; height: 0; width: 0;">
+{{ $preheader }}
+</span>
+</td>
+@endisset
 <td class="content-cell">
 {{ Illuminate\Mail\Markdown::parse($slot) }}
 
