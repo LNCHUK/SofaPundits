@@ -41,7 +41,7 @@ width: 100% !important;
 @isset($preheader)
 <td>
 <span class="preheader" style="display: none !important; visibility: hidden; opacity: 0; color: transparent; height: 0; width: 0;">
-{{ $preheader }}
+{{ $preheader }}&#847;&#847;&#847;&#847;&#847;&#847;&#847;&#847;&#847;&#847;&#847;&#847;&#847;&#847;&#847;&#847;
 @if(strlen($preheader->__toString() < 80))
 {!! str_repeat('&nbsp;', 80 - strlen($preheader->__toString())) !!}
 @endif
