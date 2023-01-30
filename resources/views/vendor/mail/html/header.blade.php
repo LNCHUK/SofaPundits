@@ -1,7 +1,7 @@
 @props(['url'])
 <tr>
 <td class="header">
-<a href="{{ $url }}" style="display: inline-block;">
+<a data-pm-no-track href="{{ $url }}" style="display: inline-block;">
 {{ $slot }}
 </a>
 </td>
