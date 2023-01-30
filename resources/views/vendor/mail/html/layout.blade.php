@@ -42,8 +42,8 @@ width: 100% !important;
 <td>
 <span class="preheader" style="display: none !important; visibility: hidden; opacity: 0; color: transparent; height: 0; width: 0;">
 {{ $preheader }}
-@if(strlen($preheader < 80))
-{!! str_repeat('&nbsp;', 80 - strlen($preheader)) !!}
+@if(strlen($preheader->__toString() < 80))
+{!! str_repeat('&nbsp;', 80 - strlen($preheader->__toString())) !!}
 @endif
 </span>
 </td>
