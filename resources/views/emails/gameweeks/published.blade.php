@@ -1,4 +1,8 @@
 <x-mail::message>
+<x-slot:preheader>
+Time to get those scores in boys!
+</x-slot:preheader>
+
 # New Gameweek Published
 
 A new gameweek was just published in the group "**{{ $gameweek->group->name }}**", and
@@ -14,4 +18,11 @@ View Gameweek
 
 Good luck!<br>
 {{ config('app.name') }} Team
+
+<x-slot:subcopy>
+You are receiving this email because you have a SofaPundits account that is currently part of
+an active group. If you do not want to receive these emails, you can manage your notification
+settings in your SofaPundits account, or click here to unsubscribe from future notifications.
+</x-slot:subcopy>
+
 </x-mail::message>

@@ -21,6 +21,7 @@ width: 100% !important;
 width: 100% !important;
 }
 }
+.preheader { display:none !important; visibility:hidden; opacity:0; color:transparent; height:0; width:0; }
 </style>
 </head>
 <body>

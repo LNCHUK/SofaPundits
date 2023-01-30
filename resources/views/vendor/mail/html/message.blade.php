@@ -1,4 +1,10 @@
 <x-mail::layout>
+@isset($preheader)
+<span class="preheader" style="display: none !important; visibility: hidden; opacity: 0; color: transparent; height: 0; width: 0;">
+{{ $preheader }}
+</span>
+@endisset
+
 {{-- Header --}}
 <x-slot:header>
 <x-mail::header :url="config('app.url')">
@@ -13,7 +19,9 @@
 @isset($subcopy)
 <x-slot:subcopy>
 <x-mail::subcopy>
+<div style="font-size: 0.75em; color: #9ea5ab; text-align: center;" align="center">
 {{ $subcopy }}
+</div>
 </x-mail::subcopy>
 </x-slot:subcopy>
 @endisset
@@ -21,10 +29,6 @@
 {{-- Footer --}}
 <x-slot:footer>
 <x-mail::footer>
-You are receiving this email because you have a SofaPundits account that is currently part of
-an active group. If you do not want to receive these emails, you can manage your notification
-settings in your SofaPundits account, or click here to unsubscribe from future notifications.
-
 © {{ date('Y') }} {{ config('app.name') }}. @lang('All rights reserved.')
 </x-mail::footer>
 </x-slot:footer>
