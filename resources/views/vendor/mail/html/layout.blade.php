@@ -41,7 +41,10 @@ width: 100% !important;
 @isset($preheader)
 <td>
 <span class="preheader" style="display: none !important; visibility: hidden; opacity: 0; color: transparent; height: 0; width: 0;">
-{{ str_pad($preheader, 80, ' ') }}
+{{ $preheader }}
+@if(strlen($preheader < 80))
+{!! str_repeat('&nbsp;', 80 - strlen($preheader)) !!}
+@endif
 </span>
 </td>
 @endisset
