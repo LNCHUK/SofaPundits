@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Gameweeks;
 
+use App\Events\GameweekPublishedEvent;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Gameweeks\StoreRequest;
 use App\Http\Requests\Gameweeks\UpdateRequest;
@@ -11,6 +12,7 @@ use Illuminate\Contracts\Support\Renderable;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
+use Illuminate\Support\Facades\Log;
 
 class GameweekController extends Controller
 {
@@ -104,10 +106,7 @@ class GameweekController extends Controller
     {
         $gameweek->update(['published_at' => now()]);
 
-        
-//        auth()->user()->notify(new GameweekPublished($gameweek));
-
-        // TODO: Trigger an event here so we can hook notifications into it
+        event(new GameweekPublishedEvent($gameweek));
 
         return redirect()->route('gameweeks.show', compact('group', 'gameweek'));
     }

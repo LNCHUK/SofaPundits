@@ -19,6 +19,11 @@ use Illuminate\Support\Facades\Route;
 
 Route::middleware(['auth'])->group(function () {
 
+    Route::get('mail', function () {
+        $gameweek = \App\Models\Gameweek::find(1);
+        return new \App\Mail\GameweekWasPublished($gameweek);
+    });
+
     Route::get('test', function () {
         $notification = new \App\Notifications\GameweekPublished(
             gameweek: \App\Models\Gameweek::first(),
@@ -31,6 +36,7 @@ Route::middleware(['auth'])->group(function () {
         return view('dashboard');
     })->middleware(['auth'])->name('dashboard');
 
+    // TODO: Remove this once the scheduler has been sorted (or add a more permanent method for it as a utility)
     Route::get('load-fixtures', function () {
         \Illuminate\Support\Facades\Artisan::call('import:fixtures');
         return redirect()->back();
