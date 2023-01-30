@@ -15,12 +15,19 @@ class Kernel extends ConsoleKernel
      */
     protected function schedule(Schedule $schedule)
     {
-        // $schedule->command('inspire')->hourly();
-
-        // OPTION 1
-        // Get all leagues
-        // Filter by country and then for chosen leagues
-            // Get fixtures
+        // Run the import fixtures command every 15 minutes on the core game days
+        // between the hours of 12pm (midday) and 10pm
+        // COST: 40 API calls per day on the chosen days
+        $schedule->call('import:fixtures')
+            ->days([
+                Schedule::FRIDAY,
+                Schedule::SATURDAY,
+                Schedule::SUNDAY,
+                Schedule::MONDAY
+            ])
+            ->everyFifteenMinutes()
+            ->timezone('Europe/London')
+            ->between('12:00', '22:00');
 
         // OPTION 2
         // Get all countries (once a year?)
