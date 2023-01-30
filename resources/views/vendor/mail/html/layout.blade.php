@@ -41,7 +41,7 @@ width: 100% !important;
 @isset($preheader)
 <td>
 <span class="preheader" style="display: none !important; visibility: hidden; opacity: 0; color: transparent; height: 0; width: 0;">
-{{ $preheader }}
+{{ str_pad($preheader, 80, '&#847;') }}
 </span>
 </td>
 @endisset
