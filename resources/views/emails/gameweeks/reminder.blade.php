@@ -5,8 +5,8 @@ Not long left now, get those scores in!
 
 # Gameweek Deadline Coming Up
 
-The '{{ $gameweek->name }}' gameweek only has an hour left before kick off, and you're
-missing predictions for at least one of the games.
+The '{{ $gameweek->name }}' gameweek only has an hour left before kick off, and it
+looks like you're missing predictions for at least one of the games.
 
 You have until **{{ $firstFixture->kick_off->format('h:ia') }}** to complete your predictions. Please
 log in to your Sofa Pundits account, or use the link below to view the fixtures in the Gameweek.
