@@ -8,6 +8,7 @@ use App\Models\ApiFootball\Team;
 use App\Services\ApiFootball\Client;
 use Carbon\Carbon;
 use Illuminate\Console\Command;
+use Illuminate\Support\Facades\Log;
 
 class ImportFixtures extends Command
 {
@@ -39,6 +40,8 @@ class ImportFixtures extends Command
      */
     public function handle()
     {
+        Log::channel('api-logs')->debug('import:fixtures - Starting import');
+
         $selectedSeason = $this->option('season');
 
         $leagues = $this->getLeaguesInUse();
@@ -102,6 +105,8 @@ class ImportFixtures extends Command
                 ]);
             }
         }
+
+        Log::channel('api-logs')->debug('import:fixtures - Import complete');
     }
 
     private function getLeaguesInUse(): array

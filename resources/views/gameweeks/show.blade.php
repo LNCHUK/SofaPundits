@@ -13,6 +13,9 @@
                     <x-link-button :route="route('gameweeks.edit-fixtures', ['group' => $group, 'gameweek' => $gameweek])">
                         Edit Fixtures
                     </x-link-button>
+                    <x-link-button :route="route('gameweeks.view-leaderboard', ['group' => $group, 'gameweek' => $gameweek])">
+                        Leaderboard
+                    </x-link-button>
                 @endcan
 
                 @can ('publish', $gameweek)
