@@ -45,7 +45,7 @@ class NotifyPlayersOfPublishedGameweek
             RemindUserOfGameweekDeadline::dispatch(
                 userId: $player->id,
                 gameweekUuid: $event->gameweek->uuid
-            )->delay($firstFixture->subHour());
+            )->delay($firstFixture->kick_off->subHour());
         }
     }
 }
