@@ -33,7 +33,7 @@ class NotifyPlayersOfPublishedGameweek
 
         // Get the first fixture so we can schedule the reminder
         /** @var Carbon $firstFixture */
-        $firstFixture = $this->gameweek
+        $firstFixture = $event->gameweek
             ->fixtures()
             ->orderBy('kick_off')
             ->first();
