@@ -48,7 +48,7 @@ class GameweekDeadlineReminder extends Mailable
             ->first();
 
         return new Content(
-            markdown: 'emails.gameweeks.published',
+            markdown: 'emails.gameweeks.reminder',
             with: [
                 'firstFixture' => $firstFixture,
             ]
