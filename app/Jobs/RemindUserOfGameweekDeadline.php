@@ -41,7 +41,11 @@ class RemindUserOfGameweekDeadline implements ShouldQueue
      */
     public function handle()
     {
-        // Check if the user has completed all of their scores
+        // Check if the user has completed all of their scores, return if so
+        if ($this->user->hasSavedPredictionsForAllFixturesInGameweek($this->gameweek)) {
+            return;
+        }
+
         // If not, send the mail
         Mail::to($this->user)->queue(new GameweekDeadlineReminder($this->gameweek));
     }
