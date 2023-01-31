@@ -40,9 +40,7 @@ class PreferenceSeeder extends Seeder
         foreach ($preferences as $preference) {
             Preference::updateOrCreate([
                 'slug' => $preference['slug']
-            ], array_merge($preference, [
-                'uuid' => Str::uuid()
-            ]));
+            ], $preference);
         }
     }
 }
