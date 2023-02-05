@@ -47,7 +47,7 @@ class ImportFixtures extends Command
         $leagues = $this->getLeaguesInUse();
 
         foreach ($leagues as $league) {
-            Log::channel('api-logs')->debug("import:fixtures - Importing league: '{$league->name}'");
+            Log::channel('api-logs')->debug("import:fixtures - Importing league: '{$league['name']}'");
 
             $leagueSeason = LeagueSeason::query()
                 ->whereHas('league',function ($query) use ($league) {
@@ -66,7 +66,7 @@ class ImportFixtures extends Command
                 );
             }
             catch (\Exception $ex) {
-                Log::channel('api-logs')->error("import:fixtures - Error importing league: '{$league->name}' ", [
+                Log::channel('api-logs')->error("import:fixtures - Error importing league: '{$league['name']}' ", [
                     'exception' => $ex->getMessage(),
                     'code' => $ex->getCode(),
                     'stack_trace' => $ex->getTraceAsString(),
