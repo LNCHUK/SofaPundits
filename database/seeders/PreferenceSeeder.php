@@ -4,7 +4,6 @@ namespace Database\Seeders;
 
 use App\Models\Preference;
 use Illuminate\Database\Seeder;
-use Illuminate\Support\Str;
 
 class PreferenceSeeder extends Seeder
 {
