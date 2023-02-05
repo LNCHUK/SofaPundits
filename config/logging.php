@@ -64,7 +64,7 @@ return [
         ],
 
         'api-logs' => [
-            'driver' => 'single',
+            'driver' => 'daily',
             'path' => storage_path('logs/api.log'),
             'level' => env('LOG_LEVEL', 'debug'),
         ],
