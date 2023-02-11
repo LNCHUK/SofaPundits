@@ -11,8 +11,20 @@
     @apply bg-gradient-to-br from-[#DF9F28] via-[#FDE08D] to-[#DF9F28] border-[#FDE08D];
 }
 
+.correct-score-colour {
+    @apply bg-gradient-to-br from-[#DF9F28] via-[#FDE08D] to-[#DF9F28] border-[#FDE08D];
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+}
+
 .correct-result-gradient {
     @apply bg-gradient-to-br from-emerald-300 to-emerald-500 text-white border-emerald-400 !important;
+}
+
+.correct-result-colour {
+    @apply bg-gradient-to-br from-emerald-300 to-emerald-500 text-white border-emerald-400 !important;
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
 }
 
 .incorrect-result-gradient {

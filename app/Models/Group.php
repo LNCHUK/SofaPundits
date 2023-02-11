@@ -158,4 +158,12 @@ class Group extends Model
                 return $userPredictionPoints;
             });
     }
+
+    public function getBackedTeamForUser(?User $user = null)
+    {
+        return BackedTeam::query()
+            ->where('user_id', $user ? $user->id : auth()->id())
+            ->where('group_id', $this->id)
+            ->first();
+    }
 }

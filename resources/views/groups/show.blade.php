@@ -7,6 +7,20 @@
 
     <div class="py-12">
         <x-container>
+
+            <div class="md:flex gap-x-6 gap-y-6 mb-4">
+                <div class="md:w-1/3">
+                    <x-panel>
+                        <h2 class="text-lg font-bold mb-4">Current Gameweek</h2>
+                    </x-panel>
+                </div>
+
+                <div class="md:w-1/3">
+                    @include('partials.backed-team', ['backedTeam' => $backedTeam])
+                </div>
+            </div>
+
+
             <div class="md:flex gap-x-6 gap-y-6">
                 <div class="md:w-2/3 mb-4">
                     <x-panel>
@@ -36,7 +50,7 @@
 
                 <div class="md:w-1/3">
                     <x-panel>
-                        <h2 class="text-lg font-bold mb-4">Invite Others</h2>
+                        <h2 class="text-lg font-bold mb-2">Invite Others</h2>
 
                         <p class="text-sm mb-4">
                             Want to invite some new players? Just give them the code below and they'll

@@ -43,7 +43,9 @@ class GroupController extends Controller
      */
     public function show(Group $group): Renderable
     {
-        return view('groups.show', compact('group'));
+        $backedTeam = $group->getBackedTeamForUser();
+
+        return view('groups.show', compact('group', 'backedTeam'));
     }
 
     /**
