@@ -36,7 +36,7 @@
 
         <p class="text-sm text-gray-600 text-center">3 perfect scores, 2 correct results</p>
     @else
-        <p>You haven't backed a team yet.</p>
+        <p class="text-center">You haven't backed a team yet.</p>
     @endif
 
 </x-panel>

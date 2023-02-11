@@ -45,6 +45,6 @@
             Current Gameweek
         </h2>
 
-        <p>No gameweeks are active or upcoming</p>
+        <p class="text-center">No gameweeks are active or upcoming</p>
     @endif
 </x-panel>
