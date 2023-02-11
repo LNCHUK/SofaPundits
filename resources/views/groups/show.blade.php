@@ -8,18 +8,19 @@
     <div class="py-12">
         <x-container>
 
-            <div class="md:flex gap-x-6 gap-y-6 mb-4">
-                <div class="md:w-1/3">
-                    <x-panel>
-                        <h2 class="text-lg font-bold mb-4">Current Gameweek</h2>
-                    </x-panel>
-                </div>
+            @feature('new-group-panels')
+                <div class="md:flex gap-x-6 gap-y-6 mb-4">
+                    <div class="md:w-1/3">
+                        <x-panel>
+                            <h2 class="text-lg font-bold mb-4">Current Gameweek</h2>
+                        </x-panel>
+                    </div>
 
-                <div class="md:w-1/3">
-                    @include('partials.backed-team', ['backedTeam' => $backedTeam])
+                    <div class="md:w-1/3">
+                        @include('partials.backed-team', ['backedTeam' => $backedTeam])
+                    </div>
                 </div>
-            </div>
-
+            @endfeature
 
             <div class="md:flex gap-x-6 gap-y-6">
                 <div class="md:w-2/3 mb-4">
