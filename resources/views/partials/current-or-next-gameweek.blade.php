@@ -22,8 +22,8 @@
                     </div>
 
                     <span class="text-3xl font-bold text-gray-800">
-                                                {{ count($currentOrNextGameweek->fixtures) }}
-                                            </span>
+                        {{ count($currentOrNextGameweek->fixtures) }}
+                    </span>
                 </div>
                 <div class="w-1/2 text-center">
                     <div class="uppercase font-bold text-xs text-gray-500 mb-2">
@@ -31,8 +31,8 @@
                     </div>
 
                     <span class="text-3xl font-bold text-gray-800">
-                                                {{ $currentOrNextGameweek->getPointsForActiveUser() }}
-                                            </span>
+                        {{ $currentOrNextGameweek->getPointsForActiveUser() }}
+                    </span>
                 </div>
             </div>
 
@@ -42,5 +42,7 @@
         </div>
     @else
         <h2 class="text-lg font-bold mb-4">Current Gameweek</h2>
+
+        <p>No gameweeks are active or upcoming</p>
     @endif
 </x-panel>
