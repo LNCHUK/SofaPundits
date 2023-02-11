@@ -41,7 +41,7 @@
             </x-link-button>
         </div>
     @else
-        <h2 class="text-sm font-bold mb-1 text-center">
+        <h2 class="text-sm font-bold mb-4 text-center">
             Current Gameweek
         </h2>
 
