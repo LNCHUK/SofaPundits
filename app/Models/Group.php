@@ -66,6 +66,7 @@ class Group extends Model
     {
         return $this->hasMany(Gameweek::class)
             ->orderBy('start_date')
+            // Limit to only published gameweeks for all users that aren't the creator
             ->when(
                 auth()->user()->isCreatorOf($this) === false,
                 fn ($query) => $query->whereNotNull('published_at')
@@ -78,7 +79,6 @@ class Group extends Model
     public function upcomingGameweeks(): HasMany
     {
         return $this->gameweeks()
-            ->withFirstFixture()
             ->upcoming();
     }
 
@@ -88,7 +88,6 @@ class Group extends Model
     public function activeGameweeks(): HasMany
     {
         return $this->gameweeks()
-            ->withFirstFixture()
             ->active();
     }
 
@@ -98,7 +97,6 @@ class Group extends Model
     public function pastGameweeks(): HasMany
     {
         return $this->gameweeks()
-            ->withFirstFixture()
             ->past();
     }
 

@@ -13,7 +13,7 @@
                     <div class="md:w-1/3">
                         <x-panel>
                             @if ($currentOrNextGameweek)
-{{--                                <h2 class="text-lg font-bold mb-4">{{ $currentOrNextGameweek->isActive() ? 'Current' : 'Next' }} Gameweek</h2>--}}
+                                <h2 class="text-lg font-bold mb-4">{{ $currentOrNextGameweek->isActive() ? 'Current' : 'Next' }} Gameweek</h2>
                             @else
                                 <h2 class="text-lg font-bold mb-4">Current Gameweek</h2>
                             @endif
