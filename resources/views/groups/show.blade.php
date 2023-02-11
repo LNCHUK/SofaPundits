@@ -1,33 +1,28 @@
 <x-app-layout>
     <x-slot name="header">
         <h2 class="font-semibold text-xl text-gray-800 leading-tight">
-{{--            {{ $group->name }}--}}
+            {{ $group->name }}
         </h2>
     </x-slot>
 
     <div class="py-12">
         <x-container>
 
-            @feature('new-group-panels')
-                <div class="md:flex gap-x-6 gap-y-6 mb-4">
-                    <div class="md:w-1/3">
-                        <x-panel>
-                            @if ($currentOrNextGameweek)
-                                <h2 class="text-lg font-bold mb-4">{{ $currentOrNextGameweek->isActive() ? 'Current' : 'Next' }} Gameweek</h2>
-                            @else
-                                <h2 class="text-lg font-bold mb-4">Current Gameweek</h2>
-                            @endif
-                        </x-panel>
-                    </div>
-
-                    <div class="md:w-1/3">
-                        @include('partials.backed-team', ['backedTeam' => $backedTeam])
-                    </div>
-                </div>
-            @endfeature
-
             <div class="md:flex gap-x-6 gap-y-6">
                 <div class="md:w-2/3 mb-4">
+                    @feature('new-group-panels')
+                        <div class="md:flex gap-x-6 gap-y-6 mb-4">
+                            <div class="md:w-1/2">
+                                @include('partials.current-or-next-gameweek', ['currentOrNextGameweek' => $currentOrNextGameweek])
+                            </div>
+
+                            <div class="md:w-1/2">
+                                @include('partials.backed-team', ['backedTeam' => $backedTeam])
+                            </div>
+                        </div>
+                    @endfeature
+
+
                     <x-panel>
                         <div class="flex justify-between items-center mb-4">
                             <h2 class="text-lg font-bold">Active Gameweeks</h2>
