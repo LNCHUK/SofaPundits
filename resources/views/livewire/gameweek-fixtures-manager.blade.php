@@ -68,6 +68,7 @@
                                     wire:click="removeSelectedFixture({{ $chosenFixture->id }})"
                                 />
                                 <input type="hidden" name="selected_fixtures[]" value="{{ $chosenFixture->id }}" />
+                                <input type="hidden" name="kick_off_times[]" value="{{ $chosenFixture->kick_off }}" />
                             </li>
                         @empty
                             <p class="text-sm font-semibold text-center mb-4">

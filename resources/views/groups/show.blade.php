@@ -1,7 +1,7 @@
 <x-app-layout>
     <x-slot name="header">
         <h2 class="font-semibold text-xl text-gray-800 leading-tight">
-            {{ $group->name }}
+{{--            {{ $group->name }}--}}
         </h2>
     </x-slot>
 
@@ -12,7 +12,11 @@
                 <div class="md:flex gap-x-6 gap-y-6 mb-4">
                     <div class="md:w-1/3">
                         <x-panel>
-                            <h2 class="text-lg font-bold mb-4">Current Gameweek</h2>
+                            @if ($currentOrNextGameweek)
+{{--                                <h2 class="text-lg font-bold mb-4">{{ $currentOrNextGameweek->isActive() ? 'Current' : 'Next' }} Gameweek</h2>--}}
+                            @else
+                                <h2 class="text-lg font-bold mb-4">Current Gameweek</h2>
+                            @endif
                         </x-panel>
                     </div>
 

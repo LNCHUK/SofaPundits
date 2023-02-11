@@ -44,8 +44,9 @@ class GroupController extends Controller
     public function show(Group $group): Renderable
     {
         $backedTeam = $group->getBackedTeamForUser();
+        $currentOrNextGameweek = $group->getCurrentOrNextGameweek();
 
-        return view('groups.show', compact('group', 'backedTeam'));
+        return view('groups.show', compact('group', 'backedTeam', 'currentOrNextGameweek'));
     }
 
     /**

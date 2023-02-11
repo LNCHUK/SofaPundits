@@ -159,11 +159,34 @@ class Group extends Model
             });
     }
 
-    public function getBackedTeamForUser(?User $user = null)
+    /**
+     * @param User|null $user
+     * @return BackedTeam|null
+     */
+    public function getBackedTeamForUser(?User $user = null): ?BackedTeam
     {
         return BackedTeam::query()
             ->where('user_id', $user ? $user->id : auth()->id())
             ->where('group_id', $this->id)
             ->first();
+    }
+
+    /**
+     * @return Gameweek|null
+     */
+    public function getCurrentOrNextGameweek(): ?Gameweek
+    {
+        $activeGameweeks = $this->activeGameweeks;
+
+        if (count($activeGameweeks)) {
+            return $activeGameweeks->first();
+        }
+
+        $upcomingGameweeks = $this->upcomingGameweeks;
+        if (count($upcomingGameweeks)) {
+            return $upcomingGameweeks->first();
+        }
+
+        return null;
     }
 }

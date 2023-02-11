@@ -26,6 +26,7 @@ class Gameweek extends Model
         'name',
         'start_date',
         'end_date',
+        'first_kick_off',
         'description',
         'status',
         'published_at',
