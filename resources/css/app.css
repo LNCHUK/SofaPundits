@@ -4,7 +4,7 @@
 
 @font-face {
     font-family: PremierLeague;
-    src: url('/fonts/PremierLeague.ttf');
+    src: url('../../public/fonts/PremierLeague.ttf');
 }
 
 .correct-score-gradient {
