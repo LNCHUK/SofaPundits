@@ -46,6 +46,7 @@
                                     </td>
                                     <td class="whitespace-nowrap text-left px-3 py-4 text-sm text-gray-500">
                                         <x-select name="backed_team[{{ $player->id }}]">
+                                            <option value="">No backed team</option>
                                             @foreach ($teams as $id => $team)
                                                 <option value="{{ $id }}" @if(optional($group->getBackedTeamForUser($player))->team_id == $id) selected @endif>
                                                     {{ $team }}
