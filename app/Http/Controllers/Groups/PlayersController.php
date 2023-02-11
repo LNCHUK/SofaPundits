@@ -30,14 +30,16 @@ class PlayersController extends Controller
         $this->authorize('update', $group);
 
         // TODO: Validate
-        collect($request->backed_team)->each(function ($teamId, $userId) use ($group) {
-            BackedTeam::updateOrCreate([
-                'group_id' => $group->id,
-                'user_id' => $userId
-            ], [
-                'team_id' => $teamId
-            ]);
-        });
+        collect($request->backed_team)
+            ->filter(fn ($teamId) => $teamId !== null)
+            ->each(function ($teamId, $userId) use ($group) {
+                BackedTeam::updateOrCreate([
+                    'group_id' => $group->id,
+                    'user_id' => $userId
+                ], [
+                    'team_id' => $teamId
+                ]);
+            });
 
         return redirect()->back();
     }
