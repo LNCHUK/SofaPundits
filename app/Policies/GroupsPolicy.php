@@ -54,7 +54,7 @@ class GroupsPolicy
      */
     public function update(User $user, Group $group)
     {
-        //
+        return $user->isCreatorOf($group);
     }
 
     /**

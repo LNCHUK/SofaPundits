@@ -1,7 +1,8 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace App\Http\Controllers\Groups;
 
+use App\Http\Controllers\Controller;
 use App\Http\Requests\Groups\CreateRequest;
 use App\Models\Group;
 use Illuminate\Contracts\Support\Renderable;
