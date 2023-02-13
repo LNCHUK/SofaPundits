@@ -17,7 +17,7 @@ class Kernel extends ConsoleKernel
     {
         // Run the core import functions once per day
         $schedule->command('import:leagues --trigger=schedule')
-            ->dailyAt('01:00');
+            ->dailyAt('22:45');
 
         // Run the import fixtures command every 15 minutes on the core game days
         // between the hours of 12pm (midday) and 10pm
