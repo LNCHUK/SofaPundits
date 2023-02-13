@@ -7,6 +7,7 @@ use App\Models\ApiFootball\Country;
 use App\Models\ApiFootball\League;
 use App\Models\ApiFootball\LeagueSeason;
 use App\Models\ApiLog;
+use App\Models\CommandLog;
 use App\Services\ApiFootball\Client;
 use Illuminate\Console\Command;
 use Illuminate\Database\Eloquent\Model;
@@ -22,7 +23,7 @@ class ImportLeagues extends Command
      *
      * @var string
      */
-    protected $signature = 'import:leagues';
+    protected $signature = 'import:leagues {--trigger=manual}';
 
     /**
      * The console command description.
@@ -32,14 +33,14 @@ class ImportLeagues extends Command
     protected $description = 'Imports the leagues data from the API Football service.';
 
     /**
-     * @var ApiLog|null
+     * @var CommandLog|null
      */
-    private $apiLog;
+    private $commandLog;
 
     /**
      * @var LazyUuidFromString
      */
-    private $apiLogUuid;
+    private $commandUuid;
 
     public function __construct(
         private Client $apiFootball
@@ -54,10 +55,15 @@ class ImportLeagues extends Command
      */
     public function handle()
     {
-        $this->apiLogUuid = Str::uuid();
+        $this->commandUuid = Str::uuid();
+        $this->commandLog = CommandLog::create([
+            'command' => 'import:leagues',
+            'trigger' => $this->option('trigger'),
+            'started_at' => now(),
+        ]);
 
         Log::channel('api-logs')->info('import:leagues - Starting import', [
-            'uuid' => (string) $this->apiLogUuid,
+            'uuid' => (string) $this->commandUuid,
         ]);
 
         $leagues = $this->retrieveLeaguesFromApi();
@@ -65,8 +71,10 @@ class ImportLeagues extends Command
         // If the leagues response is null we can fail the command here
         if (is_null($leagues)) {
             Log::channel('api-logs')->error('import:leagues - Import failed', [
-                'uuid' => (string) $this->apiLogUuid,
+                'uuid' => (string) $this->commandUuid,
             ]);
+
+            $this->commandLog->markFailed();
 
             return Command::FAILURE;
         }
@@ -74,8 +82,10 @@ class ImportLeagues extends Command
         $this->processLeagueResults($leagues);
 
         Log::channel('api-logs')->info('import:leagues - Import complete', [
-            'uuid' => (string) $this->apiLogUuid,
+            'uuid' => (string) $this->commandUuid,
         ]);
+
+        $this->commandLog->markSuccessful();
 
         return Command::SUCCESS;
     }
@@ -86,42 +96,41 @@ class ImportLeagues extends Command
     private function retrieveLeaguesFromApi(): ?Collection
     {
         Log::channel('api-logs')->info('import:leagues - Retrieving league records from API', [
-            'uuid' => (string) $this->apiLogUuid,
+            'uuid' => (string) $this->commandUuid,
         ]);
 
-        $this->apiLog = new ApiLog([
-            'uuid' => $this->apiLogUuid,
+        $apiLog = new ApiLog([
             'api_name' => Api::API_FOOTBALL,
             'endpoint' => '/leagues',
         ]);
 
         // Retrieve the API response
         try {
-            $this->apiLog->started_at = now()->format('Y-m-d H:i:s');
+            $apiLog->started_at = now()->format('Y-m-d H:i:s');
             $leaguesResponse = $this->apiFootball->getLeagues();
 
             // Update the API log
-            $this->apiLog->response_body = $leaguesResponse->body();
-            $this->apiLog->was_successful = $leaguesResponse->successful();
+            $apiLog->response_body = $leaguesResponse->body();
+            $apiLog->was_successful = $leaguesResponse->successful();
         } catch (\Exception $exception) {
             Log::channel('api-logs')->error('import:leagues - Error importing leagues from API', [
-                'uuid' => $this->apiLogUuid->__toString(),
+                'uuid' => $this->commandUuid->__toString(),
                 'message' => $exception->getMessage(),
                 'code' => $exception->getCode(),
                 'stack' => $exception->getTraceAsString(),
             ]);
 
-            $this->apiLog->was_successful = false;
+            $apiLog->was_successful = false;
 
             return null;
         }
 
         // Set the completed at time (successful or not)
-        $this->apiLog->completed_at = now()->format('Y-m-d H:i:s');
-        $this->apiLog->save();
+        $apiLog->completed_at = now()->format('Y-m-d H:i:s');
+        $apiLog->save();
 
         Log::channel('api-logs')->info('import:leagues - Finished retrieving leagues from API', [
-            'uuid' => (string) $this->apiLogUuid,
+            'uuid' => (string) $this->commandUuid,
         ]);
 
         return $leaguesResponse->collect('response');
@@ -131,7 +140,7 @@ class ImportLeagues extends Command
     {
         Log::channel('api-logs')
             ->info('import:leagues - ' . count($leagues) . ' leagues returned, processing results', [
-                'uuid' => (string) $this->apiLogUuid,
+                'uuid' => (string) $this->commandUuid,
             ]);
 
         foreach ($leagues as $leagueResult) {
@@ -163,7 +172,7 @@ class ImportLeagues extends Command
 
         if (!$dbCountry) {
             Log::channel('api-logs')->info('import:leagues - New country data found, creating record', [
-                'uuid' => (string) $this->apiLogUuid,
+                'uuid' => (string) $this->commandUuid,
                 'country' => $country,
             ]);
 
