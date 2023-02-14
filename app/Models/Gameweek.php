@@ -26,6 +26,7 @@ class Gameweek extends Model
         'name',
         'start_date',
         'end_date',
+        'first_kick_off',
         'description',
         'status',
         'published_at',
@@ -34,6 +35,7 @@ class Gameweek extends Model
     protected $casts = [
         'start_date' => 'datetime',
         'end_date' => 'datetime',
+        'first_kick_off' => 'datetime',
         'published_at' => 'datetime',
     ];
 
@@ -45,7 +47,6 @@ class Gameweek extends Model
     public function resolveRouteBinding($value, $field = null)
     {
         return $this->resolveRouteBindingQuery($this, $value, $field)
-            ->withFirstFixture()
             ->first();
     }
 
@@ -64,32 +65,6 @@ class Gameweek extends Model
     {
         return $this->belongsToMany(Fixture::class, 'gameweek_fixtures')
             ->orderBy('kick_off', 'ASC');
-    }
-
-    /**
-     * @return BelongsTo
-     */
-    public function firstFixture(): BelongsTo
-    {
-        return $this->belongsTo(Fixture::class);
-    }
-
-    /**
-     * @param Builder $query
-     * @return void
-     */
-    public function scopeWithFirstFixture(Builder $query): void
-    {
-        $hash = md5('test' . random_int(1,10000));
-
-        $query->addSelect('gameweeks.*')
-            ->addSelect(DB::raw('gameweeks.id AS gameweek_join_id_'.$hash))
-            ->addSelect(['first_fixture_id' => Fixture::select('fixtures.id')
-                ->join('gameweek_fixtures', 'gameweek_fixtures.fixture_id', '=', 'fixtures.id')
-                ->whereColumn('gameweek_fixtures.gameweek_id', 'gameweek_join_id_'.$hash)
-                ->orderBy('kick_off', 'asc')
-                ->take(1)
-            ])->with('firstFixture');
     }
 
     /**
@@ -129,15 +104,11 @@ class Gameweek extends Model
      */
     public function scopeUpcoming(Builder $query): void
     {
-        $query->whereRaw("COALESCE((" . Fixture::select('kick_off')
-            ->whereIn('id', DB::query()
-                ->select('fixture_id')
-                ->from('gameweek_fixtures')
-                ->whereRaw('gameweek_id = `gameweeks`.`id`')
-            )
-            ->orderBy('kick_off', 'asc')
-            ->limit(1)
-            ->toSql() . "), start_date) > ?", [now()]);
+        $query->where(function ($query) {
+            $query->whereNotNull('first_kick_off')->where('first_kick_off', '>', now());
+        })->orWhere(function ($query) {
+            $query->whereNull('first_kick_off')->where('start_date', '>', now());
+        });
     }
 
     /**
@@ -145,19 +116,15 @@ class Gameweek extends Model
      */
     public function isUpcoming(): bool
     {
-        return ($this->firstFixtureDate() ?? $this->start_date)->isAfter(now());
+        return ($this->first_kick_off ?? $this->start_date)->isAfter(now());
     }
 
     /**
      * @return Carbon|null
      */
-    public function firstFixtureDate(): ?Carbon
+    public function deadline(): ?Carbon
     {
-        return $this->fixtures->reduce(function ($earliestDate, $currentFixture) {
-            return $currentFixture->kick_off->isBefore($earliestDate) || is_null($earliestDate)
-                ? $currentFixture->kick_off
-                : $earliestDate;
-        }, null);
+        return ($this->first_kick_off ?? $this->start_date)->subHour();
     }
 
     /**
@@ -183,18 +150,17 @@ class Gameweek extends Model
      */
     public function scopeActive(Builder $query): void
     {
-        $query->where(function ($query) {
-            $now = now();
+        $now = now();
 
-            $query->whereRaw("COALESCE((" . Fixture::select('kick_off')
-                ->whereIn('id', DB::query()
-                    ->select('fixture_id')
-                    ->from('gameweek_fixtures')
-                    ->whereRaw('gameweek_id = `gameweeks`.`id`')
-                )
-                ->orderBy('kick_off', 'asc')
-                ->limit(1)
-                ->toSql() . "), start_date) < ?", [now()])
+        $query->where(function ($query) use ($now) {
+            // If we have a first_kick_off set...
+            $query->whereNotNull('first_kick_off')
+                ->where('first_kick_off', '<', $now)
+                ->where('end_date', '>', $now);
+        })->orWhere(function ($query) use ($now) {
+            // If not (legacy data or no fixtures added)
+            $query->whereNull('first_kick_off')
+                ->where('start_date', '<', $now)
                 ->where('end_date', '>', $now);
         });
     }
@@ -204,9 +170,9 @@ class Gameweek extends Model
      */
     public function isActive(): bool
     {
-        $startDate = ($this->firstFixtureDate() ?? $this->start_date);
+        $startDate = ($this->first_kick_off ?? $this->start_date);
 
-        return $startDate->kick_off->isBefore(now())
+        return $startDate->isBefore(now())
             && $this->end_date->isAfter(now());
     }
 

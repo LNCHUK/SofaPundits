@@ -3,7 +3,8 @@
 use App\Http\Controllers\Gameweeks\FixturesController;
 use App\Http\Controllers\Gameweeks\GameweekController;
 use App\Http\Controllers\Gameweeks\PredictionsController;
-use App\Http\Controllers\GroupController;
+use App\Http\Controllers\Groups\GroupController;
+use App\Http\Controllers\Groups\PlayersController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -44,6 +45,10 @@ Route::middleware(['auth'])->group(function () {
 
     Route::resource('groups', GroupController::class)->except(['index']);
     Route::post('groups/{group}/join', [GroupController::class, 'join'])->name('groups.join');
+
+    // Group Players Routes
+    Route::get('groups/{group}/players', [PlayersController::class, 'index'])->name('groups.players');
+    Route::patch('groups/{group}/players', [PlayersController::class, 'update'])->name('groups.players.update');
 
     // Gameweeks CRUD
     Route::resource('groups/{group}/gameweeks', GameweekController::class);

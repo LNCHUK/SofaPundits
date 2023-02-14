@@ -32,7 +32,7 @@
                     {{ $gameweek->start_date->format('jS F Y') }}
                     @if ($gameweek->isUpcoming())
                         <p class="text-xs font-bold">
-                            Deadline: {{ optional($gameweek->firstFixtureDate())->diffForHumans() }}
+                            Deadline: {{ $gameweek->deadline()->diffForHumans() }}
                         </p>
                     @endif
                 </td>

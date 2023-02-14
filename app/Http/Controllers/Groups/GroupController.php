@@ -1,7 +1,8 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace App\Http\Controllers\Groups;
 
+use App\Http\Controllers\Controller;
 use App\Http\Requests\Groups\CreateRequest;
 use App\Models\Group;
 use Illuminate\Contracts\Support\Renderable;
@@ -43,7 +44,10 @@ class GroupController extends Controller
      */
     public function show(Group $group): Renderable
     {
-        return view('groups.show', compact('group'));
+        $backedTeam = $group->getBackedTeamForUser();
+        $currentOrNextGameweek = $group->getCurrentOrNextGameweek();
+
+        return view('groups.show', compact('group', 'backedTeam', 'currentOrNextGameweek'));
     }
 
     /**

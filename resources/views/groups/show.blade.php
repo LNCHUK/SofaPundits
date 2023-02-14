@@ -1,14 +1,37 @@
 <x-app-layout>
     <x-slot name="header">
-        <h2 class="font-semibold text-xl text-gray-800 leading-tight">
-            {{ $group->name }}
-        </h2>
+        <div class="flex justify-between">
+            <h2 class="font-semibold text-xl text-gray-800 leading-tight">
+                {{ $group->name }}
+            </h2>
+
+            <div>
+                @can('update', $group)
+                    <x-link-button :route="route('groups.players', $group)">
+                        Players
+                    </x-link-button>
+                @endcan
+            </div>
+        </div>
     </x-slot>
 
     <div class="py-12">
         <x-container>
+
             <div class="md:flex gap-x-6 gap-y-6">
                 <div class="md:w-2/3 mb-4">
+                    @feature('new-group-panels')
+                        <div class="md:flex gap-x-6 gap-y-6 mb-4">
+                            <div class="md:w-1/2">
+                                @include('partials.current-or-next-gameweek', ['currentOrNextGameweek' => $currentOrNextGameweek])
+                            </div>
+
+                            <div class="md:w-1/2">
+                                @include('partials.backed-team', ['backedTeam' => $backedTeam])
+                            </div>
+                        </div>
+                    @endfeature
+
                     <x-panel>
                         <div class="flex justify-between items-center mb-4">
                             <h2 class="text-lg font-bold">Active Gameweeks</h2>
@@ -36,7 +59,7 @@
 
                 <div class="md:w-1/3">
                     <x-panel>
-                        <h2 class="text-lg font-bold mb-4">Invite Others</h2>
+                        <h2 class="text-lg font-bold mb-2">Invite Others</h2>
 
                         <p class="text-sm mb-4">
                             Want to invite some new players? Just give them the code below and they'll
