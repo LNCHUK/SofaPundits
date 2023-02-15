@@ -10,31 +10,18 @@
             <div>
                 <p class="text-2xl font-bold mb-1 font-premier-league">{{ $backedTeam->team->name }}</p>
 
-                <div class="ml-2">
-                    <i class="fa-solid fa-trophy-star text-lg correct-score-colour drop-shadow-sm -ml-2"></i>
-                    <i class="fa-solid fa-trophy-star text-lg correct-score-colour drop-shadow-sm -ml-2"></i>
-                    <i class="fa-solid fa-trophy-star text-lg correct-score-colour drop-shadow-sm -ml-2 mr-1"></i>
-                    <br />
-                    <i class="fa-solid fa-trophy-star text-lg correct-result-colour drop-shadow-sm -ml-2"></i>
-                    <i class="fa-solid fa-trophy-star text-lg correct-result-colour drop-shadow-sm -ml-2"></i>
-                    <i class="fa-solid fa-trophy-star text-lg correct-result-colour drop-shadow-sm -ml-2"></i>
-                    <i class="fa-solid fa-trophy-star text-lg correct-result-colour drop-shadow-sm -ml-2"></i>
-                    <i class="fa-solid fa-trophy-star text-lg correct-result-colour drop-shadow-sm -ml-2"></i>
-                    <i class="fa-solid fa-trophy-star text-lg correct-result-colour drop-shadow-sm -ml-2"></i>
-                    <i class="fa-solid fa-trophy-star text-lg correct-result-colour drop-shadow-sm -ml-2"></i>
-                    <i class="fa-solid fa-trophy-star text-lg correct-result-colour drop-shadow-sm -ml-2"></i>
-                    <i class="fa-solid fa-trophy-star text-lg correct-result-colour drop-shadow-sm -ml-2"></i>
-                    <i class="fa-solid fa-trophy-star text-lg correct-result-colour drop-shadow-sm -ml-2"></i>
-                    <i class="fa-solid fa-trophy-star text-lg correct-result-colour drop-shadow-sm -ml-2"></i>
-                    <i class="fa-solid fa-trophy-star text-lg correct-result-colour drop-shadow-sm -ml-2"></i>
-                    <i class="fa-solid fa-trophy-star text-lg correct-result-colour drop-shadow-sm -ml-2"></i>
-                    <i class="fa-solid fa-trophy-star text-lg correct-result-colour drop-shadow-sm -ml-2"></i>
-                    <i class="fa-solid fa-trophy-star text-lg correct-result-colour drop-shadow-sm -ml-2"></i>
+                <div class="">
+                    @for ($i = 0; $i < $backedTeam->leaderboardData->correct_scores; $i++)
+                        <i class="fa-solid fa-trophy-star text-xl correct-score-colour drop-shadow-sm"></i>
+                    @endfor
+{{--                    <i class="fa-solid fa-trophy-star text-lg correct-result-colour drop-shadow-sm -ml-2"></i>--}}
                 </div>
             </div>
         </div>
 
-        <p class="text-sm text-gray-600 text-center">3 perfect scores, 2 correct results</p>
+        <p class="text-sm text-gray-600 text-center">
+            {{ $backedTeam->leaderboardData->correct_scores }} perfect scores
+        </p>
     @else
         <p class="text-center">You haven't backed a team yet.</p>
     @endif

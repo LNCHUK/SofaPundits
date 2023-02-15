@@ -51,8 +51,6 @@ class GroupController extends Controller
         $backedTeam = $group->getBackedTeamForUser();
         $currentOrNextGameweek = $group->getCurrentOrNextGameweek();
 
-//        dd($backedTeamLeaderboard);
-
         return view('groups.show', compact('group', 'backedTeam', 'currentOrNextGameweek'));
     }
 

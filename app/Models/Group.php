@@ -163,8 +163,8 @@ class Group extends Model
      */
     public function getBackedTeamForUser(?User $user = null): ?BackedTeam
     {
-        return BackedTeam::query()
-            ->where('user_id', $user ? $user->id : auth()->id())
+        return ($user ?? auth()->user())
+            ->backedTeams()
             ->where('group_id', $this->id)
             ->first();
     }
