@@ -56,6 +56,14 @@ class User extends Authenticatable
     }
 
     /**
+     * @return HasMany
+     */
+    public function backedTeams(): HasMany
+    {
+        return $this->hasMany(BackedTeam::class);
+    }
+
+    /**
      * @return bool
      */
     public function isInAtLeastOneGroup(): bool
@@ -71,6 +79,10 @@ class User extends Authenticatable
         return $this->hasMany(UserPrediction::class);
     }
 
+    /**
+     * @param Gameweek $gameweek
+     * @return Collection
+     */
     public function gameweekPredictions(Gameweek $gameweek): Collection
     {
         return $this->predictions()
