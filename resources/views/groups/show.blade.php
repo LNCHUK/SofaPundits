@@ -91,14 +91,16 @@
                                 </thead>
                                 <tbody class="divide-y divide-gray-200 bg-white">
                                 @foreach ($group->getLeagueTableData() as $data)
-                                    <tr>
-                                        <td class="whitespace-nowrap text-left px-3 py-3 text-sm text-gray-500">
-                                            {{ $data->position }}
+                                    <tr @if($data->position === 1) class="bg-gradient-to-l from-orange-100 to-transparent" @endif>
+                                        <td class="whitespace-nowrap text-center px-2 py-2 text-sm text-gray-500">
+                                            <span class="font-premier-league text-lg @if ($data->position === 1) correct-score-colour @endif drop-shadow-sm">
+                                                {{ $data->position }}
+                                            </span>
                                         </td>
-                                        <td class="whitespace-nowrap text-left px-3 py-3 text-sm text-gray-500">
+                                        <td class="whitespace-nowrap font-premier-league text-left px-3 py-3 text-sm text-gray-500">
                                             {{ $data->user->name }}
                                         </td>
-                                        <td class="whitespace-nowrap text-left px-3 py-3 text-sm text-gray-500">
+                                        <td class="whitespace-nowrap font-premier-league text-center px-3 py-3 text-sm text-gray-500">
                                             {{ $data->total_points }}
                                         </td>
                                     </tr>
@@ -107,6 +109,10 @@
                             </table>
                         </div>
                     </x-panel>
+
+                    <div class="h-4"></div>
+
+                    <livewire:backed-teams-leaderboard :group="$group" />
                 </div>
             </div>
 
