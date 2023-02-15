@@ -19,6 +19,11 @@ class Kernel extends ConsoleKernel
         $schedule->command('import:leagues --trigger=schedule')
             ->dailyAt('01:00');
 
+        // Pull down team information for any teams who had a game during the day
+        // - Imports towards the end of the day to get results of the day's game
+        $schedule->command('import:team-statistics')
+            ->dailyAt('23:30');
+
         // Run the import fixtures command every 15 minutes on the core game days
         // between the hours of 12pm (midday) and 10pm
         // COST: 40 API calls per day on the chosen days
