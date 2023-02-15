@@ -9,10 +9,7 @@
                         Pos
                     </th>
                     <th scope="col" class="px-3 py-3 text-left text-xs font-medium uppercase tracking-wide text-gray-500">
-                        Team
-                    </th>
-                    <th scope="col" class="px-3 py-3 text-left text-xs font-medium uppercase tracking-wide text-gray-500">
-                        Player
+                        Team & Player
                     </th>
                     <th scope="col" class="px-3 py-3 text-left text-xs font-medium uppercase tracking-wide text-gray-500">
                         Results
@@ -27,13 +24,11 @@
                                 {{ $data->getPosition() }}
                             </span>
                         </td>
-                        <td class="whitespace-nowrap text-center px-3 py-3 text-sm text-gray-500">
+                        <td class="whitespace-nowrap font-premier-league text-left px-3 py-3 @if (strlen($data->getUser()->name) <= 16) text-sm @else text-xs @endif text-gray-500">
                             <img src="{{ $data->getTeam()->logo }}"
                                  alt="{{ $data->getTeam()->name }}"
-                                 class="w-6 inline-block"
+                                 class="w-6 inline-block mr-2"
                             />
-                        </td>
-                        <td class="whitespace-nowrap font-premier-league text-left px-3 py-3 @if (strlen($data->getUser()->name) <= 16) text-sm @else text-xs @endif text-gray-500">
                             {{ $data->getUser()->name }}
                         </td>
                         <td class="whitespace-nowrap font-premier-league text-center px-3 py-3 text-sm text-gray-500">
