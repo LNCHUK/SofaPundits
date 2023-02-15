@@ -48,7 +48,7 @@ class BackedTeamsLeaderboard extends Component
                 }
 
                 // Assign the points to use in the next iteration, to confirm a tie
-                $previousPoints = (int) $data->getCorrectScores();
+                $previousScore = (int) $data->getCorrectScores();
                 $data->setPosition($position);
 
                 return $data;
