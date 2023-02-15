@@ -6,6 +6,7 @@ use App\Data\BackedTeamLeaderboardPosition;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Groups\CreateRequest;
 use App\Models\ApiFootball\Team;
+use App\Models\ApiFootball\TeamStatistics;
 use App\Models\BackedTeamResults;
 use App\Models\Group;
 use App\Models\User;

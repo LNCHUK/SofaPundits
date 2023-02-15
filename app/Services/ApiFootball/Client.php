@@ -3,6 +3,7 @@
 namespace App\Services\ApiFootball;
 
 use App\Models\ApiFootball\LeagueSeason;
+use App\Models\ApiFootball\Team;
 use App\Services\Concerns\HasFake;
 use Illuminate\Http\Client\PendingRequest;
 use Illuminate\Support\Facades\Http;
@@ -66,6 +67,32 @@ class Client
             query: [
                 'league' => $leagueSeason->league->id,
                 'season' => $leagueSeason->year,
+            ]
+        );
+
+        if (! $response->successful()) {
+            return $response->toException();
+        }
+
+        return $response;
+    }
+
+    /**
+     * @param LeagueSeason $leagueSeason
+     * @param Team $team
+     * @return \GuzzleHttp\Promise\PromiseInterface|\Illuminate\Http\Client\RequestException|\Illuminate\Http\Client\Response|null
+     */
+    public function getTeamStatistics(LeagueSeason $leagueSeason, Team $team)
+    {
+        $request = $this->createRequest();
+
+        $response = $request->get(
+            url: $this->baseUrl . '/teams/statistics',
+            query: [
+                'league' => $leagueSeason->league->id,
+                'season' => $leagueSeason->year,
+                'team' => $team->id,
+                'date' => null,
             ]
         );
 
