@@ -33,7 +33,7 @@
                                  class="w-6 inline-block"
                             />
                         </td>
-                        <td class="whitespace-nowrap font-premier-league text-left px-3 py-3 text-sm text-gray-500">
+                        <td class="whitespace-nowrap font-premier-league text-left px-3 py-3 @if (strlen($data->getUser()->name) <= 16) text-sm @else text-xs @endif text-gray-500">
                             {{ $data->getUser()->name }}
                         </td>
                         <td class="whitespace-nowrap font-premier-league text-center px-3 py-3 text-sm text-gray-500">
