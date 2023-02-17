@@ -9,7 +9,7 @@ class TeamStatistics extends Model
 {
     protected $fillable = [
         'team_id',
-        'league_season_id',
+        'league_season',
         'league_id',
         'form',
         'fixtures',

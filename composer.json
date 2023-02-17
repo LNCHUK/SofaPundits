@@ -9,6 +9,7 @@
         "aws/aws-sdk-php": "^3.234",
         "bensampo/laravel-enum": "^6.0",
         "coconutcraig/laravel-postmark": "^3.0",
+        "doctrine/dbal": "^3.6",
         "guzzlehttp/guzzle": "^7.2",
         "laravel/framework": "^9.19",
         "laravel/sanctum": "^2.14.1",
