@@ -48,6 +48,10 @@
                     </x-slot>
 
                     <x-slot name="content">
+                        <x-dropdown-link :href="route('user.preferences')">
+                            Preferences
+                        </x-dropdown-link>
+
                         <!-- Authentication -->
                         <form method="POST" action="{{ route('logout') }}">
                             @csrf
@@ -104,6 +108,10 @@
             </div>
 
             <div class="mt-3 space-y-1">
+                <x-dropdown-link :href="route('user.preferences')">
+                    Preferences
+                </x-dropdown-link>
+
                 <!-- Authentication -->
                 <form method="POST" action="{{ route('logout') }}">
                     @csrf
