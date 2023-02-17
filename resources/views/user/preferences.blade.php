@@ -50,6 +50,11 @@
                     <div class="h-12"></div>
                 @endforeach
 
+                <div class="text-right">
+                    <x-buttons.success form="preferences-form">
+                        Save Preferences
+                    </x-buttons.success>
+                </div>
 
             </form>
 
