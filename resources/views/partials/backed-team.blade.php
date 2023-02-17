@@ -11,7 +11,7 @@
                 <p class="text-2xl font-bold mb-1 font-premier-league">{{ $backedTeam->team->name }}</p>
 
                 <div class="">
-                    @for ($i = 0; $i < $backedTeam->leaderboardData->correct_scores; $i++)
+                    @for ($i = 0; $i < optional($backedTeam->leaderboardData)->correct_scores ?? 0; $i++)
                         <i class="fa-solid fa-trophy-star text-xl correct-score-colour drop-shadow-sm"></i>
                     @endfor
 {{--                    <i class="fa-solid fa-trophy-star text-lg correct-result-colour drop-shadow-sm -ml-2"></i>--}}
