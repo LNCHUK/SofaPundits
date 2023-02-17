@@ -18,6 +18,8 @@
     <div class="py-12">
         <x-container>
 
+            @include('partials.flash-messages')
+
             <form action="#" id="preferences-form" method="POST">
                 @csrf()
 

@@ -42,6 +42,7 @@ class PreferencesController extends Controller
             }
         }
 
-        return redirect()->route('user.preferences');
+        return redirect()->route('user.preferences')
+            ->with('success', 'Your preferences have been updated successfully!');
     }
 }
