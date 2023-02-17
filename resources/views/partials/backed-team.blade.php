@@ -20,7 +20,7 @@
         </div>
 
         <p class="text-sm text-gray-600 text-center">
-            {{ $backedTeam->leaderboardData->correct_scores }} perfect scores
+            {{ optional($backedTeam->leaderboardData)->correct_scores ?? 0 }} perfect scores
         </p>
     @else
         <p class="text-center">You haven't backed a team yet.</p>
