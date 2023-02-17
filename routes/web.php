@@ -5,6 +5,7 @@ use App\Http\Controllers\Gameweeks\GameweekController;
 use App\Http\Controllers\Gameweeks\PredictionsController;
 use App\Http\Controllers\Groups\GroupController;
 use App\Http\Controllers\Groups\PlayersController;
+use App\Http\Controllers\User\PreferencesController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -33,9 +34,16 @@ Route::middleware(['auth'])->group(function () {
         auth()->user()->notify($notification);
     });
 
+    // Dashboard route
     Route::get('/', function () {
         return view('dashboard');
     })->middleware(['auth'])->name('dashboard');
+
+    // User based routes
+    Route::get('user/preferences', [PreferencesController::class, 'index'])
+        ->name('user.preferences');
+    Route::post('user/preferences', [PreferencesController::class, 'update'])
+        ->name('user.preferences');
 
     // TODO: Remove this once the scheduler has been sorted (or add a more permanent method for it as a utility)
     Route::get('load-fixtures', function () {

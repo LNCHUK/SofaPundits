@@ -112,4 +112,21 @@ class User extends Authenticatable
     {
         return count($this->gameweekPredictions($gameweek)) === count($gameweek->fixtures);
     }
+
+    public function getPreferences()
+    {
+        // Get all preferences from the DB
+        return Preference::query()
+            ->with(['userPreferences' => function ($query) {
+                $query->where('user_id', $this->id);
+            }])
+            ->get()
+            ->each(function (Preference $preference) {
+                // Append the users selected value for this preference
+                $preference->user_selected_value = optional($preference->userPreferences()->first())->value;
+            })
+            ->groupBy(function (Preference $preference) {
+                return str($preference->category)->replace('-', ' ')->title();
+            });
+    }
 }

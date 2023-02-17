@@ -34,6 +34,21 @@ class PreferenceSeeder extends Seeder
                 'default_value' => '1',
                 'choices' => null,
             ],
+            [
+                'slug' => 'new_features-enable_beta_features',
+                'type' => 'select',
+                'title' => 'Test new features before release',
+                'category' => 'new-features',
+                'description' => 'Occasionally new features are released to a small set of users, before general release.
+                    Enable this option if you\'d like to see these new features as soon as they are available.<br /><br/>
+                    <strong>Warning:</strong> These features are often still being tested and may have some slight faults.
+                    You may experience some bugs or quirks while we get the features completed!',
+                'default_value' => '0',
+                'choices' => [
+                    1 => 'Yes',
+                    0 => 'No',
+                ],
+            ],
         ];
 
         foreach ($preferences as $preference) {
