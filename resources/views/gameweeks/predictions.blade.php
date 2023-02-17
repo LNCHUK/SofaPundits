@@ -78,6 +78,11 @@
                                                     {{ $fixture->awayTeam->name }}
                                                 </div>
                                             </div>
+                                            <div class="flex justify-center items-center mx-auto mt-2">
+                                                @include('partials.team-form', ['form' => substr($fixture->home_team_form, -5)])
+                                                <div class="mx-12 uppercase text-xs text-gray-600">Form</div>
+                                                @include('partials.team-form', ['form' => substr($fixture->away_team_form, -5)])
+                                            </div>
                                             @if ($errors->has('fixtures.'.$fixture->id.'.*'))
                                                 <div class="error">
                                                     {{ $errors->first("fixtures.{$fixture->id}.*") }}

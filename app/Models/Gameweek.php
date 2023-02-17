@@ -81,9 +81,32 @@ class Gameweek extends Model
     public function getFixturesGroupedByDate(): Collection
     {
         return $this->fixtures()
-            ->with(['homeTeam', 'awayTeam'])
+            ->with(['homeTeam.statistics', 'awayTeam.statistics', 'leagueSeason'])
             ->orderBy('kick_off', 'ASC')
             ->get()
+            ->each(function (Fixture $fixture) {
+                $homeTeamStats = $fixture->homeTeam
+                    ->statistics()
+                    ->where([
+                        'league_season' => $fixture->leagueSeason->year,
+                        'league_id' => $fixture->leagueSeason->league_id,
+                    ])
+                    ->first();
+
+                $fixture->home_team_form = $homeTeamStats ? $homeTeamStats->form : '-----';
+
+                $awayTeamStats = $fixture->awayTeam
+                    ->statistics()
+                    ->where([
+                        'league_season' => $fixture->leagueSeason->year,
+                        'league_id' => $fixture->leagueSeason->league_id,
+                    ])
+                    ->first();
+
+                $fixture->away_team_form = $awayTeamStats ? $awayTeamStats->form : '-----';
+
+                return $fixture;
+            })
             ->groupBy(function (Fixture $fixture) {
                 return $fixture->kick_off->format('l jS F Y');
             });

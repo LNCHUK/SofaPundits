@@ -16,9 +16,20 @@ class Team extends Model
         'logo',
     ];
 
+    /**
+     * @return HasMany
+     */
     public function fixtures(): HasMany
     {
         return $this->hasMany(Fixture::class, 'home_team_id', 'id')
             ->orWhere('away_team_id', $this->id);
+    }
+
+    /**
+     * @return HasMany
+     */
+    public function statistics(): HasMany
+    {
+        return $this->hasMany(TeamStatistics::class);
     }
 }
