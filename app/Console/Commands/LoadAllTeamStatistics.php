@@ -14,7 +14,7 @@ class LoadAllTeamStatistics extends Command
      *
      * @var string
      */
-    protected $signature = 'teams:load-all-statistics {--s|season=}';
+    protected $signature = 'teams:load-all-statistics {--s|season=} {--d|days=30}';
 
     /**
      * The console command description.
@@ -32,12 +32,14 @@ class LoadAllTeamStatistics extends Command
     {
         $season = $this->option('season') ?? now()->format('Y');
 
+        $startDate = now()->subDays($this->option('days'))->startOfDay()->format('Y-m-d H:i:s');
+
         // Get all fixtures across all leagues, where the league season matches the given season
         Fixture::query()
             ->whereHas('leagueSeason', function ($query) use ($season) {
                 $query->where('year', $season);
             })
-            ->where('kick_off', '>=', now()->subDays(30)->startOfDay()->format('Y-m-d H:i:s'))
+            ->where('kick_off', '>=', $startDate)
             ->get()
             ->each(function (Fixture $fixture) {
                 UpdateTeamStatistics::dispatch(
