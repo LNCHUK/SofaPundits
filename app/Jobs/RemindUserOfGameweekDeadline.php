@@ -2,6 +2,7 @@
 
 namespace App\Jobs;
 
+use App\Enums\UserPreference;
 use App\Mail\GameweekDeadlineReminder;
 use App\Models\Gameweek;
 use App\Models\User;
@@ -41,6 +42,15 @@ class RemindUserOfGameweekDeadline implements ShouldQueue
      */
     public function handle()
     {
+        // Check if the user has disabled the reminder notifications
+        $gameweekDeadlineReminderEmailPreference = (bool) UserPreference::NOTIFICATIONS__GAMEWEEK_DEADLINE_REMINDER_EMAIL()
+            ->getValueForUser($this->user);
+
+        // If they have disabled the notification, we can immediately return
+        if ($gameweekDeadlineReminderEmailPreference === false) {
+            return;
+        }
+
         // Check if the user has completed all of their scores, return if so
         if ($this->user->hasSavedPredictionsForAllFixturesInGameweek($this->gameweek)) {
             return;

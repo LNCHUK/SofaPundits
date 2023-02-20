@@ -2,6 +2,7 @@
 
 namespace App\Enums;
 
+use App\Models\User;
 use BenSampo\Enum\Enum;
 
 /**
@@ -20,7 +21,16 @@ final class UserPreference extends Enum
      */
     public function getValueForAuthenticatedUser(): string
     {
-        $preference = auth()->user()
+        return $this->getValueForUser(auth()->user());
+    }
+
+    /**
+     * @param User $user
+     * @return string
+     */
+    public function getValueForUser(User $user): string
+    {
+        $preference = $user
             ->getPreferencesUngrouped()
             ->firstWhere('slug', $this->value);
 

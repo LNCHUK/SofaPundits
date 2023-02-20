@@ -2,6 +2,7 @@
 
 namespace App\Listeners;
 
+use App\Enums\UserPreference;
 use App\Events\GameweekPublishedEvent;
 use App\Jobs\RemindUserOfGameweekDeadline;
 use App\Mail\GameweekWasPublished;
@@ -40,7 +41,10 @@ class NotifyPlayersOfPublishedGameweek
 
         // Send email to everyone
         foreach ($players as $player) {
-            Mail::to($player)->queue(new GameweekWasPublished($event->gameweek));
+            // Send the email IF the user has the relevant preference enabled
+            if (UserPreference::NOTIFICATIONS__GAMEWEEK_PUBLISHED_EMAIL()->getValueForUser($player)) {
+                Mail::to($player)->queue(new GameweekWasPublished($event->gameweek));
+            }
 
             RemindUserOfGameweekDeadline::dispatch(
                 userId: $player->id,
