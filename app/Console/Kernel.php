@@ -26,19 +26,6 @@ class Kernel extends ConsoleKernel
 
         // Import fixtures depending on the day
         $this->scheduleFixtureImports($schedule);
-
-        // OPTION 2
-        // Get all countries (once a year?)
-            // Get all leagues for the chosen countries (same time as countries)
-                // Get all seasons for each league (same time as above)
-                // Get all teams for each league
-
-        // Team statistics? Nice to have for the future potentially
-
-        // Get league standings? Nice to have, allow us to show league position in gameweeks
-
-        // Fixture rounds, get all for each selected season
-        //
     }
 
     /**
