@@ -40,7 +40,7 @@ return [
             'country' => 'England',
         ],
         [
-            'name' => 'EFL Trophy',
+            'name' => 'League Cup',
             'country' => 'England',
         ],
     ]
