@@ -1,0 +1,98 @@
+<?php
+
+namespace App\Jobs;
+
+use App\Enums\FixtureStatusCode;
+use App\Models\ApiFootball\Fixture;
+use App\Models\FixtureEvents;
+use App\Services\ApiFootball\Client;
+use Illuminate\Bus\Queueable;
+use Illuminate\Contracts\Queue\ShouldQueue;
+use Illuminate\Foundation\Bus\Dispatchable;
+use Illuminate\Queue\InteractsWithQueue;
+use Illuminate\Queue\SerializesModels;
+use Illuminate\Support\Facades\Log;
+
+class ImportFixtureEvents implements ShouldQueue
+{
+    use Dispatchable, InteractsWithQueue, Queueable, SerializesModels;
+
+    /**
+     * @var Fixture
+     */
+    private $fixture;
+
+    /**
+     * @var Client
+     */
+    private $apiFootball;
+
+    /**
+     * Create a new job instance.
+     *
+     * @return void
+     */
+    public function __construct(int $fixtureId)
+    {
+        $this->fixture = Fixture::findOrFail($fixtureId);
+
+        $this->apiFootball = resolve(Client::class);
+    }
+
+    /**
+     * Execute the job.
+     *
+     * @return void
+     */
+    public function handle()
+    {
+        $this->redispatchForInPlayMatches();
+
+        // Call the API
+        try {
+            $response = $this->apiFootball->getFixtureEvents($this->fixture);
+            foreach ($response->collect('response') as $fixtureEvent) {
+                FixtureEvents::updateOrCreate([
+                    'fixture_id' => $this->fixture->id,
+                    'minutes_elapsed' => $fixtureEvent['time']['elapsed'],
+                    'team_id' => $fixtureEvent['team']['id'],
+                    'type' => $fixtureEvent['type'],
+                ], [
+                    'detail' => $fixtureEvent['detail'],
+                    'comments' => $fixtureEvent['comments'],
+                    'extra_minutes_elapsed' => $fixtureEvent['time']['extra'],
+                    'time' => $fixtureEvent['time'],
+                    'team' => $fixtureEvent['team'],
+                    'player_id' => $fixtureEvent['player']['id'],
+                    'player_name' => $fixtureEvent['player']['name'],
+                    'player' => $fixtureEvent['player'],
+                    'secondary_player_id' => $fixtureEvent['assist']['id'],
+                    'secondary_player_name' => $fixtureEvent['assist']['name'],
+                    'assist' => $fixtureEvent['assist'],
+                ]);
+            }
+        } catch (\Exception $ex) {
+            Log::channel('api-logs')->error("Error importing fixture events", [
+                'exception' => $ex->getMessage(),
+                'code' => $ex->getCode(),
+                'stack_trace' => $ex->getTraceAsString(),
+                'fixture' => $this->fixture,
+                'api_response' => $response ?? '',
+            ]);
+        }
+    }
+
+    private function redispatchForInPlayMatches()
+    {
+        // If the fixture is not yet complete, dispatch another instance of this event in 5 minutes time
+        $finishedStatuses = collect([
+            FixtureStatusCode::MATCH_FINISHED,
+            FixtureStatusCode::FINISHED_AFTER_EXTRA_TIME,
+            FixtureStatusCode::FINISHED_AFTER_PENALTIES,
+        ]);
+
+        if ($finishedStatuses->doesntContain($this->fixture->status_code)) {
+            ImportFixtureEvents::dispatch($this->fixture->id)->delay(now()->addMinutes(5));
+        }
+    }
+}

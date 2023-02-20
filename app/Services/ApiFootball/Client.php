@@ -2,6 +2,7 @@
 
 namespace App\Services\ApiFootball;
 
+use App\Models\ApiFootball\Fixture;
 use App\Models\ApiFootball\LeagueSeason;
 use App\Models\ApiFootball\Team;
 use App\Services\Concerns\HasFake;
@@ -93,6 +94,27 @@ class Client
                 'season' => $leagueSeason->year,
                 'team' => $team->id,
                 'date' => null,
+            ]
+        );
+
+        if (! $response->successful()) {
+            return $response->toException();
+        }
+
+        return $response;
+    }
+
+    public function getFixtureEvents(Fixture $fixture)
+    {
+        $request = $this->createRequest();
+
+        $response = $request->get(
+            url: $this->baseUrl . '/fixtures/events',
+            query: [
+                'fixture' => $fixture->id,
+                'team' => null, // Possible, but unused, parameter
+                'player' => null, // Possible, but unused, parameter
+                'type' => null, // Possible, but unused, parameter
             ]
         );
 

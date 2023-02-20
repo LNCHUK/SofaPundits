@@ -108,14 +108,20 @@ class User extends Authenticatable
         return $this->first_name . ' ' . $this->last_name;
     }
 
-    public function hasSavedPredictionsForAllFixturesInGameweek(Gameweek $gameweek)
+    /**
+     * @param Gameweek $gameweek
+     * @return bool
+     */
+    public function hasSavedPredictionsForAllFixturesInGameweek(Gameweek $gameweek): bool
     {
         return count($this->gameweekPredictions($gameweek)) === count($gameweek->fixtures);
     }
 
-    public function getPreferences()
+    /**
+     * @return Collection
+     */
+    public function getPreferencesUngrouped(): Collection
     {
-        // Get all preferences from the DB
         return Preference::query()
             ->with(['userPreferences' => function ($query) {
                 $query->where('user_id', $this->id);
@@ -124,9 +130,20 @@ class User extends Authenticatable
             ->each(function (Preference $preference) {
                 // Append the users selected value for this preference
                 $preference->user_selected_value = optional($preference->userPreferences()->first())->value;
-            })
-            ->groupBy(function (Preference $preference) {
-                return str($preference->category)->replace('-', ' ')->title();
             });
+    }
+
+    /**
+     * @return Collection
+     */
+    public function getPreferences(): Collection
+    {
+        // Get all preferences from the DB
+        return cache()->rememberForever('user_preferences-' . $this->id, function () {
+            return $this->getPreferencesUngrouped()
+                ->groupBy(function (Preference $preference) {
+                    return str($preference->category)->replace('-', ' ')->title();
+                });
+        });
     }
 }

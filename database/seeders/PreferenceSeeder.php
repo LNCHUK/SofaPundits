@@ -2,6 +2,7 @@
 
 namespace Database\Seeders;
 
+use App\Enums\UserPreference;
 use App\Models\Preference;
 use Illuminate\Database\Seeder;
 
@@ -16,7 +17,7 @@ class PreferenceSeeder extends Seeder
     {
         $preferences = [
             [
-                'slug' => 'notifications-gameweek_published-email',
+                'slug' => UserPreference::NOTIFICATIONS__GAMEWEEK_PUBLISHED_EMAIL,
                 'type' => 'checkbox',
                 'title' => 'Get notified by email when gameweeks are published',
                 'category' => 'notifications',
@@ -25,7 +26,7 @@ class PreferenceSeeder extends Seeder
                 'choices' => null,
             ],
             [
-                'slug' => 'notifications-gameweek_deadline_reminder-email',
+                'slug' => UserPreference::NOTIFICATIONS__GAMEWEEK_DEADLINE_REMINDER_EMAIL,
                 'type' => 'checkbox',
                 'title' => 'Get notified by email when a gameweek deadline is an hour away',
                 'category' => 'notifications',
@@ -35,7 +36,7 @@ class PreferenceSeeder extends Seeder
                 'choices' => null,
             ],
             [
-                'slug' => 'new_features-enable_beta_features',
+                'slug' => UserPreference::NEW_FEATURES__ENABLE_BETA_FEATURES,
                 'type' => 'select',
                 'title' => 'Test new features before release',
                 'category' => 'new-features',
@@ -56,5 +57,8 @@ class PreferenceSeeder extends Seeder
                 'slug' => $preference['slug']
             ], $preference);
         }
+
+        // Clear the cache to ensure any changes are recognised
+        cache()->flush();
     }
 }
