@@ -21,18 +21,22 @@ use Illuminate\Support\Facades\Route;
 
 Route::middleware(['auth'])->group(function () {
 
+    Route::get('test', function () {
+        \App\Jobs\ImportFixtureEvents::dispatch(868176);
+    });
+
     Route::get('mail', function () {
         $gameweek = \App\Models\Gameweek::find(1);
         return new \App\Mail\GameweekWasPublished($gameweek);
     });
 
-    Route::get('test', function () {
-        $notification = new \App\Notifications\GameweekPublished(
-            gameweek: \App\Models\Gameweek::first(),
-            recipientName: auth()->user()->first_name,
-        );
-        auth()->user()->notify($notification);
-    });
+//    Route::get('test', function () {
+//        $notification = new \App\Notifications\GameweekPublished(
+//            gameweek: \App\Models\Gameweek::first(),
+//            recipientName: auth()->user()->first_name,
+//        );
+//        auth()->user()->notify($notification);
+//    });
 
     // Dashboard route
     Route::get('/', function () {
