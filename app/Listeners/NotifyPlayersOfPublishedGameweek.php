@@ -29,7 +29,7 @@ class NotifyPlayersOfPublishedGameweek
      */
     public function handle(GameweekPublishedEvent $event)
     {
-        // Get all players (TODO: Filter out anyone who has opted out)
+        // Get all players
         $players = $event->gameweek->group->users;
 
         // Get the first fixture so we can schedule the reminder
