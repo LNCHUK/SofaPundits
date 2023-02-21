@@ -3,7 +3,6 @@
 namespace App\Jobs;
 
 use App\Concerns\Jobs\CanBeRedispatched;
-use App\Enums\FixtureStatusCode;
 use App\Models\ApiFootball\Fixture;
 use App\Models\FixtureEvents;
 use App\Services\ApiFootball\Client;
@@ -77,6 +76,8 @@ class ImportFixtureEvents implements ShouldQueue
                 ]);
             }
         } catch (\Exception $ex) {
+            report($ex);
+
             Log::channel('api-logs')->error("Error importing fixture events", [
                 'exception' => $ex->getMessage(),
                 'code' => $ex->getCode(),

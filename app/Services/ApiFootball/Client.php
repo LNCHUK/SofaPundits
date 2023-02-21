@@ -124,4 +124,45 @@ class Client
 
         return $response;
     }
+
+    public function getFixtureStatistics(Fixture $fixture)
+    {
+        $request = $this->createRequest();
+
+        $response = $request->get(
+            url: $this->baseUrl . '/fixtures/statistics',
+            query: [
+                'fixture' => $fixture->id,
+                'team' => null, // Possible, but unused, parameter
+                'type' => null, // Possible, but unused, parameter
+            ]
+        );
+
+        if (! $response->successful()) {
+            return $response->toException();
+        }
+
+        return $response;
+    }
+
+    public function getFixtureLineups(Fixture $fixture)
+    {
+        $request = $this->createRequest();
+
+        $response = $request->get(
+            url: $this->baseUrl . '/fixtures/lineups',
+            query: [
+                'fixture' => $fixture->id,
+                'team' => null, // Possible, but unused, parameter
+                'player' => null, // Possible, but unused, parameter
+                'type' => null, // Possible, but unused, parameter
+            ]
+        );
+
+        if (! $response->successful()) {
+            return $response->toException();
+        }
+
+        return $response;
+    }
 }
