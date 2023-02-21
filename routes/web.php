@@ -22,7 +22,7 @@ use Illuminate\Support\Facades\Route;
 Route::middleware(['auth'])->group(function () {
 
     Route::get('test', function () {
-        \App\Jobs\ImportFixtureStatistics::dispatch(868176);
+        \App\Jobs\ImportFixtureLineups::dispatch(868176);
     });
 
     Route::get('mail', function () {
