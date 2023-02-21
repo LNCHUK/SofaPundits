@@ -38,12 +38,11 @@ class PrepareDailyFixtureJobs extends Command
             // On kick off, start querying events every 5 minutes until the match is finished
             ImportFixtureEvents::dispatch($fixture->id)
                 ->delay($fixture->kick_off);
+
+            // TODO: Import fixture stats
+
+            // TODO: Import fixture lineups
         });
-
-
-
-        // If not, dispatch a job to the queue that will create the record
-            //
 
         return Command::SUCCESS;
     }

@@ -30,14 +30,6 @@ Route::middleware(['auth'])->group(function () {
         return new \App\Mail\GameweekWasPublished($gameweek);
     });
 
-//    Route::get('test', function () {
-//        $notification = new \App\Notifications\GameweekPublished(
-//            gameweek: \App\Models\Gameweek::first(),
-//            recipientName: auth()->user()->first_name,
-//        );
-//        auth()->user()->notify($notification);
-//    });
-
     // Dashboard route
     Route::get('/', function () {
         return view('dashboard');

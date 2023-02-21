@@ -2,6 +2,7 @@
 
 namespace App\Jobs;
 
+use App\Concerns\Jobs\CanBeRedispatched;
 use App\Enums\FixtureStatusCode;
 use App\Models\ApiFootball\Fixture;
 use App\Models\FixtureEvents;
@@ -15,7 +16,11 @@ use Illuminate\Support\Facades\Log;
 
 class ImportFixtureEvents implements ShouldQueue
 {
-    use Dispatchable, InteractsWithQueue, Queueable, SerializesModels;
+    use CanBeRedispatched;
+    use Dispatchable;
+    use InteractsWithQueue;
+    use Queueable;
+    use SerializesModels;
 
     /**
      * @var Fixture
@@ -46,7 +51,7 @@ class ImportFixtureEvents implements ShouldQueue
      */
     public function handle()
     {
-        $this->redispatchForInPlayMatches();
+        $this->redispatchJob();
 
         // Call the API
         try {
@@ -82,17 +87,19 @@ class ImportFixtureEvents implements ShouldQueue
         }
     }
 
-    private function redispatchForInPlayMatches()
+    /**
+     * @return bool
+     */
+    protected function shouldRedispatch(): bool
     {
-        // If the fixture is not yet complete, dispatch another instance of this event in 5 minutes time
-        $finishedStatuses = collect([
-            FixtureStatusCode::MATCH_FINISHED,
-            FixtureStatusCode::FINISHED_AFTER_EXTRA_TIME,
-            FixtureStatusCode::FINISHED_AFTER_PENALTIES,
-        ]);
+        return $this->fixture->isInPlay();
+    }
 
-        if ($finishedStatuses->doesntContain($this->fixture->status_code)) {
-            ImportFixtureEvents::dispatch($this->fixture->id)->delay(now()->addMinutes(5));
-        }
+    /**
+     * @return int
+     */
+    protected function redispatchFrequency(): int
+    {
+        return 5;
     }
 }
