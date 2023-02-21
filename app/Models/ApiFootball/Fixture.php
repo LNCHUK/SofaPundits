@@ -2,6 +2,7 @@
 
 namespace App\Models\ApiFootball;
 
+use App\Enums\FixtureStatusCode;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
@@ -97,5 +98,19 @@ class Fixture extends Model
         $date = $this->kick_off;
 
         return $date->format('H:i');
+    }
+
+    public function isInPlay(): bool
+    {
+        // If the fixture is not yet complete, dispatch another instance of this event in 5 minutes time
+        $finishedStatuses = collect([
+            FixtureStatusCode::MATCH_FINISHED,
+            FixtureStatusCode::FINISHED_AFTER_EXTRA_TIME,
+            FixtureStatusCode::FINISHED_AFTER_PENALTIES,
+        ]);
+
+        // Check the fixture is currently in play
+        return now()->greaterThanOrEqualTo($this->kick_off)
+            && $finishedStatuses->doesntContain($this->status_code);
     }
 }

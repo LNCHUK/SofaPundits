@@ -15,16 +15,20 @@ class Kernel extends ConsoleKernel
      */
     protected function schedule(Schedule $schedule)
     {
-        // Run the core import functions once per day
-        $schedule->command('import:leagues --trigger=schedule')
-            ->dailyAt('01:00');
-
         // Pull down team information for any teams who had a game during the day
         // - Imports towards the end of the day to get results of the day's game
         $schedule->command('import:team-statistics')
             ->dailyAt('23:30');
 
-        // Import fixtures depending on the day
+        // Run the core import functions once per day (leagues, countries, league seasons, etc.)
+        $schedule->command('import:leagues --trigger=schedule')
+            ->dailyAt('01:00');
+
+        // Set up the daily imports for fixture events, stats and lineups for the days fixtures
+        $schedule->command('fixtures:prepare-daily-jobs')
+            ->dailyAt('02:00');
+
+        // Import fixtures frequently depending on the day
         $this->scheduleFixtureImports($schedule);
     }
 
