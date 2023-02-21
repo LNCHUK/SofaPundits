@@ -76,6 +76,8 @@ class ImportFixtureEvents implements ShouldQueue
                 ]);
             }
         } catch (\Exception $ex) {
+            report($ex);
+
             Log::channel('api-logs')->error("Error importing fixture events", [
                 'exception' => $ex->getMessage(),
                 'code' => $ex->getCode(),
