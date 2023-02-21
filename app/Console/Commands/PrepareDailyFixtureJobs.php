@@ -3,6 +3,7 @@
 namespace App\Console\Commands;
 
 use App\Jobs\ImportFixtureEvents;
+use App\Jobs\ImportFixtureStatistics;
 use App\Models\ApiFootball\Fixture;
 use Illuminate\Console\Command;
 
@@ -39,7 +40,8 @@ class PrepareDailyFixtureJobs extends Command
             ImportFixtureEvents::dispatch($fixture->id)
                 ->delay($fixture->kick_off);
 
-            // TODO: Import fixture stats
+            ImportFixtureStatistics::dispatch($fixture->id)
+                ->delay($fixture->kick_off);
 
             // TODO: Import fixture lineups
         });

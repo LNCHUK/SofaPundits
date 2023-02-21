@@ -3,7 +3,6 @@
 namespace App\Jobs;
 
 use App\Concerns\Jobs\CanBeRedispatched;
-use App\Enums\FixtureStatusCode;
 use App\Models\ApiFootball\Fixture;
 use App\Models\FixtureEvents;
 use App\Services\ApiFootball\Client;
