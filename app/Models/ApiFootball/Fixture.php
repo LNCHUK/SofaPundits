@@ -111,6 +111,9 @@ class Fixture extends Model
 
         // Check the fixture is currently in play
         return now()->greaterThanOrEqualTo($this->kick_off)
-            && $finishedStatuses->doesntContain($this->status_code);
+            && (
+                $finishedStatuses->contains($this->status_code)
+                || now()->isAfter($this->kick_off->addHours(2))
+            );
     }
 }
