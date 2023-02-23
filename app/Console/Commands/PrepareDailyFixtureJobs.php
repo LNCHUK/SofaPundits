@@ -15,7 +15,7 @@ class PrepareDailyFixtureJobs extends Command
      *
      * @var string
      */
-    protected $signature = 'fixtures:prepare-daily-jobs';
+    protected $signature = 'fixtures:prepare-daily-jobs {--f|fixture=} {--d|date=}';
 
     /**
      * The console command description.
@@ -31,10 +31,18 @@ class PrepareDailyFixtureJobs extends Command
      */
     public function handle()
     {
+        $fixtureId = $this->option('fixture');
+        $date = $this->option('date') ?? now()->format('Y-m-d');
+
+        $this->info('Importing for ' . $date);
+
         // Get all fixtures for the day
         $dailyFixtures = Fixture::query()
-            ->where('kick_off', 'LIKE', now()->format('Y-m-d%'))
+            ->when($fixtureId, fn ($query) => $query->where('id', $fixtureId))
+            ->when(!$fixtureId, fn ($query) => $query->where('kick_off', 'LIKE', $date.'%'))
             ->get();
+
+        $this->info(count($dailyFixtures) . ' fixtures found, dispatching relevant jobs');
 
         $dailyFixtures->each(function (Fixture $fixture) {
             // On kick off, start querying events every 5 minutes until the match is finished

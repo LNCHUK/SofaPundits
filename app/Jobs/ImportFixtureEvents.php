@@ -50,8 +50,6 @@ class ImportFixtureEvents implements ShouldQueue
      */
     public function handle()
     {
-        $this->redispatchJob();
-
         // Call the API
         try {
             $response = $this->apiFootball->getFixtureEvents($this->fixture);
@@ -75,6 +73,8 @@ class ImportFixtureEvents implements ShouldQueue
                     'assist' => $fixtureEvent['assist'],
                 ]);
             }
+
+            $this->redispatchJob();
         } catch (\Exception $ex) {
             report($ex);
 

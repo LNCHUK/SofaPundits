@@ -22,7 +22,7 @@ use Illuminate\Support\Facades\Route;
 Route::middleware(['auth'])->group(function () {
 
     Route::get('test', function () {
-        \App\Jobs\ImportFixtureLineups::dispatch(868176);
+        $fixture = \App\Models\ApiFootball\Fixture::find(876299);
     });
 
     Route::get('mail', function () {

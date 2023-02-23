@@ -52,8 +52,6 @@ class ImportFixtureLineups implements ShouldQueue
      */
     public function handle()
     {
-        $this->redispatchJob();
-
         // Call the API
         try {
             $response = $this->apiFootball->getFixtureLineups($this->fixture);
@@ -95,6 +93,8 @@ class ImportFixtureLineups implements ShouldQueue
                         ]);
                     });
             }
+
+            $this->redispatchJob();
         } catch (\Exception $ex) {
             report($ex);
 

@@ -50,8 +50,6 @@ class ImportFixtureStatistics implements ShouldQueue
      */
     public function handle()
     {
-        $this->redispatchJob();
-
         // Call the API
         try {
             $response = $this->apiFootball->getFixtureStatistics($this->fixture);
@@ -82,6 +80,8 @@ class ImportFixtureStatistics implements ShouldQueue
                     'expected_goals' => $stats->firstWhere('type', 'expected_goals')['value'] ?? 0,
                 ]);
             }
+
+            $this->redispatchJob();
         } catch (\Exception $ex) {
             report($ex);
 
