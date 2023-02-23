@@ -113,7 +113,7 @@ class Fixture extends Model
         return now()->greaterThanOrEqualTo($this->kick_off)
             && (
                 $finishedStatuses->doesntContain($this->status_code)
-                || now()->isAfter($this->kick_off->addHours(2))
+                || now()->isBefore($this->kick_off->addHours(2))
             );
     }
 }
