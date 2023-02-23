@@ -4,6 +4,7 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 
 class FixtureLineup extends Model
 {
@@ -20,4 +21,12 @@ class FixtureLineup extends Model
         'colours' => 'array',
         'coach' => 'array',
     ];
+
+    /**
+     * @return HasMany
+     */
+    public function players(): HasMany
+    {
+        return $this->hasMany(FixtureLineupPlayer::class, 'fixture_lineup_id', 'id');
+    }
 }

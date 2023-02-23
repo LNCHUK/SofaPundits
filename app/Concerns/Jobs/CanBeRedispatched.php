@@ -13,7 +13,7 @@ trait CanBeRedispatched
     {
         if ($this->shouldRedispatch()) {
             static::class::dispatch($this->fixture->id)
-                ->delay($this->redispatchFrequency());
+                ->delay(now()->addMinutes($this->redispatchFrequency()));
         }
     }
 

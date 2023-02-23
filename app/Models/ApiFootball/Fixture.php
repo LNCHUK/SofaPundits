@@ -3,16 +3,17 @@
 namespace App\Models\ApiFootball;
 
 use App\Enums\FixtureStatusCode;
-use Illuminate\Database\Eloquent\Factories\HasFactory;
+use App\Models\FixtureEvents;
+use App\Models\FixtureLineup;
+use App\Models\FixtureStatistics;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\Relations\HasOne;
 use Illuminate\Database\Eloquent\Relations\HasOneThrough;
 
 class Fixture extends Model
 {
-    use HasFactory;
-
     protected $fillable = [
         'id',
         'league_season_id',
@@ -51,6 +52,7 @@ class Fixture extends Model
     {
         return $this->hasOne(Team::class, 'id', 'home_team_id');
     }
+
     /**
      * @return HasOne
      */
@@ -65,6 +67,30 @@ class Fixture extends Model
     public function leagueSeason(): BelongsTo
     {
         return $this->belongsTo(LeagueSeason::class);
+    }
+
+    /**
+     * @return HasMany
+     */
+    public function lineups(): HasMany
+    {
+        return $this->hasMany(FixtureLineup::class);
+    }
+
+    /**
+     * @return HasMany
+     */
+    public function statistics(): HasMany
+    {
+        return $this->hasMany(FixtureStatistics::class);
+    }
+
+    /**
+     * @return HasMany
+     */
+    public function events(): HasMany
+    {
+        return $this->hasMany(FixtureEvents::class);
     }
 
     /**
@@ -93,6 +119,9 @@ class Fixture extends Model
             . ' (' . $this->kick_off->format('jS F Y, g:ia') . ')';
     }
 
+    /**
+     * @return string
+     */
     public function getKickOffTimeAttribute(): string
     {
         $date = $this->kick_off;
@@ -100,6 +129,9 @@ class Fixture extends Model
         return $date->format('H:i');
     }
 
+    /**
+     * @return bool
+     */
     public function isInPlay(): bool
     {
         // If the fixture is not yet complete, dispatch another instance of this event in 5 minutes time
