@@ -23,11 +23,17 @@
                                 </th>
                                 @foreach ($fixtures as $fixture)
                                     <th scope="col" class="px-3 py-3 text-left text-xs font-medium uppercase tracking-wide text-gray-500 text-center border-r min-w-[7rem]">
-                                        <div class="flex items-center">
-                                            <img src="{{ $fixture->homeTeam->logo }}" alt="" class="w-8" />
-                                            <span class="mx-1">vs</span>
-                                            <img src="{{ $fixture->awayTeam->logo }}" alt="" class="w-8" />
-                                        </div>
+                                        @if ((bool) App\Enums\UserPreference::NEW_FEATURES__ENABLE_BETA_FEATURES()->getValueForAuthenticatedUser())
+                                            <a href="{{ route('fixture.detail', $fixture->id) }}">
+                                        @endif
+                                            <div class="flex items-center">
+                                                <img src="{{ $fixture->homeTeam->logo }}" alt="" class="w-8" />
+                                                <span class="mx-1">vs</span>
+                                                <img src="{{ $fixture->awayTeam->logo }}" alt="" class="w-8" />
+                                            </div>
+                                        @if ((bool) App\Enums\UserPreference::NEW_FEATURES__ENABLE_BETA_FEATURES()->getValueForAuthenticatedUser())
+                                            </a>
+                                        @endif
                                     </th>
                                 @endforeach
                             </tr>

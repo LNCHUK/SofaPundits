@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\FixtureDetailController;
 use App\Http\Controllers\Gameweeks\FixturesController;
 use App\Http\Controllers\Gameweeks\GameweekController;
 use App\Http\Controllers\Gameweeks\PredictionsController;
@@ -20,15 +21,6 @@ use Illuminate\Support\Facades\Route;
 */
 
 Route::middleware(['auth'])->group(function () {
-
-    Route::get('test', function () {
-        $fixture = \App\Models\ApiFootball\Fixture::find(876299);
-    });
-
-    Route::get('mail', function () {
-        $gameweek = \App\Models\Gameweek::find(1);
-        return new \App\Mail\GameweekWasPublished($gameweek);
-    });
 
     // Dashboard route
     Route::get('/', function () {
@@ -96,6 +88,10 @@ Route::middleware(['auth'])->group(function () {
     Route::get('groups/{group}/gameweeks/{gameweek}/leaderboard', [
         GameweekController::class, 'viewLeaderboard'
     ])->name('gameweeks.view-leaderboard');
+
+    // TODO: Temp routes
+    Route::get('fixtures/{fixture}', FixtureDetailController::class)
+        ->name('fixture.detail');
 
 });
 
