@@ -65,11 +65,10 @@ class ImportFixtureEvents implements ShouldQueue
             $this->fixture->events()->delete();
 
             foreach ($response->collect('response') as $fixtureEvent) {
-                FixtureEvents::updateOrCreate([
+                FixtureEvents::create([
                     'fixture_id' => $this->fixture->id,
                     'team_id' => $fixtureEvent['team']['id'],
                     'type' => $fixtureEvent['type'],
-                ], [
                     'minutes_elapsed' => $fixtureEvent['time']['elapsed'],
                     'detail' => $fixtureEvent['detail'],
                     'comments' => $fixtureEvent['comments'],
