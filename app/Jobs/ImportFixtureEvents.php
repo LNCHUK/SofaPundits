@@ -58,8 +58,7 @@ class ImportFixtureEvents implements ShouldQueue
             DB::beginTransaction();
 
             // Wipe all events (the API likes to update events during the game)
-            FixtureEvents::query()->where('fixture_id', $this->fixture->id)
-                ->delete();
+            $this->fixture->events()->delete();
 
             foreach ($response->collect('response') as $fixtureEvent) {
                 FixtureEvents::updateOrCreate([
