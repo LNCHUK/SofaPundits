@@ -90,7 +90,9 @@ class Fixture extends Model
      */
     public function events(): HasMany
     {
-        return $this->hasMany(FixtureEvents::class);
+        return $this->hasMany(FixtureEvents::class)
+            ->orderBy('minutes_elapsed', 'ASC')
+            ->orderBy('extra_minutes_elapsed', 'ASC');
     }
 
     /**
