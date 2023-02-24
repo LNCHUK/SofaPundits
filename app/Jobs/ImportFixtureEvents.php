@@ -51,6 +51,10 @@ class ImportFixtureEvents implements ShouldQueue
      */
     public function handle()
     {
+        Log::channel('api-logs')->info("Beginning import for fixture events", [
+            'fixture' => $this->fixture
+        ]);
+
         // Call the API
         try {
             $response = $this->apiFootball->getFixtureEvents($this->fixture);
@@ -97,6 +101,10 @@ class ImportFixtureEvents implements ShouldQueue
                 'api_response' => $response ?? '',
             ]);
         }
+
+        Log::channel('api-logs')->info("Fixture event import complete", [
+            'fixture' => $this->fixture
+        ]);
     }
 
     /**
