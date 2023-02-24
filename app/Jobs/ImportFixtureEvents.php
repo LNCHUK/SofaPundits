@@ -63,18 +63,18 @@ class ImportFixtureEvents implements ShouldQueue
             foreach ($response->collect('response') as $fixtureEvent) {
                 FixtureEvents::updateOrCreate([
                     'fixture_id' => $this->fixture->id,
-                    'minutes_elapsed' => $fixtureEvent['time']['elapsed'],
                     'team_id' => $fixtureEvent['team']['id'],
                     'type' => $fixtureEvent['type'],
                 ], [
+                    'minutes_elapsed' => $fixtureEvent['time']['elapsed'],
                     'detail' => $fixtureEvent['detail'],
                     'comments' => $fixtureEvent['comments'],
                     'extra_minutes_elapsed' => $fixtureEvent['time']['extra'],
                     'time' => $fixtureEvent['time'],
                     'team' => $fixtureEvent['team'],
                     'player_id' => $fixtureEvent['player']['id'],
-                    'player_name' => $fixtureEvent['player']['name'],
-                    'player' => $fixtureEvent['player'],
+                    'player_name' => $fixtureEvent['player']['name'] ?? ' ',
+                    'player' => $fixtureEvent['player'] ?? ' ',
                     'secondary_player_id' => $fixtureEvent['assist']['id'],
                     'secondary_player_name' => $fixtureEvent['assist']['name'],
                     'assist' => $fixtureEvent['assist'],
