@@ -55,8 +55,6 @@ class ImportFixtureEvents implements ShouldQueue
             'fixture' => $this->fixture
         ]);
 
-        return;
-
         // Call the API
         try {
             $response = $this->apiFootball->getFixtureEvents($this->fixture);
