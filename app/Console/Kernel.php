@@ -55,7 +55,7 @@ class Kernel extends ConsoleKernel
             ])
             ->everyTwoMinutes()
             ->timezone('Europe/London')
-            ->between('17:00', '22:00');
+            ->between('17:00', '22:30');
 
         $schedule->command('import:fixtures')
             ->days([
@@ -64,7 +64,7 @@ class Kernel extends ConsoleKernel
             ])
             ->everyTwoMinutes()
             ->timezone('Europe/London')
-            ->between('12:00', '22:00');
+            ->between('12:00', '22:30');
 
         $schedule->command('import:fixtures')
             ->days([
@@ -72,7 +72,7 @@ class Kernel extends ConsoleKernel
             ])
             ->everyTwoMinutes()
             ->timezone('Europe/London')
-            ->between('17:00', '22:00');
+            ->between('17:00', '22:30');
 
         // Update the fixtures each day in the morning
         $schedule->command('import:fixtures')
