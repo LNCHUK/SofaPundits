@@ -11,6 +11,7 @@ use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Foundation\Bus\Dispatchable;
 use Illuminate\Queue\InteractsWithQueue;
 use Illuminate\Queue\SerializesModels;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;
 
 class ImportFixtureEvents implements ShouldQueue
@@ -53,6 +54,13 @@ class ImportFixtureEvents implements ShouldQueue
         // Call the API
         try {
             $response = $this->apiFootball->getFixtureEvents($this->fixture);
+
+            DB::beginTransaction();
+
+            // Wipe all events (the API likes to update events during the game)
+            FixtureEvents::query()->where('fixture_id', $this->fixture->id)
+                ->delete();
+
             foreach ($response->collect('response') as $fixtureEvent) {
                 FixtureEvents::updateOrCreate([
                     'fixture_id' => $this->fixture->id,
@@ -74,9 +82,13 @@ class ImportFixtureEvents implements ShouldQueue
                 ]);
             }
 
+            DB::commit();
+
             $this->redispatchJob();
         } catch (\Exception $ex) {
             report($ex);
+
+            DB::rollBack();
 
             Log::channel('api-logs')->error("Error importing fixture events", [
                 'exception' => $ex->getMessage(),
