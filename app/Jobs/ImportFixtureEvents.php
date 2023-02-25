@@ -4,7 +4,7 @@ namespace App\Jobs;
 
 use App\Concerns\Jobs\CanBeRedispatched;
 use App\Models\ApiFootball\Fixture;
-use App\Models\FixtureEvents;
+use App\Models\FixtureEvent;
 use App\Services\ApiFootball\Client;
 use Illuminate\Bus\Queueable;
 use Illuminate\Contracts\Queue\ShouldQueue;
@@ -65,7 +65,7 @@ class ImportFixtureEvents implements ShouldQueue
             $this->fixture->events()->delete();
 
             foreach ($response->collect('response') as $fixtureEvent) {
-                FixtureEvents::create([
+                FixtureEvent::create([
                     'fixture_id' => $this->fixture->id,
                     'team_id' => $fixtureEvent['team']['id'],
                     'type' => $fixtureEvent['type'],

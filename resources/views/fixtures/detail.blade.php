@@ -13,17 +13,58 @@
     <div class="py-12">
         <x-container>
 
+            <x-panel>
+                <p class="text-center uppercase font-bold text-xs opacity-80 mb-2">
+                    {{ $fixture->kick_off->format('D j M Y') }}
+                    <span class="mx-1">|</span>
+                    {{ $fixture->leagueSeason->league->name }}
+                </p>
+
+                <div class="flex justify-center items-center mb-2">
+                    <div class="flex-1 text-right font-bold uppercase text-lg text-teal-900">
+                        {{ $fixture->homeTeam->name }}
+                    </div>
+                    <div class="min-w-12 mx-3 flex justify-center gap-x-1">
+                        <p class="font-bold text-lg border px-3 py-1.5 rounded bg-teal-600 text-white">
+                            {{ $fixture->home_goals }}
+                        </p>
+                        <p class="font-bold text-lg border px-3 py-1.5 rounded bg-teal-600 text-white">
+                            {{ $fixture->away_goals }}
+                        </p>
+                    </div>
+                    <div class="flex-1 font-bold uppercase text-lg text-teal-900">
+                        {{ $fixture->awayTeam->name }}
+                    </div>
+                </div>
+
+                <div class="uppercase text-center text-xs text-teal-900 font-bold mb-6">
+                    @if ($fixture->status_code === 'FT')
+                        <span class="inline-block">Full Time</span>
+                    @endif
+
+                    @if($fixture->score['halftime'])
+                        <p class="mt-1 text-center">
+                            HT: {{ $fixture->score['halftime']['home'] }} - {{ $fixture->score['halftime']['away'] }}
+                        </p>
+                    @endif
+                </div>
+
+                <hr class="my-2 w-1/2 mx-auto">
+
+                <div class="flex justify-center mt-3 text-xs font-bold text-teal-800 uppercase">
+                    <div class="w-1/2 text-right border-r border-gray-200 pr-4 py-1">
+                        {{ implode(', ', $homeGoals) }}
+                    </div>
+                    <div class="w-1/2 pl-4 py-1">
+                        {{ implode(', ', $awayGoals) }}
+                    </div>
+                </div>
+            </x-panel>
+
+            <div class="h-4"></div>
+
             <div class="flex gap-x-4">
                 <div class="w-1/3">
-                    <x-panel>
-                        <div class="flex justify-between">
-                            <img src="{{ $fixture->homeTeam->logo }}" alt="" />
-                            <img src="{{ $fixture->awayTeam->logo }}" alt="" />
-                        </div>
-                    </x-panel>
-
-                    <div class="h-4"></div>
-
                     <x-panel>
                         @forelse ($fixture->events as $event)
                             @include('fixtures.partials.fixture-event', ['event' => $event, 'fixture' => $fixture])

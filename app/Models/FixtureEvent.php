@@ -5,7 +5,7 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class FixtureEvents extends Model
+class FixtureEvent extends Model
 {
     protected $fillable = [
         'fixture_id',
