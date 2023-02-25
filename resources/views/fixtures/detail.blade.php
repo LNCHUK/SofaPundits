@@ -88,12 +88,12 @@
                             @include('fixtures.partials.stat-bar', ['title' => 'Offsides', 'statField' => 'offsides'])
                             @include('fixtures.partials.stat-bar', ['title' => 'Possession', 'statField' => 'possession', 'isPercentage' => true])
                             @include('fixtures.partials.stat-bar', ['title' => 'Yellow Cards', 'statField' => 'yellow_cards'])
-    {{--                        @include('fixtures.partials.stat-bar', ['title' => 'Red Cards', 'statField' => 'red_cards'])--}}
+                            @include('fixtures.partials.stat-bar', ['title' => 'Red Cards', 'statField' => 'red_cards'])
                             @include('fixtures.partials.stat-bar', ['title' => 'Saves', 'statField' => 'saves'])
                             @include('fixtures.partials.stat-bar', ['title' => 'Total Passes', 'statField' => 'total_passes'])
                             @include('fixtures.partials.stat-bar', ['title' => 'Passes Completed', 'statField' => 'passes_completed'])
                             @include('fixtures.partials.stat-bar', ['title' => 'Pass Accuracy', 'statField' => 'pass_accuracy', 'isPercentage' => true])
-    {{--                        @include('fixtures.partials.stat-bar', ['title' => 'Expected Goals', 'statField' => 'expected_goals'])--}}
+                            @include('fixtures.partials.stat-bar', ['title' => 'Expected Goals', 'statField' => 'expected_goals'])
                         @else
                             No statistics available yet
                         @endif
