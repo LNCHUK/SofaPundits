@@ -13,13 +13,21 @@
                 <div
                     style="
                         background: #{{ $homeColour }};
-                        width: {{ ($homeStats->{$statField} / ($homeStats->{$statField} + $awayStats->{$statField})) * 100 }}%;
+                        @if ($homeStats->{$statField} + $awayStats->{$statField} == 0)
+                            width: 50%
+                        @else
+                            width: {{ ($homeStats->{$statField} / ($homeStats->{$statField} + $awayStats->{$statField})) * 100 }}%;
+                        @endif
                     "
                 ></div>
                 <div
                     style="
                         background: #{{ $awayColour }};
-                        width: {{ ($awayStats->{$statField} / ($homeStats->{$statField} + $awayStats->{$statField})) * 100 }}%;
+                        @if ($homeStats->{$statField} + $awayStats->{$statField} == 0)
+                            width: 50%
+                        @else
+                            width: {{ ($awayStats->{$statField} / ($homeStats->{$statField} + $awayStats->{$statField})) * 100 }}%;
+                        @endif
                     "
                 ></div>
             </div>

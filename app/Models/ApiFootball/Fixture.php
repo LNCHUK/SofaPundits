@@ -3,7 +3,7 @@
 namespace App\Models\ApiFootball;
 
 use App\Enums\FixtureStatusCode;
-use App\Models\FixtureEvents;
+use App\Models\FixtureEvent;
 use App\Models\FixtureLineup;
 use App\Models\FixtureStatistics;
 use Illuminate\Database\Eloquent\Model;
@@ -90,7 +90,7 @@ class Fixture extends Model
      */
     public function events(): HasMany
     {
-        return $this->hasMany(FixtureEvents::class)
+        return $this->hasMany(FixtureEvent::class)
             ->orderBy('minutes_elapsed', 'ASC')
             ->orderBy('extra_minutes_elapsed', 'ASC');
     }
