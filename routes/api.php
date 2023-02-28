@@ -17,3 +17,27 @@ use Illuminate\Support\Facades\Route;
 Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
     return $request->user();
 });
+
+Route::post('/user/token', function (Request $request) {
+    // Require email and password
+    $request->validate([
+        'email' => ['required'],
+        'password' => ['required'],
+    ]);
+
+    // Find user, or not...
+    $user = \App\Models\User::query()
+        ->where('email', $request->email)
+        ->firstOrFail();
+
+    // Validate the password
+    if (\Illuminate\Support\Facades\Hash::check($request->password , $user->password) === false) {
+        return ['error' => 'Unauthenticated'];
+    }
+
+    // Create and return the token
+    $token = $user->createToken('mobile_api');
+    // TODO: Potentially we delete any previous tokens for the mobile app? Or would this invalidate other devices...
+    // We might be able to add device information to the tokens so we can identify which device is using the token
+    return ['token' => $token->plainTextToken];
+});
