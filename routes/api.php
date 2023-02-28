@@ -39,5 +39,13 @@ Route::post('/user/token', function (Request $request) {
     $token = $user->createToken('mobile_api');
     // TODO: Potentially we delete any previous tokens for the mobile app? Or would this invalidate other devices...
     // We might be able to add device information to the tokens so we can identify which device is using the token
-    return json_encode(['token' => $token->plainTextToken]);
+    return json_encode([
+        'token' => $token->plainTextToken,
+        'user' => [
+            'id' => $user->id,
+            'email' => $user->email,
+            'first_name' => $user->first_name,
+            'last_name' => $user->last_name,
+        ]
+    ]);
 });
