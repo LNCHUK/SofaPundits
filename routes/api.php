@@ -32,12 +32,12 @@ Route::post('/user/token', function (Request $request) {
 
     // Validate the password
     if (\Illuminate\Support\Facades\Hash::check($request->password , $user->password) === false) {
-        return ['error' => 'Unauthenticated'];
+        return json_encode(['error' => 'Unauthenticated']);
     }
 
     // Create and return the token
     $token = $user->createToken('mobile_api');
     // TODO: Potentially we delete any previous tokens for the mobile app? Or would this invalidate other devices...
     // We might be able to add device information to the tokens so we can identify which device is using the token
-    return ['token' => $token->plainTextToken];
+    return json_encode(['token' => $token->plainTextToken]);
 });
