@@ -26,10 +26,10 @@
                     </div>
                     <div class="min-w-12 mx-3 flex justify-center gap-x-1">
                         <p class="font-bold text-lg border px-3 py-1.5 rounded bg-teal-600 text-white">
-                            {{ $fixture->home_goals }}
+                            {{ (int) $fixture->home_goals }}
                         </p>
                         <p class="font-bold text-lg border px-3 py-1.5 rounded bg-teal-600 text-white">
-                            {{ $fixture->away_goals }}
+                            {{ (int) $fixture->away_goals }}
                         </p>
                     </div>
                     <div class="flex-1 font-bold uppercase text-lg text-teal-900">
