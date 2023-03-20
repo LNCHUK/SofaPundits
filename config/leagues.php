@@ -14,6 +14,14 @@ return [
             'name' => 'UEFA Nations League',
             'country' => 'World',
         ],
+        [
+            'name' => 'Friendlies',
+            'country' => 'World',
+        ],
+        [
+            'name' => 'Euro Championship - Qualification',
+            'country' => 'World',
+        ],
         
         [
             'name' => 'Premier League',
