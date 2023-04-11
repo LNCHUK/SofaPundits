@@ -84,8 +84,6 @@ class ImportFixtureEvents implements ShouldQueue
                 ]);
             }
 
-            DB::commit();
-
             $this->redispatchJob();
         } catch (\Exception $ex) {
             report($ex);
@@ -100,6 +98,8 @@ class ImportFixtureEvents implements ShouldQueue
                 'api_response' => $response ?? '',
             ]);
         }
+
+        DB::commit();
 
         Log::channel('api-logs')->info("Fixture event import complete", [
             'fixture' => $this->fixture
