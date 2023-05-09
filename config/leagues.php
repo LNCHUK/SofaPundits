@@ -51,10 +51,5 @@ return [
             'name' => 'League Cup',
             'country' => 'England',
         ],
-
-        [
-            'name' => 'National League - Play-offs',
-            'country' => 'England'
-        ],
     ]
 ];
