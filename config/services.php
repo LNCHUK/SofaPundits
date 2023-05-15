@@ -39,4 +39,12 @@ return [
         'retry_milliseconds' => env('API_FOOTBALL_RETRY_MILLISECONDS', null),
     ],
 
+    'sp_scout' => [
+        'base_url' => env('SP_SCOUT_BASE_URL', 'https://scout.sofapundits.uk/api/v1/'),
+        'api_key' => env('SP_SCOUT_API_KEY'),
+        'timeout' => env('SP_SCOUT_TIMEOUT', 10),
+        'retry_times' => env('SP_SCOUT_RETRY_TIMES'),
+        'retry_milliseconds' => env('SP_SCOUT_RETRY_MILLISECONDS'),
+    ] ,
+
 ];
