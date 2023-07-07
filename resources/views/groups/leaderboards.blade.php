@@ -30,7 +30,8 @@
                 </div>
 
                 <div class="md:w-1/3">
-                    Right
+                    <h2 class="mb-4 text-lg font-bold">Most Backed Team Correct Results</h2>
+                    @include('groups.partials.mini-leaderboard', ['results' => $backedTeamWins])
                 </div>
             </div>
 

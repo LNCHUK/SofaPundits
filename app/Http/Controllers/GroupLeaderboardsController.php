@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Group;
+use App\Queries\GetBackedTeamResultsData;
 use App\Queries\GetLeaderboardDataByGameweeks;
 use App\Queries\GetMostCorrectScoresInASingleWeek;
 use App\Queries\GetTotalCorrectScoresForAGroup;
@@ -24,6 +25,7 @@ class GroupLeaderboardsController extends Controller
             'group' => $group,
             'totalCorrectResultsTable' => (new GetTotalCorrectScoresForAGroup($group))->handle(),
             'mostCorrectScoresInAWeek' => (new GetMostCorrectScoresInASingleWeek($group))->handle(),
+            'backedTeamWins' => (new GetBackedTeamResultsData($group))->handle(),
             'mostWeeksWon' => $mostWeeksWon,
             'mostWeeksTied' => $mostWeeksTied,
             'highestWeeklyScores' => $highestWeeklyScores,
