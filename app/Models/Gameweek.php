@@ -352,6 +352,10 @@ class Gameweek extends Model
             ->users
             ->sortByDesc(function ($item) {
                 return $this->getPointsForUser($item);
+            })
+            ->map(function ($item) {
+                $item->points = $this->getPointsForUser($item);
+                return $item;
             });
     }
 }
