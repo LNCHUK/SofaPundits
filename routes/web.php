@@ -93,6 +93,16 @@ Route::middleware(['auth'])->group(function () {
     Route::get('fixtures/{fixture}', FixtureDetailController::class)
         ->name('fixture.detail');
 
+    Route::get('scout', function (\App\Concerns\Services\SofaPunditsScout $client) {
+        $response = $client->getFixtures([
+            'league' => 39,
+            'from_date' => '2023-04-05',
+            'to_date' => '2023-04-07',
+        ]);
+
+        dd($response);
+    });
+
 });
 
 require __DIR__.'/auth.php';

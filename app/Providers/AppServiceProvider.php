@@ -2,6 +2,8 @@
 
 namespace App\Providers;
 
+use App\Concerns\Services\SofaPunditsScout;
+use App\Services\Scout\ApiClient;
 use Illuminate\Support\ServiceProvider;
 
 class AppServiceProvider extends ServiceProvider
@@ -13,7 +15,8 @@ class AppServiceProvider extends ServiceProvider
      */
     public function register()
     {
-        //
+        // Bind the API Client implementation of Scout to the interface
+        $this->app->bind(SofaPunditsScout::class, ApiClient::class);
     }
 
     /**
