@@ -21,17 +21,12 @@
             <div class="md:flex gap-x-6 gap-y-6 mb-4">
                 <div class="md:w-1/3">
                     <h2 class="mb-4 text-lg font-bold">Total Correct Scores</h2>
-                    @foreach ($totalCorrectResultsTable as $player)
-                        <p>
-                            ({{ $player->position }})
-                            - {{ $player->first_name . ' ' . $player->last_name }}
-                            - <strong>{{ $player->correct_results }}</strong>
-                        </p>
-                    @endforeach
+                    @include('groups.partials.mini-leaderboard', ['results' => $totalCorrectResultsTable])
                 </div>
 
                 <div class="md:w-1/3">
-                    Right
+                    <h2 class="mb-4 text-lg font-bold">Most Correct Scores In One Week</h2>
+                    @include('groups.partials.mini-leaderboard', ['results' => $mostCorrectScoresInAWeek])
                 </div>
 
                 <div class="md:w-1/3">

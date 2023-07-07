@@ -2,11 +2,13 @@
 
 namespace App\Queries;
 
+use App\Helpers\RankCollectionByScore;
 use App\Models\Group;
 use App\Models\UserPrediction;
+use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\DB;
 
-class GetTotalCorrectScoresForAGroup
+class GetMostCorrectScoresInASingleWeek
 {
     public function __construct(
         private readonly Group $group
@@ -15,8 +17,8 @@ class GetTotalCorrectScoresForAGroup
 
     public function handle()
     {
-        $correctResultsQuery = UserPrediction::query()
-            ->selectRaw('user_id, COUNT(*) as score')
+        $subQuery = UserPrediction::query()
+            ->selectRaw('user_id, gameweek_id, COUNT(*) AS score')
             ->join('fixtures', 'fixtures.id', '=', 'user_predictions.fixture_id')
             ->join('gameweeks', 'gameweeks.id', '=', 'user_predictions.gameweek_id')
             ->where(function ($query) {
@@ -24,14 +26,17 @@ class GetTotalCorrectScoresForAGroup
                     ->whereRaw("user_predictions.away_score = JSON_EXTRACT(`fixtures`.`score` , '$.fulltime.away')");
             })
             ->where('group_id', $this->group->id)
-            ->groupBy('user_id');
+            ->groupBy('gameweek_id', 'user_id');
 
         $results = DB::query()
-            ->selectRaw("users.first_name, users.last_name, user_id, score")
-            ->fromSub($correctResultsQuery, 'correct_scores_table')
-            ->join('users', 'users.id', '=', 'correct_scores_table.user_id')
+            ->selectRaw("users.first_name, users.last_name, user_id, gameweek_id, score, gameweeks.uuid")
+            ->fromSub($subQuery, 'most_correct_scores')
+            ->join('users', 'users.id', '=', 'most_correct_scores.user_id')
+            ->join('gameweeks', 'gameweeks.id', '=', 'most_correct_scores.gameweek_id')
             ->orderBy('score', 'DESC')
             ->get();
+
+        $results = $results->unique('user_id');
 
         $previousResult = null;
         $position = 0;
