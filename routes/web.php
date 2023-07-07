@@ -4,6 +4,7 @@ use App\Http\Controllers\FixtureDetailController;
 use App\Http\Controllers\Gameweeks\FixturesController;
 use App\Http\Controllers\Gameweeks\GameweekController;
 use App\Http\Controllers\Gameweeks\PredictionsController;
+use App\Http\Controllers\GroupLeaderboardsController;
 use App\Http\Controllers\Groups\GroupController;
 use App\Http\Controllers\Groups\PlayersController;
 use App\Http\Controllers\User\PreferencesController;
@@ -48,6 +49,9 @@ Route::middleware(['auth'])->group(function () {
 
     // Gameweeks CRUD
     Route::resource('groups/{group}/gameweeks', GameweekController::class);
+
+    Route::get('groups/{group}/leaderboards', GroupLeaderboardsController::class)
+        ->name('groups.leaderboards');
 
     // Publish Gameweek
     Route::post('groups/{group}/gameweeks/{gameweek}/publish', [

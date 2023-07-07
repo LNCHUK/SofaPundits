@@ -6,6 +6,10 @@
             </h2>
 
             <div>
+                <x-link-button :route="route('groups.leaderboards', $group)">
+                    Leaderboards
+                </x-link-button>
+
                 @can('update', $group)
                     <x-link-button :route="route('groups.players', $group)">
                         Players
