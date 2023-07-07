@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Group;
+use App\Queries\GetLeaderboardDataByGameweeks;
 use App\Queries\GetMostCorrectScoresInASingleWeek;
 use App\Queries\GetTotalCorrectScoresForAGroup;
 use Illuminate\Http\Request;
@@ -17,10 +18,15 @@ class GroupLeaderboardsController extends Controller
      */
     public function __invoke(Request $request, Group $group)
     {
+        [$mostWeeksWon, $mostWeeksTied, $highestWeeklyScores] = (new GetLeaderboardDataByGameweeks($group))->handle();
+
         return view('groups.leaderboards', [
             'group' => $group,
             'totalCorrectResultsTable' => (new GetTotalCorrectScoresForAGroup($group))->handle(),
             'mostCorrectScoresInAWeek' => (new GetMostCorrectScoresInASingleWeek($group))->handle(),
+            'mostWeeksWon' => $mostWeeksWon,
+            'mostWeeksTied' => $mostWeeksTied,
+            'highestWeeklyScores' => $highestWeeklyScores,
         ]);
     }
 }

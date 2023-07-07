@@ -18,7 +18,7 @@
     <div class="py-12">
         <x-container>
 
-            <div class="md:flex gap-x-6 gap-y-6 mb-4">
+            <div class="md:flex gap-x-6 gap-y-6 mb-8">
                 <div class="md:w-1/3">
                     <h2 class="mb-4 text-lg font-bold">Total Correct Scores</h2>
                     @include('groups.partials.mini-leaderboard', ['results' => $totalCorrectResultsTable])
@@ -31,6 +31,23 @@
 
                 <div class="md:w-1/3">
                     Right
+                </div>
+            </div>
+
+            <div class="md:flex gap-x-6 gap-y-6 mb-8">
+                <div class="md:w-1/3">
+                    <h2 class="mb-4 text-lg font-bold">Most Weeks Won</h2>
+                    @include('groups.partials.mini-leaderboard', ['results' => $mostWeeksWon, 'scoreKey' => 'weeks_won'])
+                </div>
+
+                <div class="md:w-1/3">
+                    <h2 class="mb-4 text-lg font-bold">Most Weeks Tied</h2>
+                    @include('groups.partials.mini-leaderboard', ['results' => $mostWeeksTied, 'scoreKey' => 'weeks_tied'])
+                </div>
+
+                <div class="md:w-1/3">
+                    <h2 class="mb-4 text-lg font-bold">Highest Weekly Score</h2>
+                    @include('groups.partials.mini-leaderboard', ['results' => $highestWeeklyScores, 'scoreKey' => 'highest_weekly_score'])
                 </div>
             </div>
 
