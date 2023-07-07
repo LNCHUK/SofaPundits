@@ -4,6 +4,7 @@ namespace App\Console;
 
 use Illuminate\Console\Scheduling\Schedule;
 use Illuminate\Foundation\Console\Kernel as ConsoleKernel;
+use YlsIdeas\FeatureFlags\Facades\Features;
 
 class Kernel extends ConsoleKernel
 {
@@ -46,8 +47,10 @@ class Kernel extends ConsoleKernel
 
     private function scheduleFixtureImports(Schedule &$schedule)
     {
-        $schedule->command('scout:load-fixtures')
-            ->hourly();
+        if (Features::accessible('scout-import')) {
+            $schedule->command('scout:load-fixtures')
+                ->hourly();
+        }
 
         // Run the import fixtures command every 15 minutes on the core game days
         // between the hours of 12pm (midday) and 10pm
