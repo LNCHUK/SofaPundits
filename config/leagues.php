@@ -51,5 +51,9 @@ return [
             'name' => 'League Cup',
             'country' => 'England',
         ],
+        [
+            'name' => 'Community Shield',
+            'country' => 'England',
+        ]
     ]
 ];
