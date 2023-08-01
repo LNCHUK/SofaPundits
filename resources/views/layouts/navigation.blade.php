@@ -18,7 +18,7 @@
 
                     @if (auth()->user()->isInAtLeastOneGroup())
                         @foreach (auth()->user()->groups as $group)
-                            <x-nav-link :href="route('groups.show', $group)" :active="request()->routeIs('groups.show', $group)">
+                            <x-nav-link :href="route('groups.show', $group)" :active="request()->is('groups/' . $group->uuid . '*')">
                                 {{ $group->name }}
                             </x-nav-link>
                         @endforeach
