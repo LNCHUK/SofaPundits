@@ -40,7 +40,7 @@
                                         </tr>
                                     </thead>
                                     <tbody class="divide-y divide-gray-200 bg-white">
-                                        @foreach (auth()->user()->groups as $group)
+                                        @foreach (auth()->user()->activeGroups as $group)
                                             <tr>
                                                 <td class="whitespace-nowrap text-left px-3 py-4 text-sm text-gray-500">
                                                     <a href="{{ route('groups.show', $group) }}" class="text-blue-800 underline">

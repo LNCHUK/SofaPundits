@@ -58,6 +58,15 @@ class User extends Authenticatable
     }
 
     /**
+     * @return BelongsToMany
+     */
+    public function activeGroups(): BelongsToMany
+    {
+        return $this->groups()
+            ->whereNull('completed_at');
+    }
+
+    /**
      * @return HasMany
      */
     public function backedTeams(): HasMany
