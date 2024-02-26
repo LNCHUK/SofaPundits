@@ -24,7 +24,7 @@
         </thead>
         <tbody class="divide-y divide-gray-200">
         @foreach ($gameweeks as $gameweek)
-            <tr class="{{ $gameweek->isPending() && auth()->user() == $gameweek->group->creator() ? 'bg-red-50' : 'bg-white' }}">
+            <tr class="{{ $gameweek->isPending() && auth()->user()->id == $gameweek->group->creator()->id ? 'bg-red-50' : 'bg-white' }}">
                 <td class="whitespace-nowrap text-left px-3 py-4 text-sm text-gray-500">
                     {{ $gameweek->name }}
                 </td>
