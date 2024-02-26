@@ -64,7 +64,7 @@
                 </div>
 
                 <div class="md:w-1/3">
-                    @if (in_array(auth()->user()->email, ['tom@lnch.co.uk', 'm.lynch96@googlemail.com', 'tom1804@hotmail.co.uk']))
+                    @if (auth()->user()->id == $group->creator()->id)
                     <x-panel>
                         <h2 class="text-lg font-bold mb-2">Invite Others</h2>
 
