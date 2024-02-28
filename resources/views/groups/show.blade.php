@@ -59,7 +59,7 @@
 
                         <h2 class="text-lg font-bold mt-8 mb-4">Past Gameweeks</h2>
 
-                        <x-groups.gameweeks-table :gameweeks="$group->pastGameweeks" />
+                        <x-groups.gameweeks-table :gameweeks="$group->pastGameweeks->reverse()" />
                     </x-panel>
                 </div>
 
