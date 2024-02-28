@@ -94,7 +94,7 @@ class GroupsPolicy
     }
 
     /**
-     * Determine whether the user can permanently delete the model.
+     * Determine whether the user can create a gameweek for the group.
      *
      * @param User $user
      * @param Group $group
