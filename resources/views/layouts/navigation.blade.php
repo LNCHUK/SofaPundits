@@ -86,7 +86,7 @@
             </x-responsive-nav-link>
 
             @if (auth()->user()->isInAtLeastOneGroup())
-                @foreach (auth()->user()->groups as $group)
+                @foreach (auth()->user()->activeGroups as $group)
                     <x-responsive-nav-link :href="route('groups.show', $group)" :active="request()->routeIs('groups.show', $group)">
                         {{ $group->name }}
                     </x-responsive-nav-link>

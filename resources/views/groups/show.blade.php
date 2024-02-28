@@ -59,11 +59,12 @@
 
                         <h2 class="text-lg font-bold mt-8 mb-4">Past Gameweeks</h2>
 
-                        <x-groups.gameweeks-table :gameweeks="$group->pastGameweeks" />
+                        <x-groups.gameweeks-table :gameweeks="$group->pastGameweeks->reverse()" />
                     </x-panel>
                 </div>
 
                 <div class="md:w-1/3">
+                    @if (auth()->user()->id == $group->creator()->id)
                     <x-panel>
                         <h2 class="text-lg font-bold mb-2">Invite Others</h2>
 
@@ -74,8 +75,10 @@
 
                         <p class="font-bold text-2xl text-center">{{ $group->key }}</p>
                     </x-panel>
+                    
 
                     <div class="h-4"></div>
+                    @endif
 
                     <x-panel>
                         <h2 class="text-lg font-bold mb-4">League Table</h2>
