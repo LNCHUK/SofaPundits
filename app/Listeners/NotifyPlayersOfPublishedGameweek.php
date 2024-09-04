@@ -42,9 +42,9 @@ class NotifyPlayersOfPublishedGameweek
         // Send email to everyone
         foreach ($players as $player) {
             // Send the email IF the user has the relevant preference enabled
-//            if (UserPreference::NOTIFICATIONS__GAMEWEEK_PUBLISHED_EMAIL()->getValueForUser($player)) {
+            if (UserPreference::NOTIFICATIONS__GAMEWEEK_PUBLISHED_EMAIL()->getValueForUser($player)) {
                 Mail::to($player)->queue(new GameweekWasPublished($event->gameweek));
-//            }
+            }
 
             RemindUserOfGameweekDeadline::dispatch(
                 userId: $player->id,
