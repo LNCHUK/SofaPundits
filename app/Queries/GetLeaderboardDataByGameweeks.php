@@ -37,6 +37,7 @@ class GetLeaderboardDataByGameweeks
         Gameweek::query()
             ->where('group_id', $this->group->id)
             ->orderBy('start_date')
+            ->where('start_date', '<=', now())
             ->get()
             ->each(function (Gameweek $gameweek) use (&$users) {
                 $players = $gameweek->getPlayersOrderedByPoints();
